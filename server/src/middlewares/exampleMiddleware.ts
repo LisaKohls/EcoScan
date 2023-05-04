@@ -1,6 +1,10 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express'
 
-export const exampleMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    console.log('Example middleware executed');
-    next();
-};
+export const exampleMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log('Example middleware executed')
+  next()
+}
