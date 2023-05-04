@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  client:
+    build: ./client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    volumes:
+      - ./client:/app
+
+  server:
+    build: ./server
+    ports:
+      - "3001:3001"
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/myDatabase
+    depends_on:
+      - mongodb
+    volumes:
+      - ./server:/app
+
+  mongodb:
+    image: mongo:4.4
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+
+volumes:
+  mongodb-data:

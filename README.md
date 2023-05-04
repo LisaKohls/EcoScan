@@ -2,6 +2,11 @@
 
 EcoScan is a web application that allows users to scan or search for products and see their sustainability rating. The application provides users with valuable information about the environmental impact of the products they use and helps them make more sustainable choices.
 
+## Run with docker
+
+`docker compose up`
+or with building: `docker compose up --build`
+
 ## Getting Started
 
 To get started with EcoScan, follow these steps:
