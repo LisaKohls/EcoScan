@@ -1,10 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './containers/app/App';
 import './index.css';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import ProtectedPage from './containers/protectedPage/ProtectedPage';
+import LoginPage from './containers/auth/LoginPage';
+import RegistrationPage from './containers/auth/RegistrationPage';
+
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+  const isAuthenticated = !!localStorage.getItem('auth-token');
+  return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
+};
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/registration" element={<RegistrationPage />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <ProtectedPage />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );

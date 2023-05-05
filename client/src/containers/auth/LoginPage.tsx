@@ -1,12 +1,31 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission (e.g., authentication, form validation, etc.)
+
+    try {
+      const response = await axios.post(
+        'http://localhost:3001/api/auth/login',
+        {
+          username,
+          password,
+        }
+      );
+      // TODO: Fix token response is undefined
+      const token = response.headers['x-auth-token'];
+      localStorage.setItem('auth-token', token);
+      navigate('/');
+    } catch (error) {
+      alert('Error logging in.');
+    }
   };
 
   return (
@@ -20,17 +39,17 @@ const LoginPage: React.FC = () => {
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="email"
+              htmlFor="username"
             >
               Username
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="email"
-              type="email"
+              id="username"
+              type="text"
               placeholder="Username"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
+              value={username}
+              onChange={e => setUsername(e.target.value)}
             />
           </div>
           <div className="mb-6">
@@ -56,12 +75,12 @@ const LoginPage: React.FC = () => {
             >
               Sign In
             </button>
-            <a
+            <Link
+              to="/registration"
               className="inline-block align-baseline font-bold text-sm text-green-500 hover:text-green-800"
-              href="http://localhost:3000"
             >
-              Forgot Password?
-            </a>
+              Create new account!
+            </Link>
           </div>
         </form>
         <p className="text-center text-gray-500 text-xs">

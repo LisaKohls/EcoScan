@@ -8,6 +8,8 @@ services:
       - server
     volumes:
       - ./client:/app
+    networks:
+      - app-network
 
   server:
     build: ./server
@@ -19,6 +21,8 @@ services:
       - mongodb
     volumes:
       - ./server:/app
+    networks:
+      - app-network
 
   mongodb:
     image: mongo:4.4
@@ -27,6 +31,12 @@ services:
       - "27017:27017"
     volumes:
       - mongodb-data:/data/db
+    networks:
+      - app-network
 
 volumes:
   mongodb-data:
+
+networks:
+  app-network:
+    driver: bridge
