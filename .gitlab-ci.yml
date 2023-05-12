@@ -1,0 +1,26 @@
+stages:
+  - setup
+  - test
+
+cache-node-modules:
+  stage: setup
+  image: node:alpine
+  script:
+    - npm ci
+  artifacts:
+    name: node_modules
+    paths:
+      - node_modules
+    expire_in: 1h
+
+unit-tests:
+  stage: test
+  image: node:alpine
+  script:
+    - npm run test
+
+e2e-tests:
+  stage: test
+  image: node:alpine
+  script:
+    - npm run test:e2e
