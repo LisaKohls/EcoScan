@@ -33,18 +33,10 @@ setup-frontend:
     paths:
       - node_modules/
 
-unit-tests:
-  stage: test
-  image: node:alpine
-  before_script:
-    - cd $CLIENT_DIR
-  script:
-    - npm run test
-
-e2e-tests:
+backend-unit-tests:
   stage: test
   image: node:alpine
   before_script:
     - cd $BACKEND_DIR
   script:
-    - npm run test:e2e
+    - npm run test
