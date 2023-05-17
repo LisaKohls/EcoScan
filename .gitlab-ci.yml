@@ -2,25 +2,49 @@ stages:
   - setup
   - test
 
-cache-node-modules:
+variables:
+  CLIENT_DIR: 'client'
+  BACKEND_DIR: 'server'
+
+cache:
+  paths:
+    - ./$CLIENT_DIR/node_modules
+    - ./$SERVER_DIR/node_modules
+
+setup-frontend:
   stage: setup
   image: node:alpine
   script:
+    - cd $CLIENT_DIR
     - npm ci
-  artifacts:
-    name: node_modules
+  cache:
+    key: client
     paths:
-      - node_modules
-    expire_in: 1h
+      - node_modules/
+
+setup-backend:
+  stage: setup
+  image: node:alpine
+  script:
+    - cd $SERVER_DIR
+    - npm ci
+  cache:
+    key: server
+    paths:
+      - node_modules/
 
 unit-tests:
   stage: test
   image: node:alpine
+  before_script:
+    - cd $CLIENT_DIR
   script:
     - npm run test
 
 e2e-tests:
   stage: test
   image: node:alpine
+  before_script:
+    - cd $SERVER_DIR
   script:
     - npm run test:e2e
