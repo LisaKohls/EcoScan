@@ -16,6 +16,7 @@ setup-frontend:
   image: node:alpine
   script:
     - cd $CLIENT_DIR
+    - pwd
     - npm ci
   cache:
     key: client
@@ -27,6 +28,7 @@ setup-backend:
   image: node:alpine
   script:
     - cd $SERVER_DIR
+    - pwd
     - npm ci
   cache:
     key: server
