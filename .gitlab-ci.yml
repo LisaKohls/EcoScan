@@ -11,27 +11,25 @@ cache:
     - ./$CLIENT_DIR/node_modules
     - ./$SERVER_DIR/node_modules
 
-setup-frontend:
-  stage: setup
-  image: node:alpine
-  script:
-    - cd $CLIENT_DIR
-    - pwd
-    - npm ci
-  cache:
-    key: client
-    paths:
-      - node_modules/
-
 setup-backend:
   stage: setup
   image: node:alpine
   script:
     - cd $SERVER_DIR
-    - pwd
     - npm ci
   cache:
     key: server
+    paths:
+      - node_modules/
+
+setup-frontend:
+  stage: setup
+  image: node:alpine
+  script:
+    - cd $CLIENT_DIR
+    - npm ci
+  cache:
+    key: client
     paths:
       - node_modules/
 
