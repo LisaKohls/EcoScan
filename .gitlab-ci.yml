@@ -16,6 +16,7 @@ setup-backend:
   image: node:alpine
   script:
     - pwd
+    - ls
     - cd $SERVER_DIR
     - pwd
     - npm ci
