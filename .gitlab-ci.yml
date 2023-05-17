@@ -9,15 +9,13 @@ variables:
 cache:
   paths:
     - ./$CLIENT_DIR/node_modules
-    - ./$SERVER_DIR/node_modules
+    - ./$BACKEND_DIR/node_modules
 
 setup-backend:
   stage: setup
   image: node:alpine
   script:
-    - echo "'$SERVER_DIR'"
-    - cd $SERVER_DIR
-    - pwd
+    - cd $BACKEND_DIR
     - npm ci
   cache:
     key: server
@@ -28,9 +26,7 @@ setup-frontend:
   stage: setup
   image: node:alpine
   script:
-    - pwd
     - cd $CLIENT_DIR
-    - pwd
     - npm ci
   cache:
     key: client
@@ -49,6 +45,6 @@ e2e-tests:
   stage: test
   image: node:alpine
   before_script:
-    - cd $SERVER_DIR
+    - cd $BACKEND_DIR
   script:
     - npm run test:e2e
