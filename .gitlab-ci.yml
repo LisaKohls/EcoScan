@@ -9,7 +9,7 @@ variables:
 cache:
   paths:
     - $CLIENT_DIR/node_modules
-    - $BACKEND_DIR/node_modules
+    - node_modules
 
 setup-backend:
   stage: setup
