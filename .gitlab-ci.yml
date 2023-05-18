@@ -18,7 +18,6 @@ setup-backend:
     - cd $BACKEND_DIR
     - npm ci
   cache:
-    key: server
     paths:
       - $BACKEND_DIR/node_modules
 
@@ -29,7 +28,6 @@ setup-frontend:
     - cd $CLIENT_DIR
     - npm ci
   cache:
-    key: client
     paths:
       - $CLIENT_DIR/node_modules
 
