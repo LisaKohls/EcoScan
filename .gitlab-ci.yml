@@ -6,11 +6,6 @@ variables:
   CLIENT_DIR: 'client'
   BACKEND_DIR: 'server'
 
-#cache:
- # paths:
-  #  - $CLIENT_DIR/node_modules
-   # - node_modules
-
 setup-backend:
   stage: setup
   image: node:alpine
@@ -29,9 +24,11 @@ setup-frontend:
   script:
     - cd $CLIENT_DIR
     - npm ci
-  cache:
+  artifacts:
     paths:
-      - $CLIENT_DIR/node_modules
+      -  $CLIENT_DIR/node_modules
+    when: on_success
+    expire_in: 1 hour
 
 backend-unit-tests:
   stage: test
@@ -39,6 +36,4 @@ backend-unit-tests:
   before_script:
     - cd $BACKEND_DIR
   script:
-    - ls
-    - npm list
     - npm run test
