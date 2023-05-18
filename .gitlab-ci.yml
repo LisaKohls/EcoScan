@@ -37,5 +37,6 @@ backend-unit-tests:
   before_script:
     - cd $BACKEND_DIR
   script:
+    - ls
     - npm list
     - npm run test
