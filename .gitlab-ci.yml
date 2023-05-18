@@ -31,22 +31,38 @@ setup-frontend:
     when: on_success
     expire_in: 1 hour
 
-lint:
+lint_backend:
     stage: code_formating
     image: node:alpine
     script:
+      - cd $BACKEND_DIR
       - npm run lint
 
-format:
+format_backend:
     stage: code_formating
     image: node:alpine
     script:
+      - cd $BACKEND_DIR
+      - npm run format
+
+lint_client:
+    stage: code_formating
+    image: node:alpine
+    script:
+      - cd $BACKEND_DIR
+      - npm run lint
+
+format_client:
+    stage: code_formating
+    image: node:alpine
+    script:
+      - cd $CLIENT_DIR
       - npm run format
 
 backend-unit-tests:
   stage: test
   image: node:alpine
   before_script:
-    - cd $BACKEND_DIR
+    - cd $CLIENT_DIR
   script:
     - npm run test
