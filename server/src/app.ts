@@ -4,7 +4,6 @@ import cors from 'cors'
 import { MONGODB_URI } from './config/config'
 import mongoose from 'mongoose'
 import authRoutes from './routes/authRoutes'
-import corsOptions from './config/corsOptions'
 import { logger } from './middlewares/logEvents'
 
 const app = express()
