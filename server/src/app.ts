@@ -4,7 +4,6 @@ import { exampleRoutes } from './routes/exampleRoutes'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import authRoutes from './routes/authRoutes'
-import corsOptions from './config/corsOptions'
 import { logger } from './middlewares/logEvents'
 
 if (process.env.NODE_ENV === 'production') {
