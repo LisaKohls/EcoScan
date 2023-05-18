@@ -7,20 +7,17 @@ variables:
   BACKEND_DIR: 'server'
 
 cache:
+  key: $CI_COMMIT_REF_SLUG
   paths:
-    - ./$CLIENT_DIR/node_modules
-    - ./$BACKEND_DIR/node_modules
+    - ./$CLIENT_DIR/.npm
+    - ./$BACKEND_DIR/.npm
 
 setup-backend:
   stage: setup
   image: node:alpine
   script:
     - cd $BACKEND_DIR
-    - npm ci
-  cache:
-    key: server
-    paths:
-      - node_modules/
+    - npm ci --cache .npm --prefer-offline
 
 setup-frontend:
   stage: setup
