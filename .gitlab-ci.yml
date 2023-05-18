@@ -20,7 +20,7 @@ setup-backend:
   cache:
     key: server
     paths:
-      - node_modules
+      - $BACKEND_DIR/node_modules
 
 setup-frontend:
   stage: setup
@@ -31,7 +31,7 @@ setup-frontend:
   cache:
     key: client
     paths:
-      - node_modules
+      - $CLIENT_DIR/node_modules
 
 backend-unit-tests:
   stage: test
