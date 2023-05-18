@@ -38,6 +38,6 @@ backend-unit-tests:
   image: node:alpine
   before_script:
     - cd $BACKEND_DIR
-    - pwd
   script:
+    - npm list
     - npm run test
