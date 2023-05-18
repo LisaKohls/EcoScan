@@ -6,10 +6,10 @@ variables:
   CLIENT_DIR: 'client'
   BACKEND_DIR: 'server'
 
-cache:
-  paths:
-    - $CLIENT_DIR/node_modules
-    - node_modules
+#cache:
+ # paths:
+  #  - $CLIENT_DIR/node_modules
+   # - node_modules
 
 setup-backend:
   stage: setup
@@ -17,9 +17,11 @@ setup-backend:
   script:
     - cd $BACKEND_DIR
     - npm ci
-  cache:
+  artifacts:
     paths:
       - $BACKEND_DIR/node_modules
+    when: on_success
+    expire_in: 1 hour
 
 setup-frontend:
   stage: setup
