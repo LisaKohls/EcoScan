@@ -17,6 +17,7 @@ setup-backend:
   script:
     - cd $BACKEND_DIR
     - npm ci
+    - ls -al
   cache:
     key: server
     paths:
