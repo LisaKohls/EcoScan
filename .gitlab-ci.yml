@@ -1,5 +1,6 @@
 stages:
   - setup
+  -  lint
   - test
 
 variables:
@@ -29,6 +30,12 @@ setup-frontend:
       -  $CLIENT_DIR/node_modules
     when: on_success
     expire_in: 1 hour
+
+lint:
+    stage: lint
+    image: node:alpine
+    script:
+      - npm run lint
 
 backend-unit-tests:
   stage: test
