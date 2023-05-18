@@ -17,11 +17,10 @@ setup-backend:
   script:
     - cd $BACKEND_DIR
     - npm ci
-    - ls -al
   cache:
     key: server
     paths:
-      - node_modules/
+      - node_modules
 
 setup-frontend:
   stage: setup
@@ -32,7 +31,7 @@ setup-frontend:
   cache:
     key: client
     paths:
-      - node_modules/
+      - node_modules
 
 backend-unit-tests:
   stage: test
