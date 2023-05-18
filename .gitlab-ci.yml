@@ -1,6 +1,6 @@
 stages:
   - setup
-  -  lint
+  -  code_formating
   - test
 
 variables:
@@ -32,10 +32,16 @@ setup-frontend:
     expire_in: 1 hour
 
 lint:
-    stage: lint
+    stage: code_formating
     image: node:alpine
     script:
       - npm run lint
+
+format:
+    stage: code_formating
+    image: node:alpine
+    script:
+      - npm run format
 
 backend-unit-tests:
   stage: test
