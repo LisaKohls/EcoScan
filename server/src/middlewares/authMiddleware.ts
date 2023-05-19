@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
-import { JWT_SECRET } from '../config/config'
 
 export const authMiddleware = (
   req: Request,
@@ -11,7 +10,7 @@ export const authMiddleware = (
   if (!token) return res.status(401).send('Access denied. No token provided.')
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = jwt.verify(token, `${process.env.SECRET}`);
     (req as any).user = decoded
     next()
   } catch (ex) {
