@@ -1,7 +1,6 @@
 import { Router } from 'express'
 import { User, IUser } from '../models/userModel'
 import jwt from 'jsonwebtoken'
-import { JWT_SECRET } from '../config/config'
 import { authMiddleware } from '../middlewares/authMiddleware'
 
 const router = Router()
@@ -30,7 +29,7 @@ router.post('/login', async (req, res) => {
     const isMatch = await user.comparePassword(password)
     if (!isMatch) return res.status(400).send('Invalid username or password.')
 
-    const token = jwt.sign({ _id: user._id }, JWT_SECRET)
+    const token = jwt.sign({ _id: user._id }, `${process.env.SECRET}`)
     res.header('x-auth-token', token).send('Logged in.')
   } catch (error) {
     res.status(500).send('Server error.')
