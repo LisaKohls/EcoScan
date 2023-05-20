@@ -12,7 +12,7 @@ import {
 export class Converter {
   public static toProduct (
     initialFormat: IProductInitialFormat,
-    sustainability: ISustainability
+    sustainability: ISustainability | undefined
   ): IProduct {
     const product = new Product()
 
@@ -20,7 +20,7 @@ export class Converter {
     product.categories = initialFormat.categories
     product.name = initialFormat.name
     product.description = initialFormat.description
-    product.sustainability = sustainability
+    product.sustainability = sustainability ?? null
     product.image_urls = initialFormat.image_urls
 
     return product

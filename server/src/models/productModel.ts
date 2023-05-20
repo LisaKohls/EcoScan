@@ -6,7 +6,7 @@ export interface IProduct extends Document {
   categories: [string];
   name: string;
   description: string;
-  sustainability: ISustainability;
+  sustainability: ISustainability | null;
   image_urls: [string];
 }
 
@@ -51,8 +51,7 @@ const ProductSchema: Schema = new mongoose.Schema({
     required: true
   },
   sustainability: {
-    type: SustainabilitySchema,
-    required: true
+    type: SustainabilitySchema
   },
   image_urls: {
     type: [String],
