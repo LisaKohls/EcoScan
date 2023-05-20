@@ -13,14 +13,14 @@ const RegistrationPage: React.FC = () => {
     e.preventDefault();
 
     try {
-      await axios.post('http://localhost:3001/api/auth/register', {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
         email,
         username,
         password,
       });
       navigate('/login');
     } catch (error) {
-      alert('Error registering.');
+      alert('Error registering.' + error);
     }
   };
 
