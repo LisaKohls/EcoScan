@@ -5,6 +5,7 @@ import { MONGODB_URI } from './config/config'
 import mongoose from 'mongoose'
 import authRoutes from './routes/authRoutes'
 import { logger } from './middlewares/logEvents'
+import { productRoutes } from './routes/productRoutes'
 
 const app = express()
 
@@ -25,5 +26,7 @@ mongoose
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
   })
   .catch(error => console.error('Error connecting to MongoDB:', error))
+
+app.use('/api/product', productRoutes)
 
 export default app
