@@ -10,6 +10,29 @@ export interface IProduct extends Document {
   image_urls: [string];
 }
 
+export interface IProductInitialFormat {
+  id: number;
+  categories: [string];
+  gender: string;
+  timestamp: string;
+  url: string;
+  source: string;
+  merchant: string;
+  country: string;
+  name: string;
+  description: string;
+  brand: string;
+  sustainability_labels: [string];
+  price: number;
+  currency: string;
+  image_urls: [string];
+  consumer_lifestage: string;
+  colors: [string];
+  sizes: [string];
+  gtin: string | null;
+  asi: string | null;
+}
+
 const ProductSchema: Schema = new mongoose.Schema({
   barcode: {
     type: String,
