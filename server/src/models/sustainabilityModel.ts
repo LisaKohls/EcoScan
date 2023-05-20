@@ -1,5 +1,4 @@
 import mongoose, { Document, Schema } from 'mongoose'
-import { IProductInitialFormat } from './productModel'
 
 export interface ISustainability extends Document {
   name: string;
