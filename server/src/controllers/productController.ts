@@ -1,19 +1,23 @@
-import { IProduct, IProductInitialFormat } from '../models/productModel'
+import {IProduct, IProductInitialFormat, Product} from '../models/productModel'
 import { getInitialSustainabilities } from './sustainabilityController'
 import { ISustainability } from '../models/sustainabilityModel'
 import productJson from '../resources/product.json'
 import { Converter } from '../utils/converter'
 import { Request, Response } from 'express'
 
-export const initProducts = {}
-
 export const initializeProductDb = async (req: Request, res: Response) => {
   try {
-    const products = getInitialProducts()
-    for (const p of products) {
-      await p.save()
+    const productsFromDB: IProduct[] = await Product.find()
+    if (productsFromDB.length === 0) {
+      // Insert Products only when product db is empty
+      const products = getInitialProducts()
+      for (const p of products) {
+        await p.save()
+      }
+      res.status(201).send('Initial Products successfully created')
+    } else {
+      res.status(400).send('DB was already initialized')
     }
-    res.status(201).send('Initial Products successfully created')
   } catch (error) {
     res.status(500).send('Server error.' + error)
   }
