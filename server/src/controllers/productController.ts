@@ -15,8 +15,8 @@ export function getInitialProducts (): IProduct[] {
     )
 
     return productJsonFormat.map(p => {
-      const sustainability = initialSustainabilites.find(
-        sustainability => p.sustainability_labels.some(label => label === sustainability.ref)
+      const sustainability = initialSustainabilites.find(sustainability =>
+        p.sustainability_labels.some(label => label === sustainability.ref)
       )
       return Converter.toProduct(p, sustainability)
     })
