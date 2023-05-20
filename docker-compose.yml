@@ -8,6 +8,8 @@ services:
       - server
     volumes:
       - ./client:/app
+    env_file:
+      - ./client/.env.production
     networks:
       - app-network
 
@@ -18,15 +20,17 @@ services:
     environment:
       MONGODB_URI: mongodb://mongodb:27017/myDatabase
     depends_on:
-      - mongodb
+      - ecoscan-db
     volumes:
       - ./server:/app
+    env_file:
+      - ./server/.env.production
     networks:
       - app-network
 
-  mongodb:
+  ecoscan-db:
     image: mongo:4.4
-    container_name: mongodb
+    container_name: ecoscan-db
     ports:
       - "27017:27017"
     volumes:

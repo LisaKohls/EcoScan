@@ -7,6 +7,14 @@ EcoScan is a web application that allows users to scan or search for products an
 `docker compose up`
 or with building: `docker compose up --build`
 
+## Run Development Environment
+
+- `docker run -d -p 27017:27017 --name ecoscan-db mongo:4.4`
+- In client folder
+  - `npm i && npm run dev`
+- In server folder
+  - `npm i && npm run dev`
+
 ## Getting Started
 
 To get started with EcoScan, follow these steps:
