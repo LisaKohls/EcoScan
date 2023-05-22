@@ -6,6 +6,7 @@ import ProtectedPage from './containers/protectedPage/ProtectedPage';
 import LoginPage from './containers/auth/LoginPage';
 import RegistrationPage from './containers/auth/RegistrationPage';
 import ProductInfo from './containers/protectedPage/ProductInfo';
+import testImg from './containers/protectedPage/testResources/testImgRiegel.png'
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -34,7 +35,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           <Route
               path="/ProductInfo"
               element={
-                      <ProductInfo img= "imgPath" name="TestProductName" socialIndex={50} lifetimeIndex={50} ecologicalIndex={20} waterIndex={50}  />
+                      <ProductInfo img={testImg} name="Koro Riegel" socialIndex={50} lifetimeIndex={50} ecologicalIndex={20} waterIndex={50}  />
               }
           />
       </Routes>
