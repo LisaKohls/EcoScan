@@ -10,7 +10,6 @@ const ProtectedPage: React.FC = () => {
     console.log('new page');
   };
 
-  /*
   const fetchProtectedData = async () => {
     try {
       const token = localStorage.getItem('auth-token');
@@ -24,7 +23,7 @@ const ProtectedPage: React.FC = () => {
     } catch (error) {
       alert('Error fetching protected data.');
     }
-  };*/
+  };
 
   return (
     <div className="min-h-screen bg-lime-50">
