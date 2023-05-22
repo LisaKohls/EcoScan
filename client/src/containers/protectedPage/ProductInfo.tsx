@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ProductInfoProps } from './ProductInfoProps';
 import { useNavigate } from 'react-router-dom';
-import { FiArrowLeft } from 'react-icons/fi'
+import { FiArrowLeft } from 'react-icons/fi';
 import { Chart as ChartJs, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 
@@ -27,7 +27,7 @@ const ProductInfo: React.FC<ProductInfoProps> = props => {
       },
     ],
   };
-/* für slide in animation
+  /* für slide in animation
   useEffect(() => {
     document.body.classList.add('slide-in-page');
 
@@ -41,13 +41,15 @@ const ProductInfo: React.FC<ProductInfoProps> = props => {
   return (
     <div className="min-h-screen bg-lime-50">
       <div className="bg-emerald-800 bg- text-neutral-50">
-      <button
-        className="fixed top-0 left-0 ps-4 pt-8"
-        onClick={() => navigate(-1)}
-      >
-        <FiArrowLeft className="inline-block text-2xl" />
-      </button>
-      <h1 className="text-center text-xl font-normal p-8 ">More information</h1>
+        <button
+          className="fixed top-0 left-0 ps-4 pt-8"
+          onClick={() => navigate(-1)}
+        >
+          <FiArrowLeft className="inline-block text-2xl" />
+        </button>
+        <h1 className="text-center text-xl font-normal p-8 ">
+          More information
+        </h1>
       </div>
       <div>
         <div className="flex justify-between mx-10 mt-4 ">
@@ -75,7 +77,6 @@ const ProductInfo: React.FC<ProductInfoProps> = props => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };
