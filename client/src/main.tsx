@@ -5,6 +5,8 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import ProtectedPage from './containers/protectedPage/ProtectedPage';
 import LoginPage from './containers/auth/LoginPage';
 import RegistrationPage from './containers/auth/RegistrationPage';
+import ProductInfo from './containers/protectedPage/ProductInfo';
+import testImg from './containers/protectedPage/testResources/testImgRiegel.png'
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -21,6 +23,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/registration" element={<RegistrationPage />} />
+
         <Route
           path="/"
           element={
@@ -29,6 +32,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             </ProtectedRoute>
           }
         />
+          <Route
+              path="/ProductInfo"
+              element={
+                      <ProductInfo img={testImg} name="Koro Riegel" socialIndex={50} lifetimeIndex={50} ecologicalIndex={20} waterIndex={50}  />
+              }
+          />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
