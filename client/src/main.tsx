@@ -6,6 +6,7 @@ import ProtectedPage from './containers/protectedPage/ProtectedPage';
 import LoginPage from './containers/auth/LoginPage';
 import RegistrationPage from './containers/auth/RegistrationPage';
 import ProductInfo from './containers/protectedPage/ProductInfo';
+import Profile from './containers/protectedPage/Profile';
 import testImg from './containers/protectedPage/testResources/testImgRiegel.png'
 
 interface ProtectedRouteProps {
@@ -32,12 +33,18 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             </ProtectedRoute>
           }
         />
-          <Route
-              path="/ProductInfo"
-              element={
-                      <ProductInfo img={testImg} name="Koro Riegel" socialIndex={50} lifetimeIndex={50} ecologicalIndex={20} waterIndex={50}  />
-              }
-          />
+        <Route
+            path="/ProductInfo"
+            element={
+                    <ProductInfo img={testImg} name="Koro Riegel" socialIndex={50} lifetimeIndex={50} ecologicalIndex={20} waterIndex={50}  />
+            }
+        />
+        <Route
+            path="/Profile"
+            element={
+                    <Profile name="Max Mustermann" email="max.mustermal@examle.com" />
+            }
+        />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

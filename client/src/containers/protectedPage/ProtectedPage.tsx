@@ -10,6 +10,11 @@ const ProtectedPage: React.FC = () => {
     console.log('new page');
   };
 
+  const naviagteToProfile = () => {
+    window.location.href = '/Profile';
+    console.log('new page');
+  };
+
   const fetchProtectedData = async () => {
     try {
       const token = localStorage.getItem('auth-token');
@@ -57,7 +62,7 @@ const ProtectedPage: React.FC = () => {
         >
           <IoIosQrScanner className="absolute bottom-6 rounded-full w-16 h-16  bg-white p-4" />
         </div>
-        <div className="flex flex-col items-center text-white">
+        <div className="flex flex-col items-center text-white" onClick={() => naviagteToProfile()}>
           <HiHome className="text-2xl" />
           <span>Profile</span>
         </div>
