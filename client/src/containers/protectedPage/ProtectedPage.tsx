@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { HiHome, HiLibrary, HiSearch } from 'react-icons/hi';
-
+import BottomNavBar from '../../components/BottomNavBar';
+import Header from '../../components/Header';
 const ProtectedPage: React.FC = () => {
   const [barcodeNumber, setBarcodeNumber] = useState('');
+
+  const searchForBarcode = () => {
+    window.location.href = '/ProductInfo';
+  };
 
   const fetchProtectedData = async () => {
     try {
@@ -21,34 +25,28 @@ const ProtectedPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-green-100">
-      <header className="p-4 bg-green-600 text-white text-center text-xl">
-        EcoScan
-      </header>
+    <div className="min-h-screen bg-lime-50 ">
+      <Header title="Eco Scan" />
       <div className="p-4">
         <input
+          className="w-full p-2 bg-white text-black border-2 border-green-400 rounded-md"
           type="text"
           placeholder="Enter barcode number"
           value={barcodeNumber}
           onChange={e => setBarcodeNumber(e.target.value)}
-          className="w-full p-2 bg-white text-black border-2 border-green-400 rounded-md"
         />
       </div>
-      <div className="p-4 bg-black h-56 rounded-md"></div>
-      <nav className="fixed bottom-0 left-0 right-0 p-4 bg-green-600 flex items-center justify-between">
-        <div className="flex flex-col items-center text-white">
-          <HiLibrary className="text-2xl" />
-          <span>Favorites</span>
-        </div>
-        <div className="flex flex-col items-center text-white">
-          <HiSearch className="text-2xl" />
-          <span>Scan</span>
-        </div>
-        <div className="flex flex-col items-center text-white">
-          <HiHome className="text-2xl" />
-          <span>Profile</span>
-        </div>
-      </nav>
+      <div
+        className="p-4 bg-black m-3 h-56 rounded-md"
+        role="button"
+        tabIndex={0}
+        onClick={() => searchForBarcode()}
+        onKeyDown={event => {
+          console.log(event.key);
+          console.log('clicked black rectangle');
+        }}
+      ></div>
+      <BottomNavBar />
     </div>
   );
 };
