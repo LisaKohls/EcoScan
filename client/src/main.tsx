@@ -37,10 +37,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             <ProductInfo
               img={testImg}
               name="Koro Riegel"
-              socialIndex={50}
-              lifetimeIndex={20}
-              ecologicalIndex={20}
-              waterIndex={80}
+              socialIndex={10}
+              lifetimeIndex={10}
+              ecologicalIndex={90}
+              waterIndex={50}
             />
           }
         />

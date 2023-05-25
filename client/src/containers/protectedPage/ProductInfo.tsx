@@ -63,17 +63,18 @@ const ProductInfo: React.FC<ProductInfoProps> = props => {
       </div>
       <div>
         <div className="text-center">
-        <p className="text-xl mt-2">{props.name}</p>
+
         </div>
         <div className="flex justify-center">
 
             <img
-                className="w-40 h-600 m-auto mt-5 border border-gray-500 border-width-1 rounded"
+                className="w-40 h-600 m-auto ms-10 mt-5 border border-gray-500 border-width-1 rounded"
               src={props.img}
               alt={props.name}
             />
+          <p className="text-xl mt-4 mr-11">{props.name}</p>
         </div>
-        <div className="min-h bg-white rounded m-10 p-1 pb-9 ">
+        <div className="min-h bg-white border border-gray-500 border-width-1 rounded m-10 p-1 pb-9 ">
           <div className="flex justify-between mx-10 ">
             <div className="flex flex-col items-center h-20 w-20">
               <Pie data={dataSocialIndex} options={options} />
@@ -85,9 +86,9 @@ const ProductInfo: React.FC<ProductInfoProps> = props => {
             </div>
           </div>
         </div>
-        <div className="min-h bg-white rounded m-10 p-1 ">
+        <div className="min-h bg-white border border-gray-500 border-width-1 rounded mt-8 m-10 p-1 ">
         <Bar index={props.lifetimeIndex} title = 'Lifetime'/>
-        <Bar index={props.waterIndex} title = 'Water consupmtion'/>
+        <Bar index={props.waterIndex} title = 'Water usage'/>
         </div>
       </div>
     </div>
