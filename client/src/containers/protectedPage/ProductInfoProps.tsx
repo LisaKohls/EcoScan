@@ -1,5 +1,3 @@
-import React from 'react';
-
 export interface ProductInfoProps {
   img: string;
   name: string;
@@ -12,7 +10,7 @@ export interface Title {
   title: string;
 }
 
-export interface Values{
+export interface Values {
   index: number;
-  title: string
+  title: string;
 }

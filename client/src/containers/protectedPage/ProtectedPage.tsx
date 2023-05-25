@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import BottomNavBar from '../../components/BottomNavBar';
 import Header from '../../components/Header';
 const ProtectedPage: React.FC = () => {
@@ -8,7 +7,7 @@ const ProtectedPage: React.FC = () => {
   const searchForBarcode = () => {
     window.location.href = '/ProductInfo';
   };
-
+  /*
   const fetchProtectedData = async () => {
     try {
       const token = localStorage.getItem('auth-token');
@@ -22,7 +21,7 @@ const ProtectedPage: React.FC = () => {
     } catch (error) {
       alert('Error fetching protected data.');
     }
-  };
+  };*/
 
   return (
     <div className="min-h-screen bg-lime-50 ">

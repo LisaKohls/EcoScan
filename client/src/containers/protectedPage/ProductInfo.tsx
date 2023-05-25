@@ -5,7 +5,7 @@ import { FiArrowLeft } from 'react-icons/fi';
 import { Chart as ChartJs, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import Header from '../../components/Header';
-import Bar from "../../components/Bar";
+import Bar from '../../components/Bar';
 
 ChartJs.register(ArcElement, Tooltip, Legend);
 
@@ -45,10 +45,7 @@ const ProductInfo: React.FC<ProductInfoProps> = props => {
         borderColor: 'gray', // Set the border color to grey
       },
     },
-
   };
-
-
 
   return (
     <div className="min-h-screen bg-lime-50">
@@ -62,16 +59,13 @@ const ProductInfo: React.FC<ProductInfoProps> = props => {
         </button>
       </div>
       <div>
-        <div className="text-center">
-
-        </div>
+        <div className="text-center"></div>
         <div className="flex justify-center">
-
-            <img
-                className="w-40 h-600 m-auto ms-10 mt-5 border border-gray-500 border-width-1 rounded"
-              src={props.img}
-              alt={props.name}
-            />
+          <img
+            className="w-40 h-600 m-auto ms-10 mt-5 border border-gray-500 border-width-1 rounded"
+            src={props.img}
+            alt={props.name}
+          />
           <p className="text-xl mt-4 mr-11">{props.name}</p>
         </div>
         <div className="min-h bg-white border border-gray-500 border-width-1 rounded m-10 p-1 pb-9 ">
@@ -87,8 +81,8 @@ const ProductInfo: React.FC<ProductInfoProps> = props => {
           </div>
         </div>
         <div className="min-h bg-white border border-gray-500 border-width-1 rounded mt-8 m-10 p-1 ">
-        <Bar index={props.lifetimeIndex} title = 'Lifetime'/>
-        <Bar index={props.waterIndex} title = 'Water usage'/>
+          <Bar index={props.lifetimeIndex} title="Lifetime" />
+          <Bar index={props.waterIndex} title="Water usage" />
         </div>
       </div>
     </div>
