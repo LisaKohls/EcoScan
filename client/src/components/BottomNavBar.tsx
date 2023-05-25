@@ -22,13 +22,13 @@ function BottomNavBar() {
         <HiLibrary className="text-2xl" />
         <span>Favorites</span>
       </div>
-      <div className="flex flex-col items-center text-grey-green hover:text-black" onClick={navigateToProductInfo}>
+      <button className="flex flex-col items-center text-grey-green hover:text-black" onClick={navigateToProductInfo}>
         <IoIosQrScanner className="absolute bottom-6 rounded-full w-16 h-16  bg-white p-4 " />
-      </div>
-      <div className="flex flex-col items-center text-white hover:text-black" onClick={navigateToProfile}>
+      </button>
+      <button className="flex flex-col items-center text-white hover:text-black" onClick={navigateToProfile}>
         <HiHome className="text-2xl" />
         <span>Profile</span>
-      </div>
+      </button>
     </nav>
   );
 }
