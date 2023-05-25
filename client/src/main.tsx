@@ -6,7 +6,7 @@ import ProtectedPage from './containers/protectedPage/ProtectedPage';
 import LoginPage from './containers/auth/LoginPage';
 import RegistrationPage from './containers/auth/RegistrationPage';
 import ProductInfo from './containers/protectedPage/ProductInfo';
-import testImg from './containers/protectedPage/testResources/testImgRiegel.png'
+import testImg from './containers/protectedPage/testResources/testImgRiegel.png';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;

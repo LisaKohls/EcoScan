@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { HiHome, HiLibrary } from 'react-icons/hi';
-import { IoIosQrScanner } from 'react-icons/Io';
-import BottomNavBar from "../../components/BottomNavBar";
-import Header from "../../components/Header";
+import BottomNavBar from '../../components/BottomNavBar';
+import Header from '../../components/Header';
 const ProtectedPage: React.FC = () => {
   const [barcodeNumber, setBarcodeNumber] = useState('');
 
@@ -28,7 +26,7 @@ const ProtectedPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-lime-50 ">
-      <Header title = "Eco Scan"/>
+      <Header title="Eco Scan" />
       <div className="p-4">
         <input
           className="w-full p-2 bg-white text-black border-2 border-green-400 rounded-md"
@@ -38,14 +36,16 @@ const ProtectedPage: React.FC = () => {
           onChange={e => setBarcodeNumber(e.target.value)}
         />
       </div>
-      <div className="p-4 bg-black m-3 h-56 rounded-md"
-           role="button"
-           tabIndex={0}
-           onClick={() => searchForBarcode()}
-           onKeyDown={event => {
-               console.log(event.key);
-               console.log("clicked black rectangle")
-           }}></div>
+      <div
+        className="p-4 bg-black m-3 h-56 rounded-md"
+        role="button"
+        tabIndex={0}
+        onClick={() => searchForBarcode()}
+        onKeyDown={event => {
+          console.log(event.key);
+          console.log('clicked black rectangle');
+        }}
+      ></div>
       <BottomNavBar />
     </div>
   );

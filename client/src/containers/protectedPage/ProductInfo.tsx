@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Chart as ChartJs, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-import Header from '../../components/Header'
+import Header from '../../components/Header';
 
 ChartJs.register(ArcElement, Tooltip, Legend);
 
@@ -41,7 +41,7 @@ const ProductInfo: React.FC<ProductInfoProps> = props => {
 
   return (
     <div className="min-h-screen bg-lime-50">
-      <div >
+      <div>
         <Header title={props.name} />
         <button
           className="fixed top-0 left-0 ps-4 pt-8"
@@ -49,7 +49,6 @@ const ProductInfo: React.FC<ProductInfoProps> = props => {
         >
           <FiArrowLeft className="inline-block text-white text-2xl" />
         </button>
-
       </div>
       <div>
         <div className="flex justify-between mx-10 mt-4 ">

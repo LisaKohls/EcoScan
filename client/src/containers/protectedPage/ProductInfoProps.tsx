@@ -8,6 +8,6 @@ export interface ProductInfoProps {
   socialIndex: number;
   ecologicalIndex: number;
 }
- export interface Title {
-   title: string;
- }
+export interface Title {
+  title: string;
+}
