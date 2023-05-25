@@ -5,7 +5,7 @@ const ProtectedPage: React.FC = () => {
   const [barcodeNumber, setBarcodeNumber] = useState('');
 
   const searchForBarcode = () => {
-    window.location.href = '/ProductInfo';
+    window.location.href = '/productInfo';
   };
   /*
   const fetchProtectedData = async () => {
