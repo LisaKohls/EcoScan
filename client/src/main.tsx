@@ -41,7 +41,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Route
             path="/Profile"
             element={
-                    <Profile name="Max Mustermann" email="max.mustermal@examle.com" />
+                    <Profile name="Max Mustermann" email="max.mustermal@examle.com" img="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"/>
             }
         />
       </Routes>
