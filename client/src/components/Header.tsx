@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Title } from '../containers/protectedPage/ProductInfoProps';
 
 const Header: React.FC<Title> = props => {
@@ -9,6 +9,4 @@ const Header: React.FC<Title> = props => {
   );
 };
 
-export default Header
-
-
+export default Header;
