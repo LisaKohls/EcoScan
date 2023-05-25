@@ -11,3 +11,8 @@ export interface ProductInfoProps {
 export interface Title {
   title: string;
 }
+
+export interface Values{
+  index: number;
+  title: string
+}

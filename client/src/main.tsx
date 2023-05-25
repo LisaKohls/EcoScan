@@ -38,9 +38,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
               img={testImg}
               name="Koro Riegel"
               socialIndex={50}
-              lifetimeIndex={50}
+              lifetimeIndex={20}
               ecologicalIndex={20}
-              waterIndex={50}
+              waterIndex={80}
             />
           }
         />
