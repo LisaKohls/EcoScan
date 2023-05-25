@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { HiHome, HiLibrary } from 'react-icons/hi';
-import { IoIosQrScanner } from 'react-icons/Io';
+import BottomNavBar from '../../components/BottomNavBar';
+import Header from '../../components/Header';
 const ProtectedPage: React.FC = () => {
   const [barcodeNumber, setBarcodeNumber] = useState('');
 
   const searchForBarcode = () => {
     window.location.href = '/ProductInfo';
-    console.log('new page');
   };
 
   const fetchProtectedData = async () => {
@@ -27,9 +26,7 @@ const ProtectedPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-lime-50 ">
-      <header className="p-4 bg-green-800 text-white text-center text-xl">
-        EcoScan
-      </header>
+      <Header title="Eco Scan" />
       <div className="p-4">
         <input
           className="w-full p-2 bg-white text-black border-2 border-green-400 rounded-md"
@@ -39,29 +36,17 @@ const ProtectedPage: React.FC = () => {
           onChange={e => setBarcodeNumber(e.target.value)}
         />
       </div>
-      <div className="p-4 bg-black m-3 h-56 rounded-md"></div>
-      <nav className="fixed bottom-4 left-1 right-1 m-1 p-4 bg-green-800 flex items-center justify-between rounded-lg">
-        <div className="flex flex-col items-center text-white">
-          <HiLibrary className="text-2xl" />
-          <span>Favorites</span>
-        </div>
-        <div
-          className="flex flex-col items-center text-black"
-          role="button"
-          tabIndex={0}
-          id="arrowIcon"
-          onClick={() => searchForBarcode()}
-          onKeyDown={event => {
-            console.log(event.key);
-          }}
-        >
-          <IoIosQrScanner className="absolute bottom-6 rounded-full w-16 h-16  bg-white p-4" />
-        </div>
-        <div className="flex flex-col items-center text-white">
-          <HiHome className="text-2xl" />
-          <span>Profile</span>
-        </div>
-      </nav>
+      <div
+        className="p-4 bg-black m-3 h-56 rounded-md"
+        role="button"
+        tabIndex={0}
+        onClick={() => searchForBarcode()}
+        onKeyDown={event => {
+          console.log(event.key);
+          console.log('clicked black rectangle');
+        }}
+      ></div>
+      <BottomNavBar />
     </div>
   );
 };

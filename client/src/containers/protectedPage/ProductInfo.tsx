@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Chart as ChartJs, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import Header from '../../components/Header';
 
 ChartJs.register(ArcElement, Tooltip, Legend);
 
@@ -40,16 +41,14 @@ const ProductInfo: React.FC<ProductInfoProps> = props => {
 
   return (
     <div className="min-h-screen bg-lime-50">
-      <div className="bg-emerald-800 bg- text-neutral-50">
+      <div>
+        <Header title={props.name} />
         <button
           className="fixed top-0 left-0 ps-4 pt-8"
           onClick={() => navigate(-1)}
         >
-          <FiArrowLeft className="inline-block text-2xl" />
+          <FiArrowLeft className="inline-block text-white text-2xl" />
         </button>
-        <h1 className="text-center text-xl font-normal p-8 ">
-          More information
-        </h1>
       </div>
       <div>
         <div className="flex justify-between mx-10 mt-4 ">
