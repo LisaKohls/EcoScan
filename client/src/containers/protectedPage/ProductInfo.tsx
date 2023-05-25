@@ -13,7 +13,7 @@ const ProductInfo: React.FC<ProductInfoProps> = props => {
   const dataSocialIndex = {
     datasets: [
       {
-        backgroundColor: ['green', 'grey'],
+        backgroundColor: ['#636A5B', '#E0E0E0'],
         data: [props.socialIndex, 100 - props.socialIndex],
         labels: [`${props.socialIndex}`, `${100 - props.socialIndex}`],
       },
@@ -22,7 +22,7 @@ const ProductInfo: React.FC<ProductInfoProps> = props => {
   const dataEcologicalIndex = {
     datasets: [
       {
-        backgroundColor: ['rgb(6,95,70)', 'grey'],
+        backgroundColor: ['#636A5B', '#E0E0E0'],
         data: [props.ecologicalIndex, 100 - props.ecologicalIndex],
         labels: [`${props.ecologicalIndex}`, `${100 - props.ecologicalIndex}`],
       },
@@ -37,7 +37,15 @@ const ProductInfo: React.FC<ProductInfoProps> = props => {
     };
   }, []);*/
 
-  const options = {};
+  const options = {
+    elements: {
+      arc: {
+        borderWidth: 1, // Adjust the border size as needed
+        borderColor: 'gray', // Set the border color to grey
+      },
+    },
+
+  };
 
   return (
     <div className="min-h-screen bg-lime-50">
