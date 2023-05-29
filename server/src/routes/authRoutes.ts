@@ -5,7 +5,7 @@ import { authMiddleware } from '../middlewares/authMiddleware'
 
 const router = Router()
 
-router.post('/register', async (req, res) => {
+router.post('/register', async (req, res, next) => {
   try {
     const { username, password } = req.body
 
@@ -16,11 +16,11 @@ router.post('/register', async (req, res) => {
 
     res.status(201).send('User registered.')
   } catch (error) {
-    res.status(500).send('Server error.')
+    next(error)
   }
 })
 
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res, next) => {
   try {
     const { username, password } = req.body
     const user: IUser | null = await User.findOne({ username })
@@ -32,7 +32,7 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign({ _id: user._id }, `${process.env.SECRET}`)
     res.header('x-auth-token', token).send('Logged in.')
   } catch (error) {
-    res.status(500).send('Server error.')
+    next(error)
   }
 })
 
