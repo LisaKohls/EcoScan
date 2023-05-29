@@ -130,6 +130,26 @@ export const getProductByBarcode = async (
   }
 }
 
+export const deleteProductByBarcode = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const barcode = req.params.barcode
+
+    const product = await Product.findOneAndRemove({ barcode })
+
+    if (!product) {
+      res.status(400).send(`There is no Product saved with barcode ${barcode}`)
+    } else {
+      res.send('Product was successfully deleted')
+    }
+  } catch (error) {
+    next(error)
+  }
+}
+
 export function getInitialProducts (): IProduct[] {
   try {
     const initialSustainabilites: ISustainability[] =
