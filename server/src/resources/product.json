@@ -1,6 +1,7 @@
 [
   {
     "id": 10390470,
+    "barcode": "123",
     "categories": ["OVERALL", "UNDERWEAR"],
     "gender": "FEMALE",
     "timestamp": "2023-03-10 18:00:12.188312",
@@ -26,6 +27,7 @@
   },
   {
     "id": 10390469,
+    "barcode": "321",
     "categories": ["OVERALL"],
     "gender": "FEMALE",
     "timestamp": "2023-03-10 18:00:12.188312",
@@ -54,6 +56,7 @@
   },
   {
     "id": 10390468,
+    "barcode": "111",
     "categories": ["SHIRT"],
     "gender": "FEMALE",
     "timestamp": "2023-03-10 18:00:12.188312",

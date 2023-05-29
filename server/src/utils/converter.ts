@@ -16,7 +16,7 @@ export class Converter {
   ): IProduct {
     const product = new Product()
 
-    product.barcode = '123'
+    product.barcode = initialFormat.barcode
     product.categories = initialFormat.categories
     product.name = initialFormat.name
     product.description = initialFormat.description

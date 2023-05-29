@@ -12,6 +12,7 @@ export interface IProduct extends Document {
 
 export interface IProductInitialFormat {
   id: number;
+  barcode: string;
   categories: [string];
   gender: string;
   timestamp: string;
@@ -36,7 +37,8 @@ export interface IProductInitialFormat {
 const ProductSchema: Schema = new mongoose.Schema({
   barcode: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   categories: {
     type: [String],
