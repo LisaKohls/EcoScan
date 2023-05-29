@@ -1,5 +1,3 @@
-import React from 'react';
-
 export interface ProductInfoProps {
   img: string;
   name: string;
@@ -9,5 +7,10 @@ export interface ProductInfoProps {
   ecologicalIndex: number;
 }
 export interface Title {
+  title: string;
+}
+
+export interface Values {
+  index: number;
   title: string;
 }
