@@ -130,6 +130,57 @@ export const getProductByBarcode = async (
   }
 }
 
+export const getAllProducts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const products = await Product.aggregate([
+      {
+        $project: {
+          _id: false,
+          name: true,
+          barcode: true,
+          categories: true,
+          description: true,
+          image: { $first: '$image_urls' },
+          sustainabilityName: '$sustainability.name',
+          sustainabilityEco: {
+            $avg: [
+              '$sustainability.eco_chemicals',
+              '$sustainability.eco_lifetime',
+              '$sustainability.eco_water',
+              '$sustainability.eco_inputs',
+              '$sustainability.eco_quality',
+              '$sustainability.eco_energy',
+              '$sustainability.eco_waste_air',
+              '$sustainability.eco_environmental_management'
+            ]
+          },
+          sustainabilitySocial: {
+            $avg: [
+              '$sustainability.social_labour_rights',
+              '$sustainability.social_business_practice',
+              '$sustainability.social_social_rights',
+              '$sustainability.social_company_responsibility',
+              '$sustainability.social_conflict_minerals'
+            ]
+          }
+        }
+      }
+    ])
+
+    if (products.length === 0) {
+      return res.send('There are no products yet')
+    }
+
+    res.send(products)
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const deleteProductByBarcode = async (
   req: Request,
   res: Response,
