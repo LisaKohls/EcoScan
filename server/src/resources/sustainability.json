@@ -1,0 +1,42 @@
+[
+  {
+    "id": "certificate:GLOBAL_RECYCLED_STANDARD",
+    "timestamp": "2023-02-23 00:00:00",
+    "name": "GRS",
+    "description": "Global Recycled Standard Produkte werden mit mindestens 50 % recyceltem Gehalt hergestellt und erfüllen soziale, ökologische und chemische Anforderungen.",
+    "cred_credibility": 0.0,
+    "eco_chemicals": 0.0,
+    "eco_lifetime": 0.0,
+    "eco_water": 0.0,
+    "eco_inputs": 0.0,
+    "eco_quality": 0.0,
+    "eco_energy": 0.0,
+    "eco_waste_air": 0.0,
+    "eco_environmental_management": 0.0,
+    "social_labour_rights": 0.0,
+    "social_business_practice": 0.0,
+    "social_social_rights": 0.0,
+    "social_company_responsibility": 0.0,
+    "social_conflict_minerals": 0.0
+  },
+  {
+    "id": "certificate:OTHER",
+    "timestamp": "2023-02-23 00:00:00",
+    "name": "OTHER",
+    "description": "Dieses 'Label' ist GreenDB intern. Es wird verwendet, wenn ein Shop das Produkt als nachhaltig listet, unsere Nachhaltigkeitsexpert*innen dies aber nicht nachvollziehen können. Es handelt sich also um falsche oder nicht belastbare Informationen",
+    "cred_credibility": null,
+    "eco_chemicals": null,
+    "eco_lifetime": null,
+    "eco_water": null,
+    "eco_inputs": null,
+    "eco_quality": null,
+    "eco_energy": null,
+    "eco_waste_air": null,
+    "eco_environmental_management": null,
+    "social_labour_rights": null,
+    "social_business_practice": null,
+    "social_social_rights": null,
+    "social_company_responsibility": null,
+    "social_conflict_minerals": null
+  }
+]

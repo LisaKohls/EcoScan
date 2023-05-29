@@ -5,6 +5,7 @@ import cors from 'cors'
 import mongoose from 'mongoose'
 import authRoutes from './routes/authRoutes'
 import { logger } from './middlewares/logEvents'
+import { productRoutes } from './routes/productRoutes'
 import { NextFunction, Request, Response } from 'express'
 
 if (process.env.NODE_ENV === 'production') {
@@ -23,6 +24,7 @@ app.use(cors(/* corsOptions */))
 app.use(express.json())
 app.use('/api/example', exampleRoutes)
 app.use('/api/auth', authRoutes)
+app.use('/api/product', productRoutes)
 console.log(`${process.env.MONGODB_URI}`)
 
 // Internal server Middleware
