@@ -27,6 +27,41 @@ export const initializeProductDb = async (req: Request, res: Response) => {
   }
 }
 
+export const getProductByBarcode = async (req: Request, res: Response) => {
+  try {
+    const barcode = req.params.barcode
+    const product = await Product.aggregate([
+      { $match: { barcode } },
+      {
+        $project: {
+          _id: false,
+          name: true,
+          barcode: true,
+          categories: true,
+          description: true,
+          image: { $first: '$image_urls' },
+          sustainabilityName: '$sustainability.name',
+          sustainabilityEco: {
+            $avg: ['$sustainability.eco_chemicals', '$sustainability.eco_lifetime', '$sustainability.eco_water', '$sustainability.eco_inputs', '$sustainability.eco_quality', '$sustainability.eco_energy', '$sustainability.eco_waste_air', '$sustainability.eco_environmental_management']
+          },
+          sustainabilitySocial: {
+            $avg: ['$sustainability.social_labour_rights', '$sustainability.social_business_practice', '$sustainability.social_social_rights', '$sustainability.social_company_responsibility', '$sustainability.social_conflict_minerals']
+          }
+        }
+      },
+      { $limit: 1 }
+    ])
+
+    if (product.length === 0) {
+      return res.status(400).send(`No Product with barcode ${barcode} found`)
+    }
+
+    res.send(product.at(0))
+  } catch (e) {
+    res.status(500).send('Server error.')
+  }
+}
+
 export function getInitialProducts (): IProduct[] {
   try {
     const initialSustainabilites: ISustainability[] =
