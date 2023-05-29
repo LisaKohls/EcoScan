@@ -1,4 +1,8 @@
-import {IProduct, IProductInitialFormat, Product} from '../models/productModel'
+import {
+  IProduct,
+  IProductInitialFormat,
+  Product
+} from '../models/productModel'
 import { getInitialSustainabilities } from './sustainabilityController'
 import { ISustainability } from '../models/sustainabilityModel'
 import productJson from '../resources/product.json'

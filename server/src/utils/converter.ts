@@ -41,10 +41,12 @@ export class Converter {
     sustainability.eco_waste_air = initialFormat.eco_waste_air ?? 0
     sustainability.eco_environmental_management =
       initialFormat.eco_environmental_management ?? 0
-    sustainability.social_labour_rights = initialFormat.social_labour_rights ?? 0
+    sustainability.social_labour_rights =
+      initialFormat.social_labour_rights ?? 0
     sustainability.social_business_practice =
       initialFormat.social_business_practice ?? 0
-    sustainability.social_social_rights = initialFormat.social_social_rights ?? 0
+    sustainability.social_social_rights =
+      initialFormat.social_social_rights ?? 0
     sustainability.social_company_responsibility =
       initialFormat.social_company_responsibility ?? 0
     sustainability.social_conflict_minerals =

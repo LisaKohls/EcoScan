@@ -1,4 +1,4 @@
-import express = require('express')
+import express = require('express');
 import dotenv from 'dotenv'
 import { exampleRoutes } from './routes/exampleRoutes'
 import cors from 'cors'
@@ -23,6 +23,7 @@ app.use(cors(/* corsOptions */))
 app.use(express.json())
 app.use('/api/example', exampleRoutes)
 app.use('/api/auth', authRoutes)
+app.use('/api/product', productRoutes)
 console.log(`${process.env.MONGODB_URI}`)
 mongoose
   .connect(`${process.env.MONGODB_URI}`)
@@ -32,7 +33,5 @@ mongoose
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
   })
   .catch(error => console.error('Error connecting to MongoDB:', error))
-
-app.use('/api/product', productRoutes)
 
 export default app
