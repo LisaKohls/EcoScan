@@ -4,7 +4,7 @@ import {
   Product
 } from '../models/productModel'
 import { getInitialSustainabilities } from './sustainabilityController'
-import { ISustainability } from '../models/sustainabilityModel'
+import { ISustainability, Sustainability } from '../models/sustainabilityModel'
 import productJson from '../resources/product.json'
 import { Converter } from '../utils/converter'
 import { NextFunction, Request, Response } from 'express'
@@ -26,6 +26,51 @@ export const initializeProductDb = async (
     } else {
       res.status(400).send('DB was already initialized')
     }
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const postProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const product = new Product()
+    product.barcode = req.body.barcode
+    product.categories = req.body.categories
+    product.name = req.body.name
+    product.description = req.body.description
+    product.image_urls = req.body.imageUrls
+
+    const sustainability = new Sustainability()
+    sustainability.name = req.body.sustainabilityName
+    sustainability.eco_chemicals = req.body.sustainabilityEco
+    sustainability.eco_lifetime = req.body.sustainabilityEco
+    sustainability.eco_water = req.body.sustainabilityEco
+    sustainability.eco_inputs = req.body.sustainabilityEco
+    sustainability.eco_quality = req.body.sustainabilityEco
+    sustainability.eco_energy = req.body.sustainabilityEco
+    sustainability.eco_waste_air = req.body.sustainabilityEco
+    sustainability.eco_environmental_management = req.body.sustainabilityEco
+    sustainability.social_labour_rights = req.body.sustainabilitySocial
+    sustainability.social_business_practice = req.body.sustainabilitySocial
+    sustainability.social_social_rights = req.body.sustainabilitySocial
+    sustainability.social_company_responsibility =
+      req.body.sustainabilitySocial
+    sustainability.social_conflict_minerals = req.body.sustainabilitySocial
+
+    product.sustainability = sustainability
+
+    await product
+      .save()
+      .then(product => {
+        res.send({ message: 'Product was successfully created', product })
+      })
+      .catch(error => {
+        res.status(400).send(error.toString())
+      })
   } catch (error) {
     next(error)
   }

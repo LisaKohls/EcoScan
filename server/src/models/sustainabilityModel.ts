@@ -41,12 +41,10 @@ export interface ISustainabilityInitialFormat {
 
 export const SustainabilitySchema: Schema = new Schema({
   name: {
-    type: String,
-    required: true
+    type: String
   },
   eco_chemicals: {
-    type: Number,
-    required: true
+    type: Number
   },
   eco_lifetime: {
     type: Number,
@@ -97,8 +95,7 @@ export const SustainabilitySchema: Schema = new Schema({
     default: 0
   },
   ref: {
-    type: String,
-    required: true
+    type: String
   }
 })
 
