@@ -150,6 +150,59 @@ export const deleteProductByBarcode = async (
   }
 }
 
+export const patchProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const barcode = req.params.barcode
+
+    const updatedProduct = await Product.findOneAndUpdate(
+      { barcode },
+      {
+        $set: {
+          barcode: req.body.barcode,
+          categories: req.body.categories,
+          name: req.body.name,
+          description: req.body.description,
+          image_urls: req.body.imageUrls,
+          'sustainability.name': req.body.sustainabilityName,
+          'sustainability.eco_chemicals': req.body.sustainabilityEco,
+          'sustainability.eco_lifetime': req.body.sustainabilityEco,
+          'sustainability.eco_water': req.body.sustainabilityEco,
+          'sustainability.eco_inputs': req.body.sustainabilityEco,
+          'sustainability.eco_quality': req.body.sustainabilityEco,
+          'sustainability.eco_energy': req.body.sustainabilityEco,
+          'sustainability.eco_waste_air': req.body.sustainabilityEco,
+          'sustainability.eco_environmental_management':
+            req.body.sustainabilityEco,
+          'sustainability.social_labour_rights': req.body.sustainabilitySocial,
+          'sustainability.social_business_practice':
+            req.body.sustainabilitySocial,
+          'sustainability.social_social_rights': req.body.sustainabilitySocial,
+          'sustainability.social_company_responsibility':
+            req.body.sustainabilitySocial,
+          'sustainability.social_conflict_minerals':
+            req.body.sustainabilitySocial
+        }
+      },
+      { new: true }
+    )
+
+    if (!updatedProduct) {
+      return res.status(404).send({ message: 'Product not found' })
+    }
+
+    res.send({
+      message: 'Product was successfully updated',
+      product: updatedProduct
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 export function getInitialProducts (): IProduct[] {
   try {
     const initialSustainabilites: ISustainability[] =
