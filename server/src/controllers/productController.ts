@@ -7,9 +7,13 @@ import { getInitialSustainabilities } from './sustainabilityController'
 import { ISustainability } from '../models/sustainabilityModel'
 import productJson from '../resources/product.json'
 import { Converter } from '../utils/converter'
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 
-export const initializeProductDb = async (req: Request, res: Response) => {
+export const initializeProductDb = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const productsFromDB: IProduct[] = await Product.find()
     if (productsFromDB.length === 0) {
@@ -23,11 +27,15 @@ export const initializeProductDb = async (req: Request, res: Response) => {
       res.status(400).send('DB was already initialized')
     }
   } catch (error) {
-    res.status(500).send('Server error.' + error)
+    next(error)
   }
 }
 
-export const getProductByBarcode = async (req: Request, res: Response) => {
+export const getProductByBarcode = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const barcode = req.params.barcode
     const product = await Product.aggregate([
@@ -42,10 +50,25 @@ export const getProductByBarcode = async (req: Request, res: Response) => {
           image: { $first: '$image_urls' },
           sustainabilityName: '$sustainability.name',
           sustainabilityEco: {
-            $avg: ['$sustainability.eco_chemicals', '$sustainability.eco_lifetime', '$sustainability.eco_water', '$sustainability.eco_inputs', '$sustainability.eco_quality', '$sustainability.eco_energy', '$sustainability.eco_waste_air', '$sustainability.eco_environmental_management']
+            $avg: [
+              '$sustainability.eco_chemicals',
+              '$sustainability.eco_lifetime',
+              '$sustainability.eco_water',
+              '$sustainability.eco_inputs',
+              '$sustainability.eco_quality',
+              '$sustainability.eco_energy',
+              '$sustainability.eco_waste_air',
+              '$sustainability.eco_environmental_management'
+            ]
           },
           sustainabilitySocial: {
-            $avg: ['$sustainability.social_labour_rights', '$sustainability.social_business_practice', '$sustainability.social_social_rights', '$sustainability.social_company_responsibility', '$sustainability.social_conflict_minerals']
+            $avg: [
+              '$sustainability.social_labour_rights',
+              '$sustainability.social_business_practice',
+              '$sustainability.social_social_rights',
+              '$sustainability.social_company_responsibility',
+              '$sustainability.social_conflict_minerals'
+            ]
           }
         }
       },
@@ -57,8 +80,8 @@ export const getProductByBarcode = async (req: Request, res: Response) => {
     }
 
     res.send(product.at(0))
-  } catch (e) {
-    res.status(500).send('Server error.')
+  } catch (error) {
+    next(error)
   }
 }
 

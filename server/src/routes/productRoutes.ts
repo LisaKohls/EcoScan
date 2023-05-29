@@ -9,4 +9,4 @@ export const productRoutes = Router()
 
 productRoutes.post('/init', productMiddleware, initializeProductDb)
 
-productRoutes.get('/product/:barcode', productMiddleware, getProductByBarcode)
+productRoutes.get('/:barcode', productMiddleware, getProductByBarcode)
