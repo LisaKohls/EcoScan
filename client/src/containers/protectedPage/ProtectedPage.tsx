@@ -68,6 +68,14 @@ const ProtectedPage: React.FC = () => {
       </div>
       <div className="flex justify-center">
         <button
+          className="m-5 rounded-full bg-grey-green text-white p-3 center-button"
+          onClick={init}
+        >
+          Initialize Data
+        </button>
+      </div>
+      <div className="flex justify-center">
+        <button
           className=" center-button hover:bg-green-900 text-white hover:text-white rounded-full bg-grey-green p-3 mt-2"
           onClick={() => openPage('/searchForProduct')}
           onKeyDown={event => {

@@ -1,12 +1,11 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/Fa';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { Result } from '../../containers/protectedPage/InterfaceProps';
-import formatters from 'chart.js/dist/core/core.ticks';
 
 //funktion set result um neues ergebnis state zu setzen mit der ergebnis Liste
-const SearchBar = ( { setResults }) => {
+const SearchBar = ({ setResults }) => {
   const [barcodeNumber, setBarcodeNumber] = useState('');
 
   const getData = async value => {
@@ -14,12 +13,12 @@ const SearchBar = ( { setResults }) => {
       const response = await axios.get(`http://localhost:3001/api/product`, {
         headers: {},
         method: 'GET',
-        body:{},
+        body: {},
       });
       const jsonData = response.data;
       const results = jsonData.filter(item => item.barcode === value);
       console.log(results.name);
-      setResults(results)
+      setResults(results);
       console.log('initialize data');
     } catch (error) {
       alert('Error getting data of barcode.');
@@ -34,9 +33,9 @@ const SearchBar = ( { setResults }) => {
   const handleChange = value => {
     setBarcodeNumber(value);
     getData(value);
-    console.log(`http://localhost:3001/api/product/:${barcodeNumber}`)
+    console.log(`http://localhost:3001/api/product/:${barcodeNumber}`);
     console.log(`Your barcode input ${barcodeNumber}`);
-    console.log(`input value: ${value}`)
+    console.log(`input value: ${value}`);
   };
   return (
     <div>
