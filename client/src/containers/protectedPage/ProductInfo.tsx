@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProductInfoProps } from './ProductInfoProps';
+import { InterfaceProps } from './InterfaceProps';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Chart as ChartJs, ArcElement, Tooltip, Legend } from 'chart.js';
@@ -9,7 +9,7 @@ import Bar from '../../components/Bar';
 
 ChartJs.register(ArcElement, Tooltip, Legend);
 
-const ProductInfo: React.FC<ProductInfoProps> = props => {
+const ProductInfo: React.FC<InterfaceProps> = props => {
   const navigate = useNavigate();
   const dataSocialIndex = {
     datasets: [

@@ -2,6 +2,7 @@
 import React, { useRef, useEffect } from 'react';
 import BottomNavBar from '../../components/BottomNavBar';
 import Header from '../../components/Header';
+import axios from 'axios';
 const ProtectedPage: React.FC = () => {
   const openPage = url => {
     window.location.href = url;
@@ -9,39 +10,35 @@ const ProtectedPage: React.FC = () => {
 
   const videoRef = useRef(null);
 
-  const getVideo = () => {
-    navigator.mediaDevices
-      .getUserMedia({
+  const getVideo = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
         video: { width: 200, height: 200 },
-      })
-      .then(stream => {
-        const video = videoRef.current;
-        video.srcObject = stream;
-        video.play();
-      })
-      .catch(err => {
-        console.error(err);
       });
+      const video = videoRef.current;
+      video.srcObject = stream;
+      video.play();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
     getVideo();
   }, [videoRef]);
-  /*
-    const fetchProtectedData = async () => {
-      try {
-        const token = localStorage.getItem('auth-token');
-        const response = await axios.get(
-          'http://localhost:3001/api/auth/protected',
-          {
-            headers: { 'x-auth-token': token },
-          }
-        );
-        alert(response.data);
-      } catch (error) {
-        alert('Error fetching protected data.');
-      }
-    };*/
+
+  const init = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:3001/api/product/init'
+      );
+      alert(response.data);
+      console.log('initialize data');
+    } catch (error) {
+      alert('DB was already initialized');
+      console.error(error);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-lime-50">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Title } from '../containers/protectedPage/ProductInfoProps';
+import { Title } from '../containers/protectedPage/InterfaceProps';
 
 const Header: React.FC<Title> = props => {
   return (
