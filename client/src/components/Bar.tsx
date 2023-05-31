@@ -1,5 +1,5 @@
 import React from 'react';
-import { Values } from '../containers/protectedPage/ProductInfoProps';
+import { Values } from '../containers/protectedPage/InterfaceProps';
 
 const Bar: React.FC<Values> = props => {
   let label: string;
