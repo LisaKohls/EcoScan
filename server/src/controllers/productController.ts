@@ -94,25 +94,29 @@ export const getProductByBarcode = async (
           description: true,
           image: { $first: '$image_urls' },
           sustainabilityName: '$sustainability.name',
+          sustainabilityEcoWater: { $ifNull: ['$sustainability.eco_water', 0] },
+          sustainabilityEcoLifetime: {
+            $ifNull: ['$sustainability.eco_lifetime', 0]
+          },
           sustainabilityEco: {
             $avg: [
-              '$sustainability.eco_chemicals',
-              '$sustainability.eco_lifetime',
-              '$sustainability.eco_water',
-              '$sustainability.eco_inputs',
-              '$sustainability.eco_quality',
-              '$sustainability.eco_energy',
-              '$sustainability.eco_waste_air',
-              '$sustainability.eco_environmental_management'
+              { $ifNull: ['$sustainability.eco_chemicals', 0] },
+              { $ifNull: ['$sustainability.eco_lifetime', 0] },
+              { $ifNull: ['$sustainability.eco_water', 0] },
+              { $ifNull: ['$sustainability.eco_inputs', 0] },
+              { $ifNull: ['$sustainability.eco_quality', 0] },
+              { $ifNull: ['$sustainability.eco_energy', 0] },
+              { $ifNull: ['$sustainability.eco_waste_air', 0] },
+              { $ifNull: ['$sustainability.eco_environmental_management', 0] }
             ]
           },
           sustainabilitySocial: {
             $avg: [
-              '$sustainability.social_labour_rights',
-              '$sustainability.social_business_practice',
-              '$sustainability.social_social_rights',
-              '$sustainability.social_company_responsibility',
-              '$sustainability.social_conflict_minerals'
+              { $ifNull: ['$sustainability.social_labour_rights', 0] },
+              { $ifNull: ['$sustainability.social_business_practice', 0] },
+              { $ifNull: ['$sustainability.social_social_rights', 0] },
+              { $ifNull: ['$sustainability.social_company_responsibility', 0] },
+              { $ifNull: ['$sustainability.social_conflict_minerals', 0] }
             ]
           }
         }
@@ -146,25 +150,29 @@ export const getAllProducts = async (
           description: true,
           image: { $first: '$image_urls' },
           sustainabilityName: '$sustainability.name',
+          sustainabilityEcoWater: { $ifNull: ['$sustainability.eco_water', 0] },
+          sustainabilityEcoLifetime: {
+            $ifNull: ['$sustainability.eco_lifetime', 0]
+          },
           sustainabilityEco: {
             $avg: [
-              '$sustainability.eco_chemicals',
-              '$sustainability.eco_lifetime',
-              '$sustainability.eco_water',
-              '$sustainability.eco_inputs',
-              '$sustainability.eco_quality',
-              '$sustainability.eco_energy',
-              '$sustainability.eco_waste_air',
-              '$sustainability.eco_environmental_management'
+              { $ifNull: ['$sustainability.eco_chemicals', 0] },
+              { $ifNull: ['$sustainability.eco_lifetime', 0] },
+              { $ifNull: ['$sustainability.eco_water', 0] },
+              { $ifNull: ['$sustainability.eco_inputs', 0] },
+              { $ifNull: ['$sustainability.eco_quality', 0] },
+              { $ifNull: ['$sustainability.eco_energy', 0] },
+              { $ifNull: ['$sustainability.eco_waste_air', 0] },
+              { $ifNull: ['$sustainability.eco_environmental_management', 0] }
             ]
           },
           sustainabilitySocial: {
             $avg: [
-              '$sustainability.social_labour_rights',
-              '$sustainability.social_business_practice',
-              '$sustainability.social_social_rights',
-              '$sustainability.social_company_responsibility',
-              '$sustainability.social_conflict_minerals'
+              { $ifNull: ['$sustainability.social_labour_rights', 0] },
+              { $ifNull: ['$sustainability.social_business_practice', 0] },
+              { $ifNull: ['$sustainability.social_social_rights', 0] },
+              { $ifNull: ['$sustainability.social_company_responsibility', 0] },
+              { $ifNull: ['$sustainability.social_conflict_minerals', 0] }
             ]
           }
         }
