@@ -134,61 +134,6 @@ export const getProductByBarcode = async (
   }
 }
 
-export const getAllProducts = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const products = await Product.aggregate([
-      {
-        $project: {
-          _id: false,
-          name: true,
-          barcode: true,
-          categories: true,
-          description: true,
-          image: { $first: '$image_urls' },
-          sustainabilityName: '$sustainability.name',
-          sustainabilityEcoWater: { $ifNull: ['$sustainability.eco_water', 0] },
-          sustainabilityEcoLifetime: {
-            $ifNull: ['$sustainability.eco_lifetime', 0]
-          },
-          sustainabilityEco: {
-            $avg: [
-              { $ifNull: ['$sustainability.eco_chemicals', 0] },
-              { $ifNull: ['$sustainability.eco_lifetime', 0] },
-              { $ifNull: ['$sustainability.eco_water', 0] },
-              { $ifNull: ['$sustainability.eco_inputs', 0] },
-              { $ifNull: ['$sustainability.eco_quality', 0] },
-              { $ifNull: ['$sustainability.eco_energy', 0] },
-              { $ifNull: ['$sustainability.eco_waste_air', 0] },
-              { $ifNull: ['$sustainability.eco_environmental_management', 0] }
-            ]
-          },
-          sustainabilitySocial: {
-            $avg: [
-              { $ifNull: ['$sustainability.social_labour_rights', 0] },
-              { $ifNull: ['$sustainability.social_business_practice', 0] },
-              { $ifNull: ['$sustainability.social_social_rights', 0] },
-              { $ifNull: ['$sustainability.social_company_responsibility', 0] },
-              { $ifNull: ['$sustainability.social_conflict_minerals', 0] }
-            ]
-          }
-        }
-      }
-    ])
-
-    if (products.length === 0) {
-      return res.send('There are no products yet')
-    }
-
-    res.send(products)
-  } catch (error) {
-    next(error)
-  }
-}
-
 export const deleteProductByBarcode = async (
   req: Request,
   res: Response,
