@@ -95,7 +95,9 @@ export const getProductByBarcode = async (
           image: { $first: '$image_urls' },
           sustainabilityName: '$sustainability.name',
           sustainabilityEcoWater: { $ifNull: ['$sustainability.eco_water', 0] },
-          sustainabilityEcoLifetime: { $ifNull: ['$sustainability.eco_lifetime', 0] },
+          sustainabilityEcoLifetime: {
+            $ifNull: ['$sustainability.eco_lifetime', 0]
+          },
           sustainabilityEco: {
             $avg: [
               { $ifNull: ['$sustainability.eco_chemicals', 0] },
@@ -114,7 +116,7 @@ export const getProductByBarcode = async (
               { $ifNull: ['$sustainability.social_business_practice', 0] },
               { $ifNull: ['$sustainability.social_social_rights', 0] },
               { $ifNull: ['$sustainability.social_company_responsibility', 0] },
-              { $ifNull: ['$sustainability.social_conflict_minerals', 0] },
+              { $ifNull: ['$sustainability.social_conflict_minerals', 0] }
             ]
           }
         }
@@ -149,7 +151,9 @@ export const getAllProducts = async (
           image: { $first: '$image_urls' },
           sustainabilityName: '$sustainability.name',
           sustainabilityEcoWater: { $ifNull: ['$sustainability.eco_water', 0] },
-          sustainabilityEcoLifetime: { $ifNull: ['$sustainability.eco_lifetime', 0] },
+          sustainabilityEcoLifetime: {
+            $ifNull: ['$sustainability.eco_lifetime', 0]
+          },
           sustainabilityEco: {
             $avg: [
               { $ifNull: ['$sustainability.eco_chemicals', 0] },
@@ -168,7 +172,7 @@ export const getAllProducts = async (
               { $ifNull: ['$sustainability.social_business_practice', 0] },
               { $ifNull: ['$sustainability.social_social_rights', 0] },
               { $ifNull: ['$sustainability.social_company_responsibility', 0] },
-              { $ifNull: ['$sustainability.social_conflict_minerals', 0] },
+              { $ifNull: ['$sustainability.social_conflict_minerals', 0] }
             ]
           }
         }
