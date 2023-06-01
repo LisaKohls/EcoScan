@@ -134,61 +134,6 @@ export const getProductByBarcode = async (
   }
 }
 
-export const getAllProducts = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const products = await Product.aggregate([
-      {
-        $project: {
-          _id: false,
-          name: true,
-          barcode: true,
-          categories: true,
-          description: true,
-          image: { $first: '$image_urls' },
-          sustainabilityName: '$sustainability.name',
-          sustainabilityEcoWater: { $ifNull: ['$sustainability.eco_water', 0] },
-          sustainabilityEcoLifetime: {
-            $ifNull: ['$sustainability.eco_lifetime', 0]
-          },
-          sustainabilityEco: {
-            $avg: [
-              { $ifNull: ['$sustainability.eco_chemicals', 0] },
-              { $ifNull: ['$sustainability.eco_lifetime', 0] },
-              { $ifNull: ['$sustainability.eco_water', 0] },
-              { $ifNull: ['$sustainability.eco_inputs', 0] },
-              { $ifNull: ['$sustainability.eco_quality', 0] },
-              { $ifNull: ['$sustainability.eco_energy', 0] },
-              { $ifNull: ['$sustainability.eco_waste_air', 0] },
-              { $ifNull: ['$sustainability.eco_environmental_management', 0] }
-            ]
-          },
-          sustainabilitySocial: {
-            $avg: [
-              { $ifNull: ['$sustainability.social_labour_rights', 0] },
-              { $ifNull: ['$sustainability.social_business_practice', 0] },
-              { $ifNull: ['$sustainability.social_social_rights', 0] },
-              { $ifNull: ['$sustainability.social_company_responsibility', 0] },
-              { $ifNull: ['$sustainability.social_conflict_minerals', 0] }
-            ]
-          }
-        }
-      }
-    ])
-
-    if (products.length === 0) {
-      return res.send('There are no products yet')
-    }
-
-    res.send(products)
-  } catch (error) {
-    next(error)
-  }
-}
-
 export const deleteProductByBarcode = async (
   req: Request,
   res: Response,
@@ -257,6 +202,63 @@ export const patchProduct = async (
       message: 'Product was successfully updated',
       product: updatedProduct
     })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getProductsFilteredByName = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const name = req.query.name || ''
+    const products = await Product.aggregate([
+      { $match: { name: { $regex: name, $options: 'i' } } },
+      {
+        $project: {
+          _id: false,
+          name: true,
+          barcode: true,
+          categories: true,
+          description: true,
+          image: { $first: '$image_urls' },
+          sustainabilityName: '$sustainability.name',
+          sustainabilityEcoWater: { $ifNull: ['$sustainability.eco_water', 0] },
+          sustainabilityEcoLifetime: {
+            $ifNull: ['$sustainability.eco_lifetime', 0]
+          },
+          sustainabilityEco: {
+            $avg: [
+              { $ifNull: ['$sustainability.eco_chemicals', 0] },
+              { $ifNull: ['$sustainability.eco_lifetime', 0] },
+              { $ifNull: ['$sustainability.eco_water', 0] },
+              { $ifNull: ['$sustainability.eco_inputs', 0] },
+              { $ifNull: ['$sustainability.eco_quality', 0] },
+              { $ifNull: ['$sustainability.eco_energy', 0] },
+              { $ifNull: ['$sustainability.eco_waste_air', 0] },
+              { $ifNull: ['$sustainability.eco_environmental_management', 0] }
+            ]
+          },
+          sustainabilitySocial: {
+            $avg: [
+              { $ifNull: ['$sustainability.social_labour_rights', 0] },
+              { $ifNull: ['$sustainability.social_business_practice', 0] },
+              { $ifNull: ['$sustainability.social_social_rights', 0] },
+              { $ifNull: ['$sustainability.social_company_responsibility', 0] },
+              { $ifNull: ['$sustainability.social_conflict_minerals', 0] }
+            ]
+          }
+        }
+      }
+    ])
+
+    if (products.length === 0) {
+      return res.status(400).send(`No Product that contains name ${name}`)
+    }
+
+    res.send(products)
   } catch (error) {
     next(error)
   }

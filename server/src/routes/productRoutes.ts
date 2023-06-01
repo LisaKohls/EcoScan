@@ -6,7 +6,7 @@ import {
   deleteProductByBarcode,
   postProduct,
   patchProduct,
-  getAllProducts
+  getProductsFilteredByName
 } from '../controllers/productController'
 
 export const productRoutes = Router()
@@ -19,6 +19,6 @@ productRoutes.delete('/:barcode', productMiddleware, deleteProductByBarcode)
 
 productRoutes.patch('/:barcode', productMiddleware, patchProduct)
 
-productRoutes.get('', productMiddleware, getAllProducts)
+productRoutes.get('', productMiddleware, getProductsFilteredByName)
 
 productRoutes.post('', productMiddleware, postProduct)
