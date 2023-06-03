@@ -8,34 +8,63 @@ import PropTypes from 'prop-types';
 const SearchBar = ({ setResults }) => {
   const [barcodeNumber, setBarcodeNumber] = useState('');
 
-  const getData = async value => {
+  const getDataBarcode = async value => {
     try {
       const response = await axios.get(`http://localhost:3001/api/product`, {
         headers: {},
         method: 'GET',
         body: {},
       });
-      const jsonData = response.data;
-      const results = jsonData.filter(item => item.barcode === value);
+      const data = response.data;
+
+      const results = data.filter(item => item.barcode.includes(value));
       console.log(results.name);
       setResults(results);
       console.log('initialize data');
     } catch (error) {
-      alert('Error getting data of barcode.');
+      //alert('Error getting data of barcode.');
       console.error(error);
     }
   };
+
+  const getDataName = async value => {
+    try {
+      const response = await axios.get(
+          `http://localhost:3001/api/product?name=${value}`,
+          {
+            headers: {},
+            method: 'GET',
+            body: {},
+          }
+      );
+      const data = response.data;
+      setResults(data);
+      console.log('initialize data by name');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
   SearchBar.propTypes = {
     setResults: PropTypes.func.isRequired,
   };
 
   const handleChange = value => {
-    setBarcodeNumber(value);
-    getData(value);
-    console.log(`http://localhost:3001/api/product/:${barcodeNumber}`);
-    console.log(`Your barcode input ${barcodeNumber}`);
-    console.log(`input value: ${value}`);
+    if (value == '') {
+      setBarcodeNumber('');
+      setResults('');
+    } else if (typeof value === 'string') {
+      setBarcodeNumber(value);
+      const input = value.toLowerCase();
+      getDataName(input);
+      console.log(`localhost:3001/api/product?name=${value}`)
+    } else {
+      //geht jetzt nicht mehr weil nur noch getdataname aufgerufen wird
+      setBarcodeNumber(value);
+      getDataBarcode(value);
+      console.log(`http://localhost:3001/api/product/${value}`);
+    }
   };
   return (
     <div>
