@@ -22,7 +22,7 @@ const SearchBar = ({ setResults }) => {
       setResults(results);
       console.log('initialize data');
     } catch (error) {
-      //alert('Error getting data of barcode.');
+      alert('Error getting data of barcode.');
       console.error(error);
     }
   };
@@ -41,6 +41,7 @@ const SearchBar = ({ setResults }) => {
       setResults(data);
       console.log('initialize data by name');
     } catch (error) {
+      alert('Error getting data of barcode.');
       console.error(error);
     }
   };
