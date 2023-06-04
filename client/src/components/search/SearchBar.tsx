@@ -30,12 +30,12 @@ const SearchBar = ({ setResults }) => {
   const getDataName = async value => {
     try {
       const response = await axios.get(
-          `http://localhost:3001/api/product?name=${value}`,
-          {
-            headers: {},
-            method: 'GET',
-            body: {},
-          }
+        `http://localhost:3001/api/product?name=${value}`,
+        {
+          headers: {},
+          method: 'GET',
+          body: {},
+        }
       );
       const data = response.data;
       setResults(data);
@@ -45,7 +45,6 @@ const SearchBar = ({ setResults }) => {
     }
   };
 
-
   SearchBar.propTypes = {
     setResults: PropTypes.func.isRequired,
   };
@@ -54,18 +53,17 @@ const SearchBar = ({ setResults }) => {
     if (value == '') {
       setBarcodeNumber('');
       setResults('');
-    } else if (typeof value === 'string') {
+      //isNaN gibt bei einem String true zurück
+    } else if (isNaN(Number(value))) {
       setBarcodeNumber(value);
-      const input = value.toLowerCase();
-      getDataName(input);
-      console.log(`localhost:3001/api/product?name=${value}`)
+      getDataName(value);
+      console.log(`localhost:3001/api/product?name=${value}`);
     } else {
-      //geht jetzt nicht mehr weil nur noch getdataname aufgerufen wird
       setBarcodeNumber(value);
       getDataBarcode(value);
-      console.log(`http://localhost:3001/api/product/${value}`);
     }
   };
+
   return (
     <div>
       <FaSearch id="search-icon" className="absolute right-10 mt-3 w-5 h-5 " />
