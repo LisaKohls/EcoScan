@@ -44,6 +44,25 @@ const SearchBar = ({ setResults }) => {
     }
   };
 
+  const getDataName = async value => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/api/product?name=${value}`,
+        {
+          headers: {},
+          method: 'GET',
+          body: {},
+        }
+      );
+      const data = response.data;
+      setResults(data);
+      console.log('initialize data by name');
+    } catch (error) {
+      alert('Error getting data of barcode.');
+      console.error(error);
+    }
+  };
+
   SearchBar.propTypes = {
     setResults: PropTypes.func.isRequired,
   };

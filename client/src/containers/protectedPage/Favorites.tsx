@@ -1,6 +1,8 @@
 import React from 'react';
 import BottomNavBar from '../../components/BottomNavBar';
 import Header from '../../components/Header';
+import CardProductView from '../../components/cardProductView';
+import img from './testResources/testImgRiegel.png';
 
 const Favorites: React.FC = () => {
   return (
@@ -13,6 +15,12 @@ const Favorites: React.FC = () => {
           placeholder="Search for favorites"
         />
       </div>
+      <div className="grid grid-cols-2 gap-4 p-4">
+        <CardProductView img={img} index={40} name="Riegel" />
+        <CardProductView img={img} index={40} name="Riegel" />
+        <CardProductView img={img} index={40} name="Riegel" />
+      </div>
+
       <BottomNavBar />
     </div>
   );
