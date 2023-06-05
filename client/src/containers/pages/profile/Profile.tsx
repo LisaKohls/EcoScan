@@ -1,28 +1,33 @@
-import React from 'react';
-import { ProfileProps } from './ProfileProps';
 import { useNavigate } from 'react-router-dom';
-import BottomNavBar from '../../components/BottomNavBar';
 
-const Profile: React.FC<ProfileProps> = props => {
+const Profile = () => {
   const navigate = useNavigate();
+
+  const exampleData = {
+    name: 'Max Mustermann',
+    email: 'max.mustermal@examle.com',
+    img: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+  };
 
   const logout = () => {
     navigate('/login');
   };
 
   return (
-    <div className="min-h-screen bg-orange-50-50">
+    <>
       <div className="bg-lime-100 bg-text-black rounded-b-3xl flex pt-8 pb-8">
         <img
-          src={props.img}
-          alt={props.name}
+          src={exampleData.img}
+          alt={exampleData.name}
           className="w-32 h-32 border ms-4 me-4 border-gray-400 rounded-full"
         />
         <div className="flex flex-col justify-center">
           <div className="ml-8">
-            <h1 className="text-left text-xl font-normal">{props.name}</h1>
+            <h1 className="text-left text-xl font-normal">
+              {exampleData.name}
+            </h1>
             <h2 className="text-left text-xl font-normal pt-2">
-              {props.email}
+              {exampleData.email}
             </h2>
           </div>
           <div className="flex justify-center">
@@ -39,9 +44,7 @@ const Profile: React.FC<ProfileProps> = props => {
       <h1 className="text-left text-xl font-normal mt-8 ml-6">
         Added Products
       </h1>
-
-      <BottomNavBar />
-    </div>
+    </>
   );
 };
 

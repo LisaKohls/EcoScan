@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import PopUp from './PopUp';
-import AddProductUI from './AddProductUI';
+import PopUp from '../../containers/layouts/popup/PopUp';
+import AddProduct from '../../containers/popupcontent/addproduct/AddProduct';
 
-const AddProductBtn = () => {
+const ButtonAddProduct = () => {
   const [addProductPopUp, setAddProductPopUp] = useState(false);
   return (
     <div className="flex flex-wrap place-content-center">
@@ -13,13 +13,10 @@ const AddProductBtn = () => {
         Add new Product
       </button>
       <PopUp trigger={addProductPopUp} setTrigger={setAddProductPopUp}>
-        <AddProductUI
-          trigger={addProductPopUp}
-          setTrigger={setAddProductPopUp}
-        />
+        <AddProduct setTrigger={setAddProductPopUp} />
       </PopUp>
     </div>
   );
 };
 
-export default AddProductBtn;
+export default ButtonAddProduct;
