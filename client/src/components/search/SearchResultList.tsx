@@ -1,10 +1,10 @@
 import React from 'react';
 import { Result } from '../../containers/protectedPage/InterfaceProps';
+import AddProductBtn from '../popUp/AddProductBtn';
 
 const SearchBar: React.FC<Result> = props => {
   if (props.results.length == 0) {
-    //wird durch add new product component ersetzt
-    return <div>No Entries found</div>;
+    return <AddProductBtn />;
   }
   return (
     <div className="p-2">

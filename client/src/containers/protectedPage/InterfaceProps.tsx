@@ -1,4 +1,4 @@
-export interface InterfaceProps {
+export interface Info {
   img: string;
   name: string;
   lifetimeIndex: number;
@@ -28,4 +28,10 @@ export interface Result {
       sustainabilitySocial: number;
     }
   ];
+}
+
+export interface PopUpProps {
+  trigger: boolean;
+  setTrigger: (value: boolean) => void;
+  children: React.ReactNode;
 }

@@ -22,8 +22,25 @@ const SearchBar = ({ setResults }) => {
       setResults(results);
       console.log('initialize data');
     } catch (error) {
-      alert('Error getting data of barcode.');
-      console.error(error);
+      console.error('No matching entries found');
+    }
+  };
+
+  const getDataName = async value => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/api/product?name=${value}`,
+        {
+          headers: {},
+          method: 'GET',
+          body: {},
+        }
+      );
+      const data = response.data;
+      setResults(data);
+      console.log('initialize data by name');
+    } catch (error) {
+      console.error('No matching entries found');
     }
   };
 
