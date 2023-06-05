@@ -1,5 +1,4 @@
 import { Router } from 'express'
-import { productMiddleware } from '../middlewares/productMiddleware'
 import {
   initializeProductDb,
   getProductByBarcode,
@@ -11,14 +10,14 @@ import {
 
 export const productRoutes = Router()
 
-productRoutes.post('/init', productMiddleware, initializeProductDb)
+productRoutes.post('/init', initializeProductDb)
 
-productRoutes.get('/:barcode', productMiddleware, getProductByBarcode)
+productRoutes.get('/:barcode', getProductByBarcode)
 
-productRoutes.delete('/:barcode', productMiddleware, deleteProductByBarcode)
+productRoutes.delete('/:barcode', deleteProductByBarcode)
 
-productRoutes.patch('/:barcode', productMiddleware, patchProduct)
+productRoutes.patch('/:barcode', patchProduct)
 
-productRoutes.get('', productMiddleware, getProductsFilteredByName)
+productRoutes.get('', getProductsFilteredByName)
 
-productRoutes.post('', productMiddleware, postProduct)
+productRoutes.post('', postProduct)
