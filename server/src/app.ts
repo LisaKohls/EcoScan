@@ -1,6 +1,5 @@
 import express = require('express');
 import dotenv from 'dotenv'
-import { exampleRoutes } from './routes/exampleRoutes'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import authRoutes from './routes/authRoutes'
@@ -22,7 +21,6 @@ app.use(logger)
 // Cross Origin Resource Sharing
 app.use(cors(/* corsOptions */))
 app.use(express.json())
-app.use('/api/example', exampleRoutes)
 app.use('/api/auth', authRoutes)
 app.use('/api/product', productRoutes)
 console.log(`${process.env.MONGODB_URI}`)
