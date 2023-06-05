@@ -1,67 +1,92 @@
-import React, { useState } from 'react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import React, { useRef, useEffect } from 'react';
+import BottomNavBar from '../../components/BottomNavBar';
+import Header from '../../components/Header';
 import axios from 'axios';
-import { HiHome, HiLibrary } from 'react-icons/hi';
-import { IoIosQrScanner } from 'react-icons/Io';
 const ProtectedPage: React.FC = () => {
-  const [barcodeNumber, setBarcodeNumber] = useState('');
-
-  const searchForBarcode = () => {
-    window.location.href = '/ProductInfo';
-    console.log('new page');
+  const openPage = url => {
+    window.location.href = url;
   };
 
-  const fetchProtectedData = async () => {
+  const videoRef = useRef(null);
+
+  const getVideo = async () => {
     try {
-      const token = localStorage.getItem('auth-token');
-      const response = await axios.get(
-        'http://localhost:3001/api/auth/protected',
-        {
-          headers: { 'x-auth-token': token },
-        }
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { width: 200, height: 200 },
+      });
+      const video = videoRef.current;
+      video.srcObject = stream;
+      video.play();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getVideo();
+  }, [videoRef]);
+
+  const init = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:3001/api/product/init'
       );
       alert(response.data);
+      console.log('initialize data');
     } catch (error) {
-      alert('Error fetching protected data.');
+      alert('DB was already initialized');
+      console.error(error);
     }
   };
 
   return (
-    <div className="min-h-screen bg-lime-50 ">
-      <header className="p-4 bg-green-800 text-white text-center text-xl">
-        EcoScan
-      </header>
-      <div className="p-4">
-        <input
-          className="w-full p-2 bg-white text-black border-2 border-green-400 rounded-md"
-          type="text"
-          placeholder="Enter barcode number"
-          value={barcodeNumber}
-          onChange={e => setBarcodeNumber(e.target.value)}
-        />
-      </div>
-      <div className="p-4 bg-black m-3 h-56 rounded-md"></div>
-      <nav className="fixed bottom-4 left-1 right-1 m-1 p-4 bg-green-800 flex items-center justify-between rounded-lg">
-        <div className="flex flex-col items-center text-white">
-          <HiLibrary className="text-2xl" />
-          <span>Favorites</span>
-        </div>
+    <div className="min-h-screen bg-lime-50">
+      <Header title="Eco Scan" />
+      <h2 className="mt-7 text-center">
+        Align the barcode within the frame to scan
+      </h2>
+      <div className="flex justify-center">
         <div
-          className="flex flex-col items-center text-black"
+          className="m-20 rounded-md relative "
           role="button"
           tabIndex={0}
-          id="arrowIcon"
-          onClick={() => searchForBarcode()}
+          onClick={() => openPage('/productInfo')}
           onKeyDown={event => {
             console.log(event.key);
+            console.log('clicked black rectangle');
           }}
         >
-          <IoIosQrScanner className="absolute bottom-6 rounded-full w-16 h-16  bg-white p-4" />
+          <div className="absolute inset-8 border border-white rounded-md"></div>
+
+          <div className="">
+            <video ref={videoRef}>
+              <track kind="captions" />
+            </video>
+          </div>
         </div>
-        <div className="flex flex-col items-center text-white">
-          <HiHome className="text-2xl" />
-          <span>Profile</span>
-        </div>
-      </nav>
+      </div>
+      <div className="flex justify-center">
+        <button
+          className="m-5 rounded-full bg-grey-green text-white p-3 center-button"
+          onClick={init}
+        >
+          Initialize Data
+        </button>
+      </div>
+      <div className="flex justify-center">
+        <button
+          className=" center-button hover:bg-green-900 text-white hover:text-white rounded-full bg-grey-green p-3 mt-2"
+          onClick={() => openPage('/searchForProduct')}
+          onKeyDown={event => {
+            console.log(event.key);
+            console.log('open search page');
+          }}
+        >
+          Type in manually
+        </button>
+      </div>
+      <BottomNavBar />
     </div>
   );
 };
