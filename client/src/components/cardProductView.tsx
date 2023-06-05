@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const CardProductView: React.FC<ProductInfoProps> = props => {
   const navigate = useNavigate();
   return (
-    <div className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4 hover:scale-125">
+    <div className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4 flex-1">
       <button onClick={() => navigate(-1)}>
         <img src={props.img} alt={props.name} />
         <div>
