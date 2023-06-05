@@ -1,7 +1,11 @@
 import React from 'react';
-import { Values } from '../containers/protectedPage/InterfaceProps';
 
-const Bar: React.FC<Values> = props => {
+export interface SustainabilityBarProps {
+  index: number;
+  title: string;
+}
+
+const SustainabilityBar: React.FC<SustainabilityBarProps> = props => {
   let label: string;
   let textColorClass: string;
 
@@ -37,4 +41,4 @@ const Bar: React.FC<Values> = props => {
   );
 };
 
-export default Bar;
+export default SustainabilityBar;
