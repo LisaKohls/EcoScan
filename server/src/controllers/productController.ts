@@ -37,31 +37,31 @@ export const postProduct = async (
   next: NextFunction
 ) => {
   try {
-    const product = new Product()
-    product.barcode = req.body.barcode
-    product.categories = req.body.categories
-    product.name = req.body.name
-    product.description = req.body.description
-    product.image_urls = req.body.imageUrls
+    const sustainability = new Sustainability({
+      name: req.body.sustainabilityName,
+      eco_chemicals: req.body.sustainabilityEco,
+      eco_lifetime: req.body.sustainabilityEco,
+      eco_water: req.body.sustainabilityEco,
+      eco_inputs: req.body.sustainabilityEco,
+      eco_quality: req.body.sustainabilityEco,
+      eco_energy: req.body.sustainabilityEco,
+      eco_waste_air: req.body.sustainabilityEco,
+      eco_environmental_management: req.body.sustainabilityEco,
+      social_labour_rights: req.body.sustainabilitySocial,
+      social_business_practice: req.body.sustainabilitySocial,
+      social_social_rights: req.body.sustainabilitySocial,
+      social_company_responsibility: req.body.sustainabilitySocial,
+      social_conflict_minerals: req.body.sustainabilitySocial
+    })
 
-    const sustainability = new Sustainability()
-    sustainability.name = req.body.sustainabilityName
-    sustainability.eco_chemicals = req.body.sustainabilityEco
-    sustainability.eco_lifetime = req.body.sustainabilityEco
-    sustainability.eco_water = req.body.sustainabilityEco
-    sustainability.eco_inputs = req.body.sustainabilityEco
-    sustainability.eco_quality = req.body.sustainabilityEco
-    sustainability.eco_energy = req.body.sustainabilityEco
-    sustainability.eco_waste_air = req.body.sustainabilityEco
-    sustainability.eco_environmental_management = req.body.sustainabilityEco
-    sustainability.social_labour_rights = req.body.sustainabilitySocial
-    sustainability.social_business_practice = req.body.sustainabilitySocial
-    sustainability.social_social_rights = req.body.sustainabilitySocial
-    sustainability.social_company_responsibility =
-      req.body.sustainabilitySocial
-    sustainability.social_conflict_minerals = req.body.sustainabilitySocial
-
-    product.sustainability = sustainability
+    const product = new Product({
+      barcode: req.body.barcode,
+      categories: req.body.categories,
+      name: req.body.name,
+      description: req.body.description,
+      image_urls: req.body.imageUrls,
+      sustainability
+    })
 
     await product
       .save()
