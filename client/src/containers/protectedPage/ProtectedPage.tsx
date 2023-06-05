@@ -48,7 +48,7 @@ const ProtectedPage: React.FC = () => {
       </h2>
       <div className="flex justify-center">
         <button
-          className="m-20 rounded-md relative "
+          className="m-10 rounded-md relative "
           onClick={() => openPage('/productInfo')}
         >
           <div className="absolute inset-8 border border-white rounded-md"></div>
@@ -62,7 +62,7 @@ const ProtectedPage: React.FC = () => {
       </div>
       <div className="flex justify-center">
         <button
-          className="m-5 rounded-full bg-grey-green text-white p-3 center-button"
+          className="mt-1 rounded-full bg-grey-green text-white p-3 center-button"
           onClick={init}
         >
           Initialize Data
