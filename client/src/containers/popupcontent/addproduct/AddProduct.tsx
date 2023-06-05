@@ -1,7 +1,10 @@
-import React from 'react';
-import { PopUpProps } from '../../containers/protectedPage/InterfaceProps';
+import React, { Dispatch, SetStateAction } from 'react';
 
-const AddProductUI: React.FC<PopUpProps> = props => {
+interface AddProductProps {
+  setTrigger: Dispatch<SetStateAction<boolean>>;
+}
+
+const AddProduct: React.FC<AddProductProps> = props => {
   const add = () => {
     //component is closing
     props.setTrigger(false);
@@ -40,4 +43,4 @@ const AddProductUI: React.FC<PopUpProps> = props => {
   );
 };
 
-export default AddProductUI;
+export default AddProduct;

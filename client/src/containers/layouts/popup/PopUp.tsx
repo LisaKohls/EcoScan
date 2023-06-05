@@ -1,5 +1,5 @@
 import React from 'react';
-import { PopUpProps } from '../../containers/protectedPage/InterfaceProps';
+import { PopUpProps } from '../../../interfaces/PopupProps';
 
 const PopUp: React.FC<PopUpProps> = props => {
   const { children } = props;

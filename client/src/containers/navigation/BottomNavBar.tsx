@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react';
 import { HiHome, HiLibrary } from 'react-icons/hi';
-import { IoIosQrScanner } from 'react-icons/Io';
+import { IoIosQrScanner } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 
 function BottomNavBar() {
@@ -22,7 +22,7 @@ function BottomNavBar() {
       </button>
       <button
         className="flex flex-col items-center text-grey-green hover:text-black"
-        onClick={() => navigateToPage('protectedPage')}
+        onClick={() => navigateToPage('')}
       >
         <IoIosQrScanner className="absolute bottom-6 rounded-full w-16 h-16  bg-white p-4 " />
       </button>
