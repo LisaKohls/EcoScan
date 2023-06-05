@@ -8,21 +8,39 @@ import PropTypes from 'prop-types';
 const SearchBar = ({ setResults }) => {
   const [barcodeNumber, setBarcodeNumber] = useState('');
 
-  const getData = async value => {
+  const getDataBarcode = async value => {
     try {
       const response = await axios.get(`http://localhost:3001/api/product`, {
         headers: {},
         method: 'GET',
         body: {},
       });
-      const jsonData = response.data;
-      const results = jsonData.filter(item => item.barcode === value);
+      const data = response.data;
+
+      const results = data.filter(item => item.barcode.includes(value));
       console.log(results.name);
       setResults(results);
       console.log('initialize data');
     } catch (error) {
-      alert('Error getting data of barcode.');
-      console.error(error);
+      console.error('No matching entries found');
+    }
+  };
+
+  const getDataName = async value => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/api/product?name=${value}`,
+        {
+          headers: {},
+          method: 'GET',
+          body: {},
+        }
+      );
+      const data = response.data;
+      setResults(data);
+      console.log('initialize data by name');
+    } catch (error) {
+      console.error('No matching entries found');
     }
   };
 
@@ -31,12 +49,20 @@ const SearchBar = ({ setResults }) => {
   };
 
   const handleChange = value => {
-    setBarcodeNumber(value);
-    getData(value);
-    console.log(`http://localhost:3001/api/product/:${barcodeNumber}`);
-    console.log(`Your barcode input ${barcodeNumber}`);
-    console.log(`input value: ${value}`);
+    if (value == '') {
+      setBarcodeNumber('');
+      setResults('');
+      //isNaN gibt bei einem String true zurück
+    } else if (isNaN(Number(value))) {
+      setBarcodeNumber(value);
+      getDataName(value);
+      console.log(`localhost:3001/api/product?name=${value}`);
+    } else {
+      setBarcodeNumber(value);
+      getDataBarcode(value);
+    }
   };
+
   return (
     <div>
       <FaSearch id="search-icon" className="absolute right-10 mt-3 w-5 h-5 " />

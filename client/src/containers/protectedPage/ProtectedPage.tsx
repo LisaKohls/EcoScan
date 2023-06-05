@@ -47,15 +47,9 @@ const ProtectedPage: React.FC = () => {
         Align the barcode within the frame to scan
       </h2>
       <div className="flex justify-center">
-        <div
+        <button
           className="m-20 rounded-md relative "
-          role="button"
-          tabIndex={0}
           onClick={() => openPage('/productInfo')}
-          onKeyDown={event => {
-            console.log(event.key);
-            console.log('clicked black rectangle');
-          }}
         >
           <div className="absolute inset-8 border border-white rounded-md"></div>
 
@@ -64,7 +58,7 @@ const ProtectedPage: React.FC = () => {
               <track kind="captions" />
             </video>
           </div>
-        </div>
+        </button>
       </div>
       <div className="flex justify-center">
         <button
