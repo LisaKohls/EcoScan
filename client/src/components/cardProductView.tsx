@@ -9,8 +9,8 @@ const CardProductView: React.FC<ProductInfoProps> = props => {
       <button onClick={() => navigate(-1)}>
         <img src={props.img} alt={props.name} />
         <div>
-          <h5 className="text-xl font-medium text-black">{props.name}</h5>
-          <p className="font-medium text-black">{props.index}</p>
+          <div className="text-xl font-medium text-black">{props.name}</div>
+          <p className="text-slate-500">{props.index}</p>
         </div>
       </button>
     </div>
