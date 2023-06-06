@@ -1,32 +1,65 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import useAuth from '../../../hooks/useAuth';
+import axios from '../../../api/axiosAPI';
+import { AxiosError } from 'axios';
 
+const LOGIN_URL = 'api/auth/login';
 const LoginPage: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const { setAuth } = useAuth();
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [errMsg, setErrMsg] = useState('');
+
+  useEffect(() => {
+    setErrMsg('');
+  }, [username, password]);
+
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
     try {
       const response = await axios.post(
-        'http://localhost:3001/api/auth/login',
+        LOGIN_URL,
+        JSON.stringify({ username, password }),
         {
-          username,
-          password,
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
         }
       );
-      // TODO: Fix token response is undefined
-      const token = response.headers['x-auth-token'];
-      localStorage.setItem('auth-token', token);
-      navigate('/');
-    } catch (error) {
-      alert('Error logging in.');
+      const accessToken = response?.data?.accessToken ?? '';
+      setAuth({ username, accessToken });
+      setUsername('');
+      setPassword('');
+      navigate(from, { replace: true });
+    } catch (err) {
+      const error = err as AxiosError; // TODO: Check if it is axios Error...
+
+      if (!error?.response) {
+        setErrMsg('No Server Response');
+      } else {
+        if (error.response?.status === 400) {
+          setErrMsg('Missing Username or Password');
+        } else {
+          if (error.response?.status === 401) {
+            setErrMsg('Unauthorized');
+          } else {
+            setErrMsg('Login Failed');
+          }
+        }
+      }
     }
   };
+
+  useEffect(() => {
+    console.log(errMsg);
+    // TODO: Display the error Msg visible for the user
+  }, [errMsg]);
 
   return (
     <div className="min-h-screen bg-green-100 flex items-center justify-center">

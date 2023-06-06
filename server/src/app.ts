@@ -6,6 +6,9 @@ import authRoutes from './routes/authRoutes'
 import { logger } from './middlewares/logEvents'
 import { productRoutes } from './routes/productRoutes'
 import { NextFunction, Request, Response } from 'express'
+import authMiddleware from './middlewares/authMiddleware'
+import credentialsMiddleware from './middlewares/credentialsMiddleware'
+import corsOptions from './config/corsOptions'
 
 if (process.env.NODE_ENV === 'production') {
   dotenv.config({ path: './.env.production' })
@@ -18,12 +21,22 @@ const app = express()
 // custom middleware logger
 app.use(logger)
 
+// Handle options credentials check - before CORS!
+// and fetch cookies credentials requirement
+app.use(credentialsMiddleware)
+
 // Cross Origin Resource Sharing
-app.use(cors(/* corsOptions */))
+app.use(cors(corsOptions))
 app.use(express.json())
+
+// NOT Authed Routes
 app.use('/api/auth', authRoutes)
+
+// Check auth
+app.use(authMiddleware)
+
+// Authed Routes
 app.use('/api/product', productRoutes)
-console.log(`${process.env.MONGODB_URI}`)
 
 // Internal server Middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
