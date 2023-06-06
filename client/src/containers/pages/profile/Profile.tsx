@@ -1,15 +1,18 @@
 import { useNavigate } from 'react-router-dom';
+import useLogout from '../../../hooks/useLogout';
 
 const Profile = () => {
-  const navigate = useNavigate();
-
   const exampleData = {
     name: 'Max Mustermann',
     email: 'max.mustermal@examle.com',
     img: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
   };
 
-  const logout = () => {
+  const navigate = useNavigate();
+  const logout = useLogout();
+
+  const signOut = async () => {
+    await logout();
     navigate('/login');
   };
 
@@ -33,7 +36,7 @@ const Profile = () => {
           <div className="flex justify-center">
             <button
               className="text-white bg-emerald-800 rounded-md text-center mt-8 mb-8 p-2 pl-6 pr-6"
-              onClick={() => logout()}
+              onClick={() => signOut()}
             >
               Logout
             </button>
