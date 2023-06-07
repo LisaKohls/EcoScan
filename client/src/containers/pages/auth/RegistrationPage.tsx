@@ -1,28 +1,77 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axios from '../../../api/axiosAPI';
 
-const RegistrationPage: React.FC = () => {
+enum ROLES_LIST {
+  Admin = 5150,
+  User = 2001,
+}
+
+interface UserType {
+  username: string;
+  password: string;
+  roles: ROLES_LIST[];
+  email: string;
+  firstName?: string;
+  lastName?: string;
+}
+
+const REGISTER_URL = 'api/auth/register';
+const RegistrationPage = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errMsg, setErrMsg] = useState('');
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  useEffect(() => {
+    setErrMsg('');
+  }, [username, password]);
+
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
+    // TODO: add field and real data for first- and lastName
+    const userData: UserType = {
+      username,
+      password,
+      email,
+      roles: [5150, 2001],
+      firstName: 'John',
+      lastName: 'Doe',
+    };
+
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
-        email,
-        username,
-        password,
+      await axios.post(REGISTER_URL, userData, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
       });
       navigate('/login');
-    } catch (error) {
-      alert('Error registering.' + error);
+    } catch (err) {
+      const error = err as AxiosError; // TODO: Check if it is axios Error...
+
+      if (!error?.response) {
+        setErrMsg('No Server Response');
+      } else {
+        if (error.response?.status === 400) {
+          setErrMsg('Missing required fields');
+        } else {
+          if (error.response?.status === 401) {
+            setErrMsg('Unauthorized');
+          } else {
+            setErrMsg('Registration Failed');
+          }
+        }
+      }
     }
   };
+
+  useEffect(() => {
+    console.log(errMsg);
+    // TODO: Display the error Msg visible for the user
+  }, [errMsg]);
 
   return (
     <div className="min-h-screen bg-green-100 flex items-center justify-center">
