@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import useLogout from '../../../hooks/useLogout';
+import ButtonPrimary from '../../../components/buttons/ButtonPrimary';
 
 const Profile = () => {
   const exampleData = {
@@ -18,7 +19,7 @@ const Profile = () => {
 
   return (
     <>
-      <div className="bg-lime-100 bg-text-black rounded-b-3xl flex pt-8 pb-8">
+      <div className="bg-lime-100 bg-secondary-color rounded-b-3xl flex pt-8 pb-8">
         <img
           src={exampleData.img}
           alt={exampleData.name}
@@ -34,12 +35,7 @@ const Profile = () => {
             </h2>
           </div>
           <div className="flex justify-center">
-            <button
-              className="text-white bg-emerald-800 rounded-md text-center mt-8 mb-8 p-2 pl-6 pr-6"
-              onClick={() => signOut()}
-            >
-              Logout
-            </button>
+            <ButtonPrimary onClick={() => signOut()}>Logout</ButtonPrimary>
           </div>
         </div>
       </div>

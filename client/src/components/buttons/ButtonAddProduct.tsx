@@ -7,7 +7,7 @@ const ButtonAddProduct = () => {
   return (
     <div className="flex flex-wrap place-content-center">
       <button
-        className="rounded-full bg-grey-green text-white p-3 m-4 "
+        className="rounded-full bg-primary-color text-white p-3 m-4 "
         onClick={() => setAddProductPopUp(true)}
       >
         Add new Product

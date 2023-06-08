@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import SearchBar from '../../../components/search/SearchBar';
 import SearchResultList from '../../../components/search/SearchResultList';
 import { SearchResultsProps } from '../../../interfaces/SearchResultsProps';
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 
 const SearchForProduct = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -11,13 +12,32 @@ const SearchForProduct = () => {
     searchResults: [],
   });
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+
+  const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
-    // TODO: Fetch Data Here
     // This gets called each time the search query is changing
+
+    const fetchData = async (url: string) => {
+      setLoading(true);
+      try {
+        const { data: response } = await axiosPrivate.get(url);
+        setFilteredProducts({ searchResults: [response] });
+      } catch (error) {
+        console.error(error.message);
+      }
+      setLoading(false);
+    };
+
+    fetchData(
+      isNaN(Number(searchQuery))
+        ? `http://localhost:3001/api/product?name=${searchQuery}`
+        : `http://localhost:3001/api/product/${searchQuery}`
+    );
+
     console.log('SearchQuery: ' + searchQuery);
-    setFilteredProducts({ searchResults: [] }); // TODO: set here the fetched products
-  }, [searchQuery]);
+  }, [axiosPrivate, searchQuery]);
 
   return (
     <>
@@ -29,7 +49,10 @@ const SearchForProduct = () => {
       </button>
       <div className="p-4">
         <SearchBar setSearchQuery={setSearchQuery} />
-        <SearchResultList searchResults={filteredProducts.searchResults} />
+        {loading && <div>Loading...</div>}
+        {filteredProducts && (
+          <SearchResultList searchResults={filteredProducts.searchResults} />
+        )}
       </div>
     </>
   );
