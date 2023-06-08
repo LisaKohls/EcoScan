@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import useLogout from '../../../hooks/useLogout';
-import ButtonPrimary from "../../../components/buttons/ButtonPrimary";
+import ButtonPrimary from '../../../components/buttons/ButtonPrimary';
 
 const Profile = () => {
   const exampleData = {
@@ -35,9 +35,7 @@ const Profile = () => {
             </h2>
           </div>
           <div className="flex justify-center">
-            <ButtonPrimary onClick={() => signOut()} >
-              Logout
-            </ButtonPrimary>
+            <ButtonPrimary onClick={() => signOut()}>Logout</ButtonPrimary>
           </div>
         </div>
       </div>

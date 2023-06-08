@@ -7,12 +7,15 @@ interface SearchBarProps {
 
 const SearchBar = ({ setSearchQuery }: SearchBarProps) => {
   const [bufSearchQuery, setBufSearchQuery] = useState<string>('');
+  let debounceTimeout: NodeJS.Timeout | undefined;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setBufSearchQuery(e.target.value);
-
-    // TODO: Debounce input! (e.g.: 500ms)
+    clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(() => {
+      setSearchQuery(e.target.value);
+    }, 500);
     setSearchQuery(e.target.value);
   };
 

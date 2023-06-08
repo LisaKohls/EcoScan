@@ -17,7 +17,6 @@ const SearchForProduct = () => {
   const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
-    // TODO: Fetch Data Here
     // This gets called each time the search query is changing
 
     const fetchData = async (url: string) => {
@@ -38,7 +37,7 @@ const SearchForProduct = () => {
     );
 
     console.log('SearchQuery: ' + searchQuery);
-    // TODO: set here the fetched products
+
   }, [axiosPrivate, searchQuery]);
 
   return (

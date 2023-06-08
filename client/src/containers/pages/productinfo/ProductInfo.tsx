@@ -44,7 +44,6 @@ const ProductInfo = () => {
     ],
   };
 
-
   const options = {
     elements: {
       arc: {
