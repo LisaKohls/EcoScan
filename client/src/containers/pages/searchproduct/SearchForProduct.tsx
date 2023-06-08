@@ -13,7 +13,6 @@ const SearchForProduct = () => {
   });
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   const axiosPrivate = useAxiosPrivate();
 
@@ -32,15 +31,15 @@ const SearchForProduct = () => {
       setLoading(false);
     };
 
-    if (isNaN(Number(searchQuery))) {
-      fetchData(`http://localhost:3001/api/product?name=${searchQuery}`);
-    } else {
-      fetchData(`http://localhost:3001/api/product/${searchQuery}`);
-    }
+    fetchData(
+      isNaN(Number(searchQuery))
+        ? `http://localhost:3001/api/product?name=${searchQuery}`
+        : `http://localhost:3001/api/product/${searchQuery}`
+    );
 
     console.log('SearchQuery: ' + searchQuery);
     // TODO: set here the fetched products
-  }, [searchQuery]);
+  }, [axiosPrivate, searchQuery]);
 
   return (
     <>

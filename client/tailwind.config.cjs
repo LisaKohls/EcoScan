@@ -5,8 +5,13 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                'grey-green': '#636A5B',
+                'primary-color': '#636A5B',
+                'secondary-color': '#D9E7CB',
             },
+            spacing: {
+                'margin-elements': '1rem',
+                'text-between': '1rem',
+            }
         },
     },
     variants: {

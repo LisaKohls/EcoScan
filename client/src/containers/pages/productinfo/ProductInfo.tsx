@@ -43,14 +43,7 @@ const ProductInfo = () => {
       },
     ],
   };
-  /* für slide in animation
-  useEffect(() => {
-    document.body.classList.add('slide-in-page');
 
-    return () => {
-      document.body.classList.remove('slide-in-page');
-    };
-  }, []);*/
 
   const options = {
     elements: {
