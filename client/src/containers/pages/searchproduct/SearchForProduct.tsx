@@ -37,7 +37,6 @@ const SearchForProduct = () => {
     );
 
     console.log('SearchQuery: ' + searchQuery);
-
   }, [axiosPrivate, searchQuery]);
 
   return (
