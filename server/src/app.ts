@@ -8,6 +8,7 @@ import { productRoutes } from './routes/productRoutes'
 import authMiddleware from './middlewares/authMiddleware'
 import credentialsMiddleware from './middlewares/credentialsMiddleware'
 import corsOptions from './config/corsOptions'
+import {internalErrorMiddleware, lastRouteMiddleware} from "./middlewares/errorMiddleware";
 
 if (process.env.NODE_ENV === 'production') {
   dotenv.config({ path: './.env.production' })
@@ -38,10 +39,10 @@ app.use(authMiddleware)
 app.use('/api/product', productRoutes)
 
 // Internal server Middleware
-app.use()
+app.use(internalErrorMiddleware)
 
 // Middleware after all routes
-app.use()
+app.use(lastRouteMiddleware)
 
 mongoose
   .connect(`${process.env.MONGODB_URI}`)
