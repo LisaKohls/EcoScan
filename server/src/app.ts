@@ -8,7 +8,10 @@ import { productRoutes } from './routes/productRoutes'
 import authMiddleware from './middlewares/authMiddleware'
 import credentialsMiddleware from './middlewares/credentialsMiddleware'
 import corsOptions from './config/corsOptions'
-import {internalErrorMiddleware, lastRouteMiddleware} from "./middlewares/errorMiddleware";
+import {
+  internalErrorMiddleware,
+  lastRouteMiddleware
+} from './middlewares/errorMiddleware'
 
 if (process.env.NODE_ENV === 'production') {
   dotenv.config({ path: './.env.production' })
