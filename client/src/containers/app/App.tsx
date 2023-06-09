@@ -10,12 +10,6 @@ import SearchForProduct from '../pages/searchproduct/SearchForProduct';
 import RequireAuth from '../RequireAuth';
 import PersistLogin from '../PersistentLogin';
 
-const ROLES = {
-  Admin: 5150,
-  Editor: 1984,
-  User: 2001,
-};
-
 const App: React.FC = () => {
   return (
     <Routes>
@@ -24,10 +18,7 @@ const App: React.FC = () => {
 
       {/* TODO: replace with real auth */}
       <Route element={<PersistLogin />}>
-        <Route
-          path="/"
-          element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]} />}
-        >
+        <Route path="/" element={<RequireAuth />}>
           <Route index element={<MainPage />} />
           <Route path="/productInfo" element={<ProductInfo />} />
           <Route path="/profile" element={<Profile />} />

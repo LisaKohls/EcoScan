@@ -1,12 +1,10 @@
 import { NextFunction, Request, Response } from 'express'
 import bcrypt from 'bcrypt'
-import ROLES_LIST from '../../config/rolesList'
 import userModel from '../../models/userModel'
 
 interface NewUserRequestBody {
   username: string;
   password: string;
-  roles: ROLES_LIST[];
   email: string;
   firstName?: string;
   lastName?: string;
@@ -17,7 +15,7 @@ const handleNewUser = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const { username, password, roles, email, firstName, lastName } =
+  const { username, password, email, firstName, lastName } =
     req.body as NewUserRequestBody
 
   if (!username || !password) {
@@ -36,7 +34,6 @@ const handleNewUser = async (
     /* const result = */ await userModel.create({
       username,
       password: hashedPwd,
-      roles,
       email,
       firstName,
       lastName

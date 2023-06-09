@@ -3,15 +3,9 @@ import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../../api/axiosAPI';
 
-enum ROLES_LIST {
-  Admin = 5150,
-  User = 2001,
-}
-
 interface UserType {
   username: string;
   password: string;
-  roles: ROLES_LIST[];
   email: string;
   firstName?: string;
   lastName?: string;
@@ -38,7 +32,6 @@ const RegistrationPage = () => {
       username,
       password,
       email,
-      roles: [5150, 2001],
       firstName: 'John',
       lastName: 'Doe',
     };

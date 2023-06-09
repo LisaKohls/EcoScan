@@ -3,6 +3,5 @@ export default interface IJWTAccessToken {
   iat: number;
   UserInfo: {
     username: string;
-    roles: number[];
   };
 }

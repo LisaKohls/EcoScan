@@ -10,7 +10,6 @@ interface LoginRequestBody {
 }
 
 const handleLogin = async (req: Request, res: Response): Promise<void> => {
-  // console.log(JSON.stringify(req.body));
   const cookies = req.cookies
   const { username, password } = req.body as LoginRequestBody
 
@@ -29,12 +28,8 @@ const handleLogin = async (req: Request, res: Response): Promise<void> => {
   // Evaluate password
   const match = await bcrypt.compare(password, foundUser.password)
   if (match) {
-    console.log(foundUser)
-    const roles = foundUser.roles.filter(Boolean)
-
     const userInfo: UserInfo = {
-      username: foundUser.username,
-      roles
+      username: foundUser.username
     }
 
     // Create JWTs
@@ -76,7 +71,7 @@ const handleLogin = async (req: Request, res: Response): Promise<void> => {
       })
     }
 
-    // Send authorization roles and access token to the user
+    // Send authorization access token to the user
     res.json({ accessToken })
   } else {
     res.sendStatus(401)

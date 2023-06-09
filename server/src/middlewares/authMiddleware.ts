@@ -2,12 +2,10 @@ import { NextFunction, Response } from 'express'
 import { AuthOptionalRequest } from '../types/authTypes'
 import mongoose from 'mongoose'
 import jwt from 'jsonwebtoken'
-import ROLES_LIST from '../config/rolesList'
 
 interface DecodedToken {
   UserInfo: {
     username: string;
-    roles: ROLES_LIST[];
   };
 }
 
@@ -33,16 +31,12 @@ const authMiddleware = (
         return
       }
       const decodedToken = decoded as DecodedToken
-      /* req.user = {
-              user: decodedToken.UserInfo.user,
-              roles: decodedToken.UserInfo.roles
-          }; */
+
       req.user = {
-        username: decodedToken.UserInfo.username,
-        roles: decodedToken.UserInfo.roles
+        username: decodedToken.UserInfo.username
       }
       req.userID = new mongoose.Types.ObjectId() // TODO: real userID
-      if (!decodedToken.UserInfo.username || !decodedToken.UserInfo.roles) {
+      if (!decodedToken.UserInfo.username) {
         res.sendStatus(403) // invalid token
         return
       }
