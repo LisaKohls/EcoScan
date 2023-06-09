@@ -16,7 +16,6 @@ const handleRefreshToken = async (
   res.clearCookie('jwt', { httpOnly: true, sameSite: 'none', secure: true })
 
   const foundUser = await userModel.findOne({ refreshToken }).exec()
-
   if (!foundUser) {
     jwt.verify(
       refreshToken,
@@ -47,18 +46,17 @@ const handleRefreshToken = async (
     process.env.REFRESH_TOKEN_SECRET as string,
     async (err: any, decoded: any) => {
       if (err) {
+        console.log('111111111111111111111111111111')
         foundUser.refreshToken = [...newRefreshTokenArray]
         await foundUser.save()
       }
 
       if (err || foundUser.username !== decoded.username) {
+        console.log('RETTTTTTTTTT')
         return res.sendStatus(403)
       }
 
-      const roles = Object.values(foundUser.roles)
-
       const userInfo: UserInfo = {
-        roles,
         username: decoded.username
       }
 

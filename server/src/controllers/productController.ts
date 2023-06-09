@@ -254,9 +254,9 @@ export const getProductsFilteredByName = async (
       }
     ])
 
-    if (products.length === 0) {
+    /* if (products.length === 0) {
       return res.status(400).send(`No Product that contains name ${name}`)
-    }
+    } */
 
     res.send(products)
   } catch (error) {

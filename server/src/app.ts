@@ -1,6 +1,7 @@
 import express = require('express');
 import dotenv from 'dotenv'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import mongoose from 'mongoose'
 import authRoutes from './routes/authRoutes'
 import { logger } from './middlewares/logEvents'
@@ -28,9 +29,17 @@ app.use(logger)
 // and fetch cookies credentials requirement
 app.use(credentialsMiddleware)
 
-// Cross Origin Resource Sharing
+// Cross-Origin Resource Sharing
 app.use(cors(corsOptions))
+
+// Built-in middleware to handle urlencoded form data
+app.use(express.urlencoded({ extended: false }))
+
+// Built-in middleware for JSON
 app.use(express.json())
+
+// Middleware for cookies
+app.use(cookieParser())
 
 // NOT Authed Routes
 app.use('/api/auth', authRoutes)
