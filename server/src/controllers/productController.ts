@@ -10,7 +10,8 @@ import { Converter } from '../utils/converter'
 import { NextFunction, Request, Response } from 'express'
 import {
   getFilteredProductsService,
-  getProductByBarcodeService, updateProductByBarcodeService
+  getProductByBarcodeService,
+  updateProductByBarcodeService
 } from '../services/productService'
 
 export const initializeProductDb = async (
@@ -147,7 +148,7 @@ export const patchProduct = async (
     if (name) updatedFields.name = name
     if (description) updatedFields.description = description
     if (imageUrls) updatedFields.image_urls = imageUrls
-    if (sustainabilityName) updatedFields['sustainability.name'] = sustainabilityName
+    if (sustainabilityName) { updatedFields['sustainability.name'] = sustainabilityName }
     if (sustainabilityEco) {
       const ecoFields = [
         'eco_chemicals',
@@ -159,7 +160,7 @@ export const patchProduct = async (
         'eco_waste_air',
         'eco_environmental_management'
       ]
-      ecoFields.forEach((field) => {
+      ecoFields.forEach(field => {
         updatedFields[`sustainability.${field}`] = sustainabilityEco
       })
     }
@@ -171,12 +172,15 @@ export const patchProduct = async (
         'social_company_responsibility',
         'social_conflict_minerals'
       ]
-      socialFields.forEach((field) => {
+      socialFields.forEach(field => {
         updatedFields[`sustainability.${field}`] = sustainabilitySocial
       })
     }
 
-    const updatedProduct = await updateProductByBarcodeService(barcode, updatedFields)
+    const updatedProduct = await updateProductByBarcodeService(
+      barcode,
+      updatedFields
+    )
 
     if (!updatedProduct) {
       return res.status(404).send({ message: 'Product not found' })

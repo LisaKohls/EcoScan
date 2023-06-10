@@ -85,12 +85,12 @@ export const getFilteredProductsService = async (name: string) => {
 }
 
 export const updateProductByBarcodeService = async (
-    barcode: string,
-    updatedFields: any
+  barcode: string,
+  updatedFields: any
 ) => {
   return Product.findOneAndUpdate(
-      {barcode},
-      {$set: updatedFields},
-      {new: true}
-  );
+    { barcode },
+    { $set: updatedFields },
+    { new: true }
+  )
 }
