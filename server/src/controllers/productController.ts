@@ -8,6 +8,10 @@ import { ISustainability, Sustainability } from '../models/sustainabilityModel'
 import productJson from '../resources/product.json'
 import { Converter } from '../utils/converter'
 import { NextFunction, Request, Response } from 'express'
+import {
+  getFilteredProductsService,
+  getProductByBarcodeService, updateProductByBarcodeService
+} from '../services/productService'
 
 export const initializeProductDb = async (
   req: Request,
@@ -37,40 +41,44 @@ export const postProduct = async (
   next: NextFunction
 ) => {
   try {
+    const {
+      sustainabilityName,
+      sustainabilityEco,
+      sustainabilitySocial,
+      barcode,
+      categories,
+      name,
+      description,
+      imageUrls
+    } = req.body
+
     const sustainability = new Sustainability({
-      name: req.body.sustainabilityName,
-      eco_chemicals: req.body.sustainabilityEco,
-      eco_lifetime: req.body.sustainabilityEco,
-      eco_water: req.body.sustainabilityEco,
-      eco_inputs: req.body.sustainabilityEco,
-      eco_quality: req.body.sustainabilityEco,
-      eco_energy: req.body.sustainabilityEco,
-      eco_waste_air: req.body.sustainabilityEco,
-      eco_environmental_management: req.body.sustainabilityEco,
-      social_labour_rights: req.body.sustainabilitySocial,
-      social_business_practice: req.body.sustainabilitySocial,
-      social_social_rights: req.body.sustainabilitySocial,
-      social_company_responsibility: req.body.sustainabilitySocial,
-      social_conflict_minerals: req.body.sustainabilitySocial
+      name: sustainabilityName,
+      eco_chemicals: sustainabilityEco,
+      eco_lifetime: sustainabilityEco,
+      eco_water: sustainabilityEco,
+      eco_inputs: sustainabilityEco,
+      eco_quality: sustainabilityEco,
+      eco_energy: sustainabilityEco,
+      eco_waste_air: sustainabilityEco,
+      eco_environmental_management: sustainabilityEco,
+      social_labour_rights: sustainabilitySocial,
+      social_business_practice: sustainabilitySocial,
+      social_social_rights: sustainabilitySocial,
+      social_company_responsibility: sustainabilitySocial,
+      social_conflict_minerals: sustainabilitySocial
     })
 
     const product = new Product({
-      barcode: req.body.barcode,
-      categories: req.body.categories,
-      name: req.body.name,
-      description: req.body.description,
-      image_urls: req.body.imageUrls,
+      barcode,
+      categories,
+      name,
+      description,
+      image_urls: imageUrls,
       sustainability
     })
 
-    await product
-      .save()
-      .then(product => {
-        res.send({ message: 'Product was successfully created', product })
-      })
-      .catch(error => {
-        res.status(400).send(error.toString())
-      })
+    await product.save()
   } catch (error) {
     next(error)
   }
@@ -83,52 +91,13 @@ export const getProductByBarcode = async (
 ) => {
   try {
     const barcode = req.params.barcode
-    const product = await Product.aggregate([
-      { $match: { barcode } },
-      {
-        $project: {
-          _id: false,
-          name: true,
-          barcode: true,
-          categories: true,
-          description: true,
-          image: { $first: '$image_urls' },
-          sustainabilityName: '$sustainability.name',
-          sustainabilityEcoWater: { $ifNull: ['$sustainability.eco_water', 0] },
-          sustainabilityEcoLifetime: {
-            $ifNull: ['$sustainability.eco_lifetime', 0]
-          },
-          sustainabilityEco: {
-            $avg: [
-              { $ifNull: ['$sustainability.eco_chemicals', 0] },
-              { $ifNull: ['$sustainability.eco_lifetime', 0] },
-              { $ifNull: ['$sustainability.eco_water', 0] },
-              { $ifNull: ['$sustainability.eco_inputs', 0] },
-              { $ifNull: ['$sustainability.eco_quality', 0] },
-              { $ifNull: ['$sustainability.eco_energy', 0] },
-              { $ifNull: ['$sustainability.eco_waste_air', 0] },
-              { $ifNull: ['$sustainability.eco_environmental_management', 0] }
-            ]
-          },
-          sustainabilitySocial: {
-            $avg: [
-              { $ifNull: ['$sustainability.social_labour_rights', 0] },
-              { $ifNull: ['$sustainability.social_business_practice', 0] },
-              { $ifNull: ['$sustainability.social_social_rights', 0] },
-              { $ifNull: ['$sustainability.social_company_responsibility', 0] },
-              { $ifNull: ['$sustainability.social_conflict_minerals', 0] }
-            ]
-          }
-        }
-      },
-      { $limit: 1 }
-    ])
+    const product = await getProductByBarcodeService(barcode)
 
-    if (product.length === 0) {
+    if (product) {
       return res.status(400).send(`No Product with barcode ${barcode} found`)
     }
 
-    res.send(product.at(0))
+    res.send(product)
   } catch (error) {
     next(error)
   }
@@ -160,39 +129,54 @@ export const patchProduct = async (
   next: NextFunction
 ) => {
   try {
-    const barcode = req.params.barcode
+    const { barcode } = req.params
+    const {
+      barcode: updatedBarcode,
+      categories,
+      name,
+      description,
+      imageUrls,
+      sustainabilityName,
+      sustainabilityEco,
+      sustainabilitySocial
+    } = req.body
 
-    const updatedProduct = await Product.findOneAndUpdate(
-      { barcode },
-      {
-        $set: {
-          barcode: req.body.barcode,
-          categories: req.body.categories,
-          name: req.body.name,
-          description: req.body.description,
-          image_urls: req.body.imageUrls,
-          'sustainability.name': req.body.sustainabilityName,
-          'sustainability.eco_chemicals': req.body.sustainabilityEco,
-          'sustainability.eco_lifetime': req.body.sustainabilityEco,
-          'sustainability.eco_water': req.body.sustainabilityEco,
-          'sustainability.eco_inputs': req.body.sustainabilityEco,
-          'sustainability.eco_quality': req.body.sustainabilityEco,
-          'sustainability.eco_energy': req.body.sustainabilityEco,
-          'sustainability.eco_waste_air': req.body.sustainabilityEco,
-          'sustainability.eco_environmental_management':
-            req.body.sustainabilityEco,
-          'sustainability.social_labour_rights': req.body.sustainabilitySocial,
-          'sustainability.social_business_practice':
-            req.body.sustainabilitySocial,
-          'sustainability.social_social_rights': req.body.sustainabilitySocial,
-          'sustainability.social_company_responsibility':
-            req.body.sustainabilitySocial,
-          'sustainability.social_conflict_minerals':
-            req.body.sustainabilitySocial
-        }
-      },
-      { new: true }
-    )
+    const updatedFields: any = {}
+    if (updatedBarcode) updatedFields.barcode = updatedBarcode
+    if (categories) updatedFields.categories = categories
+    if (name) updatedFields.name = name
+    if (description) updatedFields.description = description
+    if (imageUrls) updatedFields.image_urls = imageUrls
+    if (sustainabilityName) updatedFields['sustainability.name'] = sustainabilityName
+    if (sustainabilityEco) {
+      const ecoFields = [
+        'eco_chemicals',
+        'eco_lifetime',
+        'eco_water',
+        'eco_inputs',
+        'eco_quality',
+        'eco_energy',
+        'eco_waste_air',
+        'eco_environmental_management'
+      ]
+      ecoFields.forEach((field) => {
+        updatedFields[`sustainability.${field}`] = sustainabilityEco
+      })
+    }
+    if (sustainabilitySocial) {
+      const socialFields = [
+        'social_labour_rights',
+        'social_business_practice',
+        'social_social_rights',
+        'social_company_responsibility',
+        'social_conflict_minerals'
+      ]
+      socialFields.forEach((field) => {
+        updatedFields[`sustainability.${field}`] = sustainabilitySocial
+      })
+    }
+
+    const updatedProduct = await updateProductByBarcodeService(barcode, updatedFields)
 
     if (!updatedProduct) {
       return res.status(404).send({ message: 'Product not found' })
@@ -213,46 +197,8 @@ export const getProductsFilteredByName = async (
   next: NextFunction
 ) => {
   try {
-    const name = req.query.name || ''
-    const products = await Product.aggregate([
-      { $match: { name: { $regex: name, $options: 'i' } } },
-      {
-        $project: {
-          _id: true,
-          name: true,
-          barcode: true,
-          categories: true,
-          description: true,
-          image: { $first: '$image_urls' },
-          sustainabilityName: '$sustainability.name',
-          sustainabilityEcoWater: { $ifNull: ['$sustainability.eco_water', 0] },
-          sustainabilityEcoLifetime: {
-            $ifNull: ['$sustainability.eco_lifetime', 0]
-          },
-          sustainabilityEco: {
-            $avg: [
-              { $ifNull: ['$sustainability.eco_chemicals', 0] },
-              { $ifNull: ['$sustainability.eco_lifetime', 0] },
-              { $ifNull: ['$sustainability.eco_water', 0] },
-              { $ifNull: ['$sustainability.eco_inputs', 0] },
-              { $ifNull: ['$sustainability.eco_quality', 0] },
-              { $ifNull: ['$sustainability.eco_energy', 0] },
-              { $ifNull: ['$sustainability.eco_waste_air', 0] },
-              { $ifNull: ['$sustainability.eco_environmental_management', 0] }
-            ]
-          },
-          sustainabilitySocial: {
-            $avg: [
-              { $ifNull: ['$sustainability.social_labour_rights', 0] },
-              { $ifNull: ['$sustainability.social_business_practice', 0] },
-              { $ifNull: ['$sustainability.social_social_rights', 0] },
-              { $ifNull: ['$sustainability.social_company_responsibility', 0] },
-              { $ifNull: ['$sustainability.social_conflict_minerals', 0] }
-            ]
-          }
-        }
-      }
-    ])
+    const name = (req.query.name as string) || ''
+    const products = await getFilteredProductsService(name)
 
     /* if (products.length === 0) {
       return res.status(400).send(`No Product that contains name ${name}`)
