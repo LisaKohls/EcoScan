@@ -218,7 +218,7 @@ export const getProductsFilteredByName = async (
       { $match: { name: { $regex: name, $options: 'i' } } },
       {
         $project: {
-          _id: false,
+          _id: true,
           name: true,
           barcode: true,
           categories: true,

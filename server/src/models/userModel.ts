@@ -8,6 +8,7 @@ export interface UserType extends Document {
   firstName?: string;
   lastName?: string;
   createdAt: Date;
+  favorites: mongoose.Types.ObjectId[];
 }
 
 const userSchema = new mongoose.Schema({
@@ -17,7 +18,8 @@ const userSchema = new mongoose.Schema({
   email: { type: String, unique: true, required: true },
   firstName: String,
   lastName: String,
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
+  favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }]
 })
 
 export default model<UserType>('User', userSchema)
