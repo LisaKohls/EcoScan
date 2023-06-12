@@ -1,6 +1,5 @@
 import { Router } from 'express'
 import {
-  initializeProductDb,
   getProductByBarcode,
   deleteProductByBarcode,
   postProduct,
@@ -9,8 +8,6 @@ import {
 } from '../controllers/productController'
 
 export const productRoutes = Router()
-
-productRoutes.post('/init', initializeProductDb)
 
 productRoutes.get('/:barcode', getProductByBarcode)
 

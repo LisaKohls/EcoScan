@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ProductCard from '../../../components/productcard/ProductCard';
 import SearchBar from '../../../components/search/SearchBar';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
