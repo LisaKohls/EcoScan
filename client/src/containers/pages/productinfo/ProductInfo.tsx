@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { FiArrowLeft } from 'react-icons/fi';
 import { ArcElement, Chart as ChartJs, Legend, Tooltip } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import SustainabilityBar from '../../../components/sustainabilitybar/SustainabilityBar';
@@ -8,7 +7,6 @@ import testImg from '../../../assets/bio_nut_butter_bar.png';
 ChartJs.register(ArcElement, Tooltip, Legend);
 
 const ProductInfo = () => {
-  const navigate = useNavigate();
 
   const exampleData = {
     img: testImg,

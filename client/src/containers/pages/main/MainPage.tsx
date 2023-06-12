@@ -1,6 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useEffect, useRef } from 'react';
-import axios from 'axios';
 import ButtonPrimary from '../../../components/buttons/ButtonPrimary';
 import { useNavigate } from 'react-router-dom';
 

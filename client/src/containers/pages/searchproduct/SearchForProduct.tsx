@@ -1,6 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { FiArrowLeft } from 'react-icons/fi';
-import { useNavigate } from 'react-router-dom';
 import SearchBar from '../../../components/search/SearchBar';
 import SearchResultList from '../../../components/search/SearchResultList';
 import { SearchResultsProps } from '../../../interfaces/SearchResultsProps';
@@ -12,7 +10,6 @@ const SearchForProduct = () => {
   const [products, setProducts] = useState<SearchResultsProps>({
     searchResults: [],
   });
-  const navigate = useNavigate();
 
   const axiosPrivate = useAxiosPrivate();
 
@@ -34,7 +31,7 @@ const SearchForProduct = () => {
         }
       }
     },
-    [axiosPrivate, searchQuery]
+    [axiosPrivate]
   );
 
   useEffect(() => {
