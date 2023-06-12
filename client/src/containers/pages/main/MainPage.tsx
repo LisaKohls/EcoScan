@@ -1,6 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useEffect, useRef } from 'react';
-import axios from 'axios';
 import ButtonPrimary from '../../../components/buttons/ButtonPrimary';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,19 +26,6 @@ const MainPage: React.FC = () => {
     getVideo();
   }, [videoRef]);
 
-  const init = async () => {
-    try {
-      const response = await axios.post(
-        'http://localhost:3001/api/product/init'
-      );
-      alert(response.data);
-      console.log('initialize data');
-    } catch (error) {
-      alert('DB was already initialized');
-      console.error(error);
-    }
-  };
-
   return (
     <>
       <h2 className="mt-7 text-center">
@@ -60,7 +45,6 @@ const MainPage: React.FC = () => {
           </div>
         </button>
       </div>
-      <ButtonPrimary onClick={init}>Initialize Data</ButtonPrimary>
       <ButtonPrimary onClick={() => navigate('/searchForProduct')}>
         Type in manually
       </ButtonPrimary>

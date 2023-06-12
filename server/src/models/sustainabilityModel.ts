@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from 'mongoose'
 
-export interface ISustainability extends Document {
+export interface ISustainabilityLabels extends Document {
   name: string;
   eco_chemicals: number;
   eco_lifetime: number;
@@ -99,7 +99,7 @@ export const SustainabilitySchema: Schema = new Schema({
   }
 })
 
-export const Sustainability = mongoose.model<ISustainability>(
+export const Sustainability = mongoose.model<ISustainabilityLabels>(
   'Sustainability',
   SustainabilitySchema
 )
