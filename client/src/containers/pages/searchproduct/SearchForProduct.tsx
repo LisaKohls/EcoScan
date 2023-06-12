@@ -1,28 +1,28 @@
 import { useCallback, useEffect, useState } from 'react';
 import SearchBar from '../../../components/search/SearchBar';
 import SearchResultList from '../../../components/search/SearchResultList';
-import { SearchResultsProps } from '../../../interfaces/SearchResultsProps';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import axios from 'axios';
 
+const PRODUCT_URL = '/api/product/';
 const SearchForProduct = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [products, setProducts] = useState<SearchResultsProps>({
-    searchResults: [],
-  });
+  const [products, setProducts] = useState<Product[]>([]);
 
   const axiosPrivate = useAxiosPrivate();
 
   const fetchProducts = useCallback(
-    async (url: string) => {
+    async (nameParam: string) => {
       try {
-        const response = await axiosPrivate.get(url, {
+        const response = await axiosPrivate.get<Product[]>(PRODUCT_URL, {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true,
+          params: {
+            name: nameParam,
+          },
         });
 
-        setProducts({ searchResults: [response.data] });
-        console.log(`response: ${response.data}`);
+        setProducts(response.data);
       } catch (err) {
         if (axios.isAxiosError(err)) {
           console.error('Error occurred: ', err.response?.data);
@@ -35,18 +35,14 @@ const SearchForProduct = () => {
   );
 
   useEffect(() => {
-    fetchProducts(
-      isNaN(Number(searchQuery))
-        ? `http://localhost:3001/api/product/name?=${searchQuery}`
-        : `http://localhost:3001/api/product/${searchQuery}`
-    );
+    fetchProducts(searchQuery);
   }, [searchQuery, fetchProducts]);
   //console.log(`search for product product: ${products.searchResults}`)
   return (
     <>
       <div className="p-4">
         <SearchBar setSearchQuery={setSearchQuery} />
-        <SearchResultList searchResults={products.searchResults} />
+        <SearchResultList products={products} />
       </div>
     </>
   );
