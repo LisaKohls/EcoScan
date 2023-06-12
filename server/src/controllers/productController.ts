@@ -4,7 +4,7 @@ import {
   Product
 } from '../models/productModel'
 import { getInitialSustainabilities } from './sustainabilityController'
-import { ISustainability, Sustainability } from '../models/sustainabilityModel'
+import { ISustainabilityLabels } from '../models/sustainabilityModel'
 import productJson from '../resources/product.json'
 import { Converter } from '../utils/converter'
 import { NextFunction, Request, Response } from 'express'
@@ -13,28 +13,7 @@ import {
   getProductByBarcodeService,
   updateProductByBarcodeService
 } from '../services/productService'
-
-export const initializeProductDb = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const productsFromDB: IProduct[] = await Product.find()
-    if (productsFromDB.length === 0) {
-      // Insert Products only when product db is empty
-      const products = getInitialProducts()
-      for (const p of products) {
-        await p.save()
-      }
-      res.status(201).send('Initial Products successfully created')
-    } else {
-      res.status(400).send('DB was already initialized')
-    }
-  } catch (error) {
-    next(error)
-  }
-}
+import { PersonalUserProduct } from '../models/personalUserProductModel'
 
 export const postProduct = async (
   req: Request,
@@ -42,44 +21,18 @@ export const postProduct = async (
   next: NextFunction
 ) => {
   try {
-    const {
-      sustainabilityName,
-      sustainabilityEco,
-      sustainabilitySocial,
-      barcode,
-      categories,
-      name,
-      description,
-      imageUrls
-    } = req.body
+    // TODO: add sustainability index
+    // TODO: check if barcode exists in other doc (prePopulated data)
+    const { barcode, name, description } = req.body
 
-    const sustainability = new Sustainability({
-      name: sustainabilityName,
-      eco_chemicals: sustainabilityEco,
-      eco_lifetime: sustainabilityEco,
-      eco_water: sustainabilityEco,
-      eco_inputs: sustainabilityEco,
-      eco_quality: sustainabilityEco,
-      eco_energy: sustainabilityEco,
-      eco_waste_air: sustainabilityEco,
-      eco_environmental_management: sustainabilityEco,
-      social_labour_rights: sustainabilitySocial,
-      social_business_practice: sustainabilitySocial,
-      social_social_rights: sustainabilitySocial,
-      social_company_responsibility: sustainabilitySocial,
-      social_conflict_minerals: sustainabilitySocial
+    const personalUserProduct = new PersonalUserProduct({
+      barcode,
+      name,
+      description
     })
 
-    const product = new Product({
-      barcode,
-      categories,
-      name,
-      description,
-      image_urls: imageUrls,
-      sustainability
-    })
-
-    await product.save()
+    await personalUserProduct.save()
+    res.status(200).json({ message: 'Product added successfully' })
   } catch (error) {
     next(error)
   }
@@ -148,7 +101,9 @@ export const patchProduct = async (
     if (name) updatedFields.name = name
     if (description) updatedFields.description = description
     if (imageUrls) updatedFields.image_urls = imageUrls
-    if (sustainabilityName) { updatedFields['sustainability.name'] = sustainabilityName }
+    if (sustainabilityName) {
+      updatedFields['sustainability.name'] = sustainabilityName
+    }
     if (sustainabilityEco) {
       const ecoFields = [
         'eco_chemicals',
@@ -203,11 +158,6 @@ export const getProductsFilteredByName = async (
   try {
     const name = (req.query.name as string) || ''
     const products = await getFilteredProductsService(name)
-
-    /* if (products.length === 0) {
-      return res.status(400).send(`No Product that contains name ${name}`)
-    } */
-
     res.send(products)
   } catch (error) {
     next(error)
@@ -216,20 +166,31 @@ export const getProductsFilteredByName = async (
 
 export function getInitialProducts (): IProduct[] {
   try {
-    const initialSustainabilites: ISustainability[] =
+    const initialSustainabilityLabels: ISustainabilityLabels[] =
       getInitialSustainabilities()
-    const productJsonFormat: IProductInitialFormat[] = JSON.parse(
-      JSON.stringify(productJson)
-    )
+    const productJsonFormat: IProductInitialFormat[] = productJson
 
     return productJsonFormat.map(p => {
-      const sustainability = initialSustainabilites.find(sustainability =>
-        p.sustainability_labels.some(label => label === sustainability.ref)
+      const sustainabilityLabels = initialSustainabilityLabels.find(susLabel =>
+        p.sustainability_labels.some(label => label === susLabel.ref)
       )
-      return Converter.toProduct(p, sustainability)
+      return Converter.toProduct(p, sustainabilityLabels)
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return []
+  }
+}
+
+export const getPersonalProducts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const personalProducts = await PersonalUserProduct.find()
+    res.send(personalProducts)
+  } catch (error) {
+    next(error)
   }
 }

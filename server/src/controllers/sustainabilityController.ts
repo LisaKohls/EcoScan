@@ -1,11 +1,11 @@
 import {
-  ISustainability,
+  ISustainabilityLabels,
   ISustainabilityInitialFormat
 } from '../models/sustainabilityModel'
-import sustainabilityJson from '../resources/sustainability.json'
+import sustainabilityJson from '../resources/sustainabilityLabels.json'
 import { Converter } from '../utils/converter'
 
-export function getInitialSustainabilities (): ISustainability[] {
+export function getInitialSustainabilities (): ISustainabilityLabels[] {
   try {
     const sustainabilityJSONFormat: ISustainabilityInitialFormat[] = JSON.parse(
       JSON.stringify(sustainabilityJson)

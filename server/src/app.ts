@@ -14,6 +14,7 @@ import {
   internalErrorMiddleware,
   lastRouteMiddleware
 } from './middlewares/errorMiddleware'
+import { prePopulateDataToDB } from './services/productService'
 
 if (process.env.NODE_ENV === 'production') {
   dotenv.config({ path: './.env.production' })
@@ -64,6 +65,9 @@ mongoose
     console.log('Connected to MongoDB.')
     const PORT = process.env.PORT || 3001
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+  })
+  .then(() => {
+    prePopulateDataToDB()
   })
   .catch(error => console.error('Error connecting to MongoDB:', error))
 

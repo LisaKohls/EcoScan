@@ -4,7 +4,7 @@ import {
   Product
 } from '../models/productModel'
 import {
-  ISustainability,
+  ISustainabilityLabels,
   ISustainabilityInitialFormat,
   Sustainability
 } from '../models/sustainabilityModel'
@@ -12,7 +12,7 @@ import {
 export class Converter {
   public static toProduct (
     initialFormat: IProductInitialFormat,
-    sustainability: ISustainability | undefined
+    sustainability: ISustainabilityLabels | undefined
   ): IProduct {
     const product = new Product({
       barcode: initialFormat.barcode,
@@ -28,7 +28,7 @@ export class Converter {
 
   public static toSustainability (
     initialFormat: ISustainabilityInitialFormat
-  ): ISustainability {
+  ): ISustainabilityLabels {
     const sustainability = new Sustainability({
       name: initialFormat.name,
       eco_chemicals: initialFormat.eco_chemicals ?? 0,

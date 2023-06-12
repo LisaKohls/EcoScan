@@ -1,4 +1,22 @@
-import { Product } from '../models/productModel'
+import { IProduct, Product } from '../models/productModel'
+import productJson from '../resources/product.json'
+
+export const prePopulateDataToDB = async () => {
+  const productsFromDB: IProduct[] = await Product.find()
+  if (productsFromDB.length === 0) {
+    productJson.forEach(productData => {
+      if (productData.barcode) {
+        const product = new Product(productData)
+        product.save()
+      } else {
+        console.error('Error: missing barcode for product', productData)
+      }
+    })
+    console.log('Initial Products successfully created')
+  } else {
+    console.log('DB was already initialized')
+  }
+}
 
 export const getProductByBarcodeService = async (barcode: string) => {
   return Product.findOne(
