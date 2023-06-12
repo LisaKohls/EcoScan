@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 
-interface Title {
-  title: string;
-}
-
-const Header: React.FC<Title> = props => {
+const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 960);
-
+  const locationPage = location.pathname;
+  let title;
   const navigateToPage = (page: string) => {
     navigate('/' + page);
   };
@@ -27,10 +24,17 @@ const Header: React.FC<Title> = props => {
     };
   }, []);
 
-  if (
-    location.pathname == '/searchForProduct' ||
-    location.pathname == '/productInfo'
-  ) {
+  if (locationPage == '/searchForProduct') {
+    title = 'Search for product';
+  } else if (locationPage == '/') {
+    title = 'Scan a product';
+  } else if (locationPage == '/favorites') {
+    title = 'Favorites';
+  } else {
+    title = 'Profile';
+  }
+
+  if (locationPage == '/searchForProduct' || locationPage == '/productInfo') {
     return (
       <div className="flex p-11 bg-primary-color">
         <button
@@ -71,7 +75,7 @@ const Header: React.FC<Title> = props => {
   } else {
     return (
       <header className="p-8 bg-primary-color text-white text-center text-xl  md:hidden lg:hidden">
-        <h1 className="text-center text-xl font-normal ">{props.title}</h1>
+        <h1 className="text-center text-xl font-normal ">{title}</h1>
       </header>
     );
   }
