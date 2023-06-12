@@ -1,58 +1,56 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from '../../../components/search/SearchBar';
 import SearchResultList from '../../../components/search/SearchResultList';
 import { SearchResultsProps } from '../../../interfaces/SearchResultsProps';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
+import axios from 'axios';
 
 const SearchForProduct = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [filteredProducts, setFilteredProducts] = useState<SearchResultsProps>({
+  const [products, setProducts] = useState<SearchResultsProps>({
     searchResults: [],
   });
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
 
   const axiosPrivate = useAxiosPrivate();
 
-  useEffect(() => {
-    // This gets called each time the search query is changing
+  const fetchProducts = useCallback(
 
-    const fetchData = async (url: string) => {
-      setLoading(true);
+    async (url: string) => {
       try {
-        const { data: response } = await axiosPrivate.get(url);
-        setFilteredProducts({ searchResults: [response] });
-      } catch (error) {
-        console.error(error.message);
-      }
-      setLoading(false);
-    };
+        const response = await axiosPrivate.get(url, {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
+        });
 
-    fetchData(
+        setProducts({ searchResults: [response.data] });
+        console.log(`response: ${response.data}`);
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          console.error('Error occurred: ', err.response?.data);
+        } else {
+          console.error('An unknown error occurred: ', err);
+        }
+      }
+    },
+    [axiosPrivate, searchQuery]
+  );
+
+  useEffect(() => {
+    fetchProducts(
       isNaN(Number(searchQuery))
-        ? `http://localhost:3001/api/product?name=${searchQuery}`
+        ? `http://localhost:3001/api/product/name?=${searchQuery}`
         : `http://localhost:3001/api/product/${searchQuery}`
     );
-
-    console.log('SearchQuery: ' + searchQuery);
-  }, [axiosPrivate, searchQuery]);
-
+  }, [searchQuery, fetchProducts]);
+//console.log(`search for product product: ${products.searchResults}`)
   return (
     <>
-      <button
-        className="fixed top-0 left-0 ps-4 pt-8"
-        onClick={() => navigate(-1)}
-      >
-        <FiArrowLeft className="inline-block text-white text-2xl" />
-      </button>
       <div className="p-4">
         <SearchBar setSearchQuery={setSearchQuery} />
-        {loading && <div>Loading...</div>}
-        {filteredProducts && (
-          <SearchResultList searchResults={filteredProducts.searchResults} />
-        )}
+        <SearchResultList searchResults={products.searchResults} />
       </div>
     </>
   );

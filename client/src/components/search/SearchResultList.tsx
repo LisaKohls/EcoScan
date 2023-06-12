@@ -20,10 +20,10 @@ const SearchResultList = ({ searchResults }: SearchResultsProps) => {
       </PopUp>
     </div>
   );
-
+  console.log(`search result list length: ${searchResults.length}`);
   return (
     <div className="p-text-between">
-      {searchResults.length !== 0 ? renderProducts : renderAddNewProductButton}
+      {searchResults.length !== 1 ? renderProducts : renderAddNewProductButton}
     </div>
   );
 };
