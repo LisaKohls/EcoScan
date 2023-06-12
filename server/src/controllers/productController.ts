@@ -4,7 +4,7 @@ import {
   Product
 } from '../models/productModel'
 import { getInitialSustainabilities } from './sustainabilityController'
-import { ISustainabilityLabels, Sustainability } from '../models/sustainabilityModel'
+import { ISustainabilityLabels } from '../models/sustainabilityModel'
 import productJson from '../resources/product.json'
 import { Converter } from '../utils/converter'
 import { NextFunction, Request, Response } from 'express'
@@ -13,6 +13,7 @@ import {
   getProductByBarcodeService,
   updateProductByBarcodeService
 } from '../services/productService'
+import { PersonalUserProduct } from '../models/personalUserProductModel'
 
 export const postProduct = async (
   req: Request,
@@ -20,44 +21,18 @@ export const postProduct = async (
   next: NextFunction
 ) => {
   try {
-    const {
-      sustainabilityName,
-      sustainabilityEco,
-      sustainabilitySocial,
-      barcode,
-      categories,
-      name,
-      description,
-      imageUrls
-    } = req.body
+    // TODO: add sustainability index
+    // TODO: check if barcode exists in other doc (prePopulated data)
+    const { barcode, name, description } = req.body
 
-    const sustainability = new Sustainability({
-      name: sustainabilityName,
-      eco_chemicals: sustainabilityEco,
-      eco_lifetime: sustainabilityEco,
-      eco_water: sustainabilityEco,
-      eco_inputs: sustainabilityEco,
-      eco_quality: sustainabilityEco,
-      eco_energy: sustainabilityEco,
-      eco_waste_air: sustainabilityEco,
-      eco_environmental_management: sustainabilityEco,
-      social_labour_rights: sustainabilitySocial,
-      social_business_practice: sustainabilitySocial,
-      social_social_rights: sustainabilitySocial,
-      social_company_responsibility: sustainabilitySocial,
-      social_conflict_minerals: sustainabilitySocial
+    const personalUserProduct = new PersonalUserProduct({
+      barcode,
+      name,
+      description
     })
 
-    const product = new Product({
-      barcode,
-      categories,
-      name,
-      description,
-      image_urls: imageUrls,
-      sustainability
-    })
-
-    await product.save()
+    await personalUserProduct.save()
+    res.status(200).json({ message: 'Product added successfully' })
   } catch (error) {
     next(error)
   }
@@ -204,5 +179,18 @@ export function getInitialProducts (): IProduct[] {
   } catch (error) {
     console.error(error)
     return []
+  }
+}
+
+export const getPersonalProducts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const personalProducts = await PersonalUserProduct.find()
+    res.send(personalProducts)
+  } catch (error) {
+    next(error)
   }
 }

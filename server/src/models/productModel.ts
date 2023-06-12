@@ -1,5 +1,8 @@
 import mongoose, { Document, Schema } from 'mongoose'
-import { ISustainabilityLabels, SustainabilitySchema } from './sustainabilityModel'
+import {
+  ISustainabilityLabels,
+  SustainabilitySchema
+} from './sustainabilityModel'
 
 export interface IProductInitialFormat {
   barcode: number;
