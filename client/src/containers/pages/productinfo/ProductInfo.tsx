@@ -56,13 +56,13 @@ const ProductInfo = () => {
   return (
     <>
       <div className="mx-auto px-4 sm:px-6 md:px-20 lg:px-40">
-          <div className="flex justify-center lg:justify-start">
-            <img
-              className="w-40 h-600 m-auto ms-10 mt-5 border border-gray-500 border-width-1 rounded"
-              src={exampleData.img}
-              alt={exampleData.name}
-            />
-            <p className="text-xl mt-4 mr-11 lg:text-right">{exampleData.name}</p>
+        <div className="flex justify-center lg:justify-start">
+          <img
+            className="w-40 h-600 m-auto ms-10 mt-5 border border-gray-500 border-width-1 rounded"
+            src={exampleData.img}
+            alt={exampleData.name}
+          />
+          <p className="text-xl mt-4 mr-11 lg:text-right">{exampleData.name}</p>
         </div>
         <div className="min-h bg-white border border-gray-500 border-width-1 rounded m-10 p-1 pb-9 ">
           <div className="flex justify-between mx-10 ">

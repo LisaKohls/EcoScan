@@ -32,8 +32,6 @@ const MainPage: React.FC = () => {
     navigate('/' + page);
   };
 
-
-
   return (
     <>
       <h2 className="mt-7 text-center">

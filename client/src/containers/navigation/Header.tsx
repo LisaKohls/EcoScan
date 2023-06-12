@@ -27,7 +27,10 @@ const Header: React.FC<Title> = props => {
     };
   }, []);
 
-  if (location.pathname == '/searchForProduct' || location.pathname == '/productInfo' ) {
+  if (
+    location.pathname == '/searchForProduct' ||
+    location.pathname == '/productInfo'
+  ) {
     return (
       <div className="flex p-11 bg-primary-color">
         <button

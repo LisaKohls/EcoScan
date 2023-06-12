@@ -17,7 +17,6 @@ const SearchForProduct = () => {
   const axiosPrivate = useAxiosPrivate();
 
   const fetchProducts = useCallback(
-
     async (url: string) => {
       try {
         const response = await axiosPrivate.get(url, {
@@ -45,7 +44,7 @@ const SearchForProduct = () => {
         : `http://localhost:3001/api/product/${searchQuery}`
     );
   }, [searchQuery, fetchProducts]);
-//console.log(`search for product product: ${products.searchResults}`)
+  //console.log(`search for product product: ${products.searchResults}`)
   return (
     <>
       <div className="p-4">
