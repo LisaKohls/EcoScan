@@ -26,6 +26,10 @@ const MainPage: React.FC = () => {
     getVideo();
   }, [videoRef]);
 
+  const navigateToPage = (page: string) => {
+    navigate('/' + page);
+  };
+
   return (
     <>
       <h2 className="mt-7 text-center">
@@ -45,7 +49,7 @@ const MainPage: React.FC = () => {
           </div>
         </button>
       </div>
-      <ButtonPrimary onClick={() => navigate('/searchForProduct')}>
+      <ButtonPrimary onClick={() => navigateToPage('searchForProduct')}>
         Type in manually
       </ButtonPrimary>
     </>

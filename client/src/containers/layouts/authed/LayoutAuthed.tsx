@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 const LayoutAuthed = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <Header title="TODO: change title accordingly" />
+      <Header />
       <main>{children}</main>
       <BottomNavBar />
     </>
