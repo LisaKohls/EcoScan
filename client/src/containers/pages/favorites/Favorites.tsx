@@ -3,20 +3,9 @@ import ProductCard from '../../../components/productcard/ProductCard';
 import SearchBar from '../../../components/search/SearchBar';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import axios from 'axios';
+import { Product } from '../../../interfaces/IProduct';
 
-interface Product {
-  barcode: string;
-  categories: string[];
-  name: string;
-  description: string;
-  image: string;
-  sustainabilityName: string;
-  sustainabilityEcoWater: number;
-  sustainabilityEcoLifetime: number;
-  sustainabilityEco: number;
-  sustainabilitySocial: number;
-}
-
+const PRODUCT_URL = '/api/product';
 const Favorites: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [products, setProducts] = useState<Product[]>([]);
@@ -24,7 +13,7 @@ const Favorites: React.FC = () => {
 
   const fetchProducts = useCallback(async () => {
     try {
-      const response = await axiosPrivate.get<Product[]>('/api/product', {
+      const response = await axiosPrivate.get<Product[]>(PRODUCT_URL, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true,
         params: {
