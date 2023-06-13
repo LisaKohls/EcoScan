@@ -15,6 +15,7 @@ const ProductInfo = () => {
     lifetimeIndex: 10,
     ecologicalIndex: 20,
     waterIndex: 50,
+    description: 'High quality product placeholder for a description',
     productId: '64847603698541557csc56b8',
   };
 
@@ -65,8 +66,12 @@ const ProductInfo = () => {
               alt={exampleData.name}
             />
             <HeartFavorites productIdFavorites={exampleData.productId} />
+
+            <div className="flex flex-col pl-3 text-left ">
+              <p className="flex-1 text-xl ">{exampleData.name}</p>
+              <p className="flex-1 text-base ">{exampleData.description}</p>
+            </div>
           </div>
-          <p className="text-xl lg:text-right">{exampleData.name}</p>
         </div>
         <div className="min-h bg-white border border-gray-500 border-width-1 rounded m-10 p-1 pb-9 ">
           <div className="flex justify-between mx-10 ">

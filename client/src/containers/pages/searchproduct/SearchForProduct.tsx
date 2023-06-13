@@ -41,7 +41,7 @@ const SearchForProduct = () => {
   //console.log(`search for product product: ${products.searchResults}`)
   return (
     <>
-      <div className="p-4">
+      <div className="p-text-between">
         <SearchBar setSearchQuery={setSearchQuery} />
         <SearchResultList products={products} />
       </div>
