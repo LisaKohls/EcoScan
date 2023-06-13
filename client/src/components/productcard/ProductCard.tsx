@@ -6,7 +6,7 @@ const ProductCard: React.FC<ProductInfoProps> = props => {
   const navigate = useNavigate();
 
   return (
-    <div className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4 flex-1">
+    <div className="p-text-between max-w-sm min-w-full min-h-full mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4 flex-1">
       <button onClick={() => navigate('/productInfo')}>
         <img src={props.img} alt={props.name} />
         <div>
