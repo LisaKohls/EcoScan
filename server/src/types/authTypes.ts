@@ -12,5 +12,11 @@ export interface AuthOptionalRequest extends Request {
 
 export interface AuthRequest extends Request {
   user: UserInfo;
-  userID: mongoose.Types.ObjectId;
+}
+
+export interface AuthedBarcodeRequest extends Request {
+  user: UserInfo;
+  params: {
+    barcode: string;
+  };
 }

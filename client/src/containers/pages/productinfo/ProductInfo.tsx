@@ -16,7 +16,8 @@ const ProductInfo = () => {
     ecologicalIndex: 20,
     waterIndex: 50,
     description: 'High quality product placeholder for a description',
-    productId: '64847603698541557csc56b8',
+    barcode: 10389972,
+    favorite: false,
   };
 
   const dataSocialIndex = {
@@ -65,7 +66,10 @@ const ProductInfo = () => {
               src={exampleData.img}
               alt={exampleData.name}
             />
-            <HeartFavorites productIdFavorites={exampleData.productId} />
+            <HeartFavorites
+              barcode={exampleData.barcode}
+              isInitiallyFavorite={exampleData.favorite}
+            />
 
             <div className="flex flex-col pl-3 text-left ">
               <p className="flex-1 text-xl ">{exampleData.name}</p>

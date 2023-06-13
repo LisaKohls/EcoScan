@@ -7,16 +7,17 @@ import { getInitialSustainabilities } from './sustainabilityController'
 import { ISustainabilityLabels } from '../models/sustainabilityModel'
 import productJson from '../resources/product.json'
 import { Converter } from '../utils/converter'
-import { NextFunction, Request, Response } from 'express'
+import { NextFunction, Response } from 'express'
 import {
   getFilteredProductsService,
   getProductByBarcodeService,
   updateProductByBarcodeService
 } from '../services/productService'
 import { PersonalUserProduct } from '../models/personalUserProductModel'
+import { AuthedBarcodeRequest, AuthRequest } from '../types/authTypes'
 
 export const postProduct = async (
-  req: Request,
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ) => {
@@ -39,16 +40,28 @@ export const postProduct = async (
 }
 
 export const getProductByBarcode = async (
-  req: Request,
+  req: AuthedBarcodeRequest,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const barcode = req.params.barcode
-    const product = await getProductByBarcodeService(barcode)
 
-    if (product) {
-      return res.status(400).send(`No Product with barcode ${barcode} found`)
+    if (isNaN(Number(barcode))) {
+      res.status(400).json({ error: 'Barcode should be a number.' })
+      return
+    }
+
+    const barcodeNumber = Number(barcode)
+    const product = await getProductByBarcodeService(
+      barcodeNumber,
+      req.user.username
+    )
+
+    if (!product) {
+      return res
+        .status(400)
+        .send(`No Product with barcode ${barcodeNumber} found`)
     }
 
     res.send(product)
@@ -58,7 +71,7 @@ export const getProductByBarcode = async (
 }
 
 export const deleteProductByBarcode = async (
-  req: Request,
+  req: AuthedBarcodeRequest,
   res: Response,
   next: NextFunction
 ) => {
@@ -78,7 +91,7 @@ export const deleteProductByBarcode = async (
 }
 
 export const patchProduct = async (
-  req: Request,
+  req: AuthedBarcodeRequest,
   res: Response,
   next: NextFunction
 ) => {
@@ -151,13 +164,13 @@ export const patchProduct = async (
 }
 
 export const getProductsFilteredByName = async (
-  req: Request,
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const name = (req.query.name as string) || ''
-    const products = await getFilteredProductsService(name)
+    const products = await getFilteredProductsService(name, req.user.username)
     res.send(products)
   } catch (error) {
     next(error)
@@ -183,7 +196,7 @@ export function getInitialProducts (): IProduct[] {
 }
 
 export const getPersonalProducts = async (
-  req: Request,
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ) => {
