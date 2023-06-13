@@ -1,7 +1,4 @@
 export interface SearchResultsProps {
-  searchResults:
-    | [
-        {
           barcode: string;
           categories: [string];
           name: string;
@@ -11,7 +8,4 @@ export interface SearchResultsProps {
           sustainabilityEco: number;
           sustainabilitySocial: number;
           productId: string;
-        }
-      ]
-    | [];
 }

@@ -1,48 +1,39 @@
 import { ArcElement, Chart as ChartJs, Legend, Tooltip } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import SustainabilityBar from '../../../components/sustainabilitybar/SustainabilityBar';
-import testImg from '../../../assets/bio_nut_butter_bar.png';
 
 import HeartFavorites from '../../../components/buttons/ButtonHeart';
+import { Product } from '../../../interfaces/IProduct';
+import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 
 ChartJs.register(ArcElement, Tooltip, Legend);
 
-const ProductInfo = () => {
-  const exampleData = {
-    img: testImg,
-    name: 'Koro Riegel',
-    socialIndex: 50,
-    lifetimeIndex: 10,
-    ecologicalIndex: 20,
-    waterIndex: 50,
-    productId: '64847603698541557csc56b8',
+const ProductInfo: React.FC = () => {
+  const location = useLocation();
+  let product = location.state as Product | undefined;
+
+  if (!product) {
+    console.log("product empty")
+    return null;
+  }else{
+    product = (location.state as { product: Product }).product;
+    console.log(product);
   };
 
-  const dataSocialIndex = {
-    datasets: [
-      {
-        backgroundColor: ['#636A5B', '#E0E0E0'],
-        data: [exampleData.socialIndex, 100 - exampleData.socialIndex],
-        labels: [
-          `${exampleData.socialIndex}`,
-          `${100 - exampleData.socialIndex}`,
-        ],
-      },
-    ],
-  };
-  const dataEcologicalIndex = {
-    datasets: [
-      {
-        backgroundColor: ['#636A5B', '#E0E0E0'],
-        data: [exampleData.ecologicalIndex, 100 - exampleData.ecologicalIndex],
-        labels: [
-          `${exampleData.ecologicalIndex}`,
-          `${100 - exampleData.ecologicalIndex}`,
-        ],
-      },
-    ],
-  };
+  const {
+    image,
+    name,
+    description,
+    sustainabilityEcoWater,
+    sustainabilityEcoLifetime,
+    sustainabilityEco,
+    sustainabilitySocial,
+    productId,
+  } = product;
 
+  console.log("infoPage");
+  console.log(image);
   const options = {
     elements: {
       arc: {
@@ -52,7 +43,35 @@ const ProductInfo = () => {
     },
   };
 
-  // const [favorit, setFavorit] = useState(false);
+  const dataSocialIndex = {
+    datasets: [
+      {
+        backgroundColor: ['#636A5B', '#E0E0E0'],
+        data: [sustainabilitySocial, 100 - sustainabilitySocial],
+        labels: [`${sustainabilitySocial}`, `${100 - sustainabilitySocial}`],
+      },
+    ],
+  };
+  const dataEcologicalIndex = {
+    datasets: [
+      {
+        backgroundColor: ['#636A5B', '#E0E0E0'],
+        data: [sustainabilityEco, 100 - sustainabilityEco],
+        labels: [`${sustainabilityEco}`, `${100 - sustainabilityEco}`],
+      },
+    ],
+  };
+
+  ProductInfo.propTypes = {
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    sustainabilityEcoWater: PropTypes.number.isRequired,
+    sustainabilityEcoLifetime: PropTypes.number.isRequired,
+    sustainabilityEco: PropTypes.number.isRequired,
+    sustainabilitySocial: PropTypes.number.isRequired,
+    productId: PropTypes.string.isRequired,
+  };
 
   return (
     <>
@@ -61,12 +80,13 @@ const ProductInfo = () => {
           <div className="flex flex-1 items-start justify-start">
             <img
               className="w-40 h-600 border border-gray-500 border-width-1 rounded "
-              src={exampleData.img}
-              alt={exampleData.name}
+              src={image}
+              alt={name}
             />
-            <HeartFavorites productIdFavorites={exampleData.productId} />
+            <HeartFavorites productIdFavorites={productId} />
           </div>
-          <p className="text-xl lg:text-right">{exampleData.name}</p>
+          <p className="text-xl sm:text-left lg:text-right">{name}</p>
+          <p className="text-xl sm:text-left lg:text-right">{description}</p>
         </div>
         <div className="min-h bg-white border border-gray-500 border-width-1 rounded m-10 p-1 pb-9 ">
           <div className="flex justify-between mx-10 ">
@@ -82,11 +102,11 @@ const ProductInfo = () => {
         </div>
         <div className="min-h bg-white border border-gray-500 border-width-1 rounded mt-8 m-10 p-1 ">
           <SustainabilityBar
-            index={exampleData.lifetimeIndex}
+            index={sustainabilityEcoLifetime}
             title="Lifetime"
           />
           <SustainabilityBar
-            index={exampleData.waterIndex}
+            index={sustainabilityEcoWater}
             title="Water usage"
           />
         </div>
