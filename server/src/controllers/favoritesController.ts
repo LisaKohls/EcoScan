@@ -1,6 +1,7 @@
 import { NextFunction, Response } from 'express'
 import userModel from '../models/userModel'
 import { AuthRequest } from '../types/authTypes'
+import { checkProductExists } from '../services/productService'
 
 export const addFavorite = async (
   req: AuthRequest,
@@ -8,14 +9,22 @@ export const addFavorite = async (
   next: NextFunction
 ) => {
   try {
-    const { productId } = req.body
+    const { barcode } = req.body
+
+    if (!(await checkProductExists(barcode))) {
+      return res
+        .status(404)
+        .json({ message: `Product with barcode ${barcode} not found` })
+    }
 
     await userModel.updateOne(
       { username: req.user.username },
-      { $addToSet: { favorites: productId } }
+      { $addToSet: { favorites: barcode } }
     )
 
-    res.status(200).json({ message: 'Product added to favorites' })
+    res
+      .status(200)
+      .json({ message: `Product with barcode ${barcode} added to favorites` })
   } catch (error) {
     next(error)
   }
@@ -26,14 +35,22 @@ export const removeFavorite = async (
   next: NextFunction
 ) => {
   try {
-    const { productId } = req.body
+    const { barcode } = req.body
+
+    if (!(await checkProductExists(barcode))) {
+      return res
+        .status(404)
+        .json({ message: `Product with barcode ${barcode} not found` })
+    }
 
     await userModel.updateOne(
       { username: req.user.username },
-      { $pull: { favorites: productId } }
+      { $pull: { favorites: barcode } }
     )
 
-    res.status(200).json({ message: 'Product removed from favorites' })
+    res.status(200).json({
+      message: `Product with barcode ${barcode} removed from favorites`
+    })
   } catch (error) {
     next(error)
   }
