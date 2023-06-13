@@ -62,7 +62,7 @@ const LoginPage: React.FC = () => {
   }, [errMsg]);
 
   return (
-    <div className="min-h-screen bg-green-100 flex items-center justify-center">
+    <div className="min-h-screen bg-secondary-color flex items-center justify-center">
       <div className="w-full max-w-xs">
         <form
           onSubmit={handleSubmit}
@@ -103,14 +103,14 @@ const LoginPage: React.FC = () => {
           </div>
           <div className="flex items-center justify-between">
             <button
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-primary-color hover:bg-secondary-color text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
             >
               Sign In
             </button>
             <Link
               to="/registration"
-              className="inline-block align-baseline font-bold text-sm text-green-500 hover:text-green-800"
+              className="inline-block align-baseline font-bold text-sm text-primary-color hover:text-secondary-color"
             >
               Create new account!
             </Link>

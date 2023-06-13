@@ -9,4 +9,5 @@ export interface Product {
   sustainabilityEcoLifetime: number;
   sustainabilityEco: number;
   sustainabilitySocial: number;
+  productId: string;
 }
