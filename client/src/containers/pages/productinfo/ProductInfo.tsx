@@ -1,7 +1,10 @@
+import React, { useState } from 'react';
 import { ArcElement, Chart as ChartJs, Legend, Tooltip } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import SustainabilityBar from '../../../components/sustainabilitybar/SustainabilityBar';
 import testImg from '../../../assets/bio_nut_butter_bar.png';
+
+import HeartFavorites from '../../../components/buttons/ButtonHeart';
 
 ChartJs.register(ArcElement, Tooltip, Legend);
 
@@ -13,6 +16,7 @@ const ProductInfo = () => {
     lifetimeIndex: 10,
     ecologicalIndex: 20,
     waterIndex: 50,
+    productId: '64847603698541557csc56b8',
   };
 
   const dataSocialIndex = {
@@ -49,16 +53,21 @@ const ProductInfo = () => {
     },
   };
 
+  // const [favorit, setFavorit] = useState(false);
+
   return (
     <>
-      <div className="mx-auto px-4 sm:px-6 md:px-20 lg:px-40">
-        <div className="flex justify-center lg:justify-start">
-          <img
-            className="w-40 h-600 m-auto ms-10 mt-5 border border-gray-500 border-width-1 rounded"
-            src={exampleData.img}
-            alt={exampleData.name}
-          />
-          <p className="text-xl mt-4 mr-11 lg:text-right">{exampleData.name}</p>
+      <div className="mx-auto md:px-20 lg:px-40">
+        <div className="flex justify-start mt-4 ms-10 mr-10">
+          <div className="flex flex-1 items-start justify-start">
+            <img
+              className="w-40 h-600 border border-gray-500 border-width-1 rounded "
+              src={exampleData.img}
+              alt={exampleData.name}
+            />
+            <HeartFavorites productId={exampleData.productId} />
+          </div>
+          <p className="text-xl lg:text-right">{exampleData.name}</p>
         </div>
         <div className="min-h bg-white border border-gray-500 border-width-1 rounded m-10 p-1 pb-9 ">
           <div className="flex justify-between mx-10 ">
