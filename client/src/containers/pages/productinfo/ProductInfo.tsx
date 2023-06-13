@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { ArcElement, Chart as ChartJs, Legend, Tooltip } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import SustainabilityBar from '../../../components/sustainabilitybar/SustainabilityBar';
@@ -65,17 +64,17 @@ const ProductInfo = () => {
               src={exampleData.img}
               alt={exampleData.name}
             />
-            <HeartFavorites productId={exampleData.productId} />
+            <HeartFavorites productIdFavorites={exampleData.productId} />
           </div>
           <p className="text-xl lg:text-right">{exampleData.name}</p>
         </div>
         <div className="min-h bg-white border border-gray-500 border-width-1 rounded m-10 p-1 pb-9 ">
           <div className="flex justify-between mx-10 ">
-            <div className="flex flex-col items-center h-20 w-20">
+            <div className="flex flex-col items-center h-20 w-20 md:h-40 md:w-40">
               <Pie data={dataSocialIndex} options={options} />
               <p className="whitespace-nowrap">Social Index</p>
             </div>
-            <div className="flex flex-col items-center h-20 w-20">
+            <div className="flex flex-col items-center h-20 w-20 md:h-40 md:w-40">
               <Pie data={dataEcologicalIndex} options={options} />
               <p className="whitespace-nowrap">Ecological Index</p>
             </div>

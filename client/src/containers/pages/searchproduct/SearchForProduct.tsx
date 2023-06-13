@@ -3,6 +3,7 @@ import SearchBar from '../../../components/search/SearchBar';
 import SearchResultList from '../../../components/search/SearchResultList';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import axios from 'axios';
+import { Product } from '../../../interfaces/IProduct';
 
 const PRODUCT_URL = '/api/product/';
 const SearchForProduct = () => {

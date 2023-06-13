@@ -1,27 +1,28 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import axios from 'axios';
-import { axiosPrivate } from '../../api/axiosAPI';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import { Product } from '../../interfaces/IProduct';
 
 interface HeartButton {
-  productId: string;
+  productIdFavorites: string;
 }
 
-//const HeartFavorites: React.FC<HeartButton> = props => {
+const FAVORITES_URL = '/api/favorites';
 const HeartFavorites: React.FC<HeartButton> = props => {
   const [favorite, setFavorite] = useState(false);
   const axiosPrivate = useAxiosPrivate();
 
   const getFavorites = useCallback(async () => {
     try {
-      const response = await axiosPrivate.get('/api/favorites');
-      const favoritProducts = response.data.filter(
-        (e: HeartButton) => e.productId == props.productId
+      const response = await axiosPrivate.get<Product[]>(FAVORITES_URL);
+      const favoriteProducts = response.data.filter(
+        (product: Product) => product.productId === props.productIdFavorites
       );
-      if (favoritProducts == '') {
+      console.log(response.data);
+      console.log(favoriteProducts);
+      if (favoriteProducts.length === 0) {
         setFavorite(false);
-        console.log(favoritProducts);
         console.log('Not a favorite');
       } else {
         setFavorite(true);
@@ -34,9 +35,7 @@ const HeartFavorites: React.FC<HeartButton> = props => {
         console.error('An unknown error occurred: ', err);
       }
     }
-  }, [axiosPrivate, favorite]);
-
-  //getFavorites();
+  }, [axiosPrivate, props.productIdFavorites]);
 
   const addToFavorites = useCallback(async () => {
     try {
@@ -44,10 +43,10 @@ const HeartFavorites: React.FC<HeartButton> = props => {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true,
         body: {
-          productId: props.productId,
+          productId: props.productIdFavorites,
         },
       });
-      console.log('set to favorites');
+      console.log(response.data);
     } catch (err) {
       if (axios.isAxiosError(err)) {
         console.error('Error occurred: ', err.response?.data);
@@ -55,15 +54,15 @@ const HeartFavorites: React.FC<HeartButton> = props => {
         console.error('An unknown error occurred: ', err);
       }
     }
-  }, [axiosPrivate, favorite]);
+  }, [axiosPrivate, props.productIdFavorites]);
 
-  const deleteFromFavorites = useCallback(async () => {
+  const removeFromFavorites = useCallback(async () => {
     try {
-      const response = await axiosPrivate.post('/api/favorites/remove', {
+      await axiosPrivate.post('/api/favorites/remove', {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true,
         body: {
-          productId: props.productId,
+          productId: props.productIdFavorites,
         },
       });
       console.log('removed from favorites');
@@ -74,16 +73,20 @@ const HeartFavorites: React.FC<HeartButton> = props => {
         console.error('An unknown error occurred: ', err);
       }
     }
-  }, [axiosPrivate, favorite]);
+  }, [axiosPrivate, props.productIdFavorites]);
+
+  useEffect(() => {
+    getFavorites();
+  }, [addToFavorites, removeFromFavorites, getFavorites]);
 
   const checkFavorites = () => {
     if (favorite) {
-      //deleteFromFavorites();
       setFavorite(false);
+      removeFromFavorites();
     } else {
-      //addToFavorites();
       setFavorite(true);
-      console.log('set to favorite');
+      addToFavorites();
+      console.log('call add to favorites in checkFavorites');
     }
   };
 
