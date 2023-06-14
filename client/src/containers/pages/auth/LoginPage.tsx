@@ -75,10 +75,12 @@ const LoginPage: React.FC = () => {
     setIsFormValid(true);
   };
 
+ /* 
   useEffect(() => {
     console.log(errMsg);
     // TODO: Display the error Msg visible for the user
   }, [errMsg]);
+  */
 
   return (
     <div className="min-h-screen bg-secondary-color flex items-center justify-center">

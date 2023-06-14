@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../../api/axiosAPI';
@@ -12,22 +12,36 @@ interface UserType {
 }
 
 const REGISTER_URL = 'api/auth/register';
+
 const RegistrationPage = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(true);
 
   const navigate = useNavigate();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   useEffect(() => {
     setErrMsg('');
   }, [username, password]);
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitted(true);
 
-    // TODO: add field and real data for first- and lastName
+    if (!email || !username || !password) {
+      setIsFormValid(false);
+      setErrMsg('Please fill in all fields');
+      return;
+    } else if (!emailRegex.test(email)) {
+      setIsFormValid(false);
+      setErrMsg('Please enter a valid email address');
+      return;
+    }
+
     const userData: UserType = {
       username,
       password,
@@ -43,27 +57,22 @@ const RegistrationPage = () => {
       });
       navigate('/login');
     } catch (err) {
-      const error = err as AxiosError; // TODO: Check if it is axios Error...
+      const error = err as AxiosError;
 
       if (!error?.response) {
-        setErrMsg('No Server Response');
+        setErrMsg('No server response');
+      } else if (error.response?.status === 400) {
+        setErrMsg('Missing required fields');
+      } else if (error.response?.status === 401) {
+        setErrMsg('Unauthorized');
       } else {
-        if (error.response?.status === 400) {
-          setErrMsg('Missing required fields');
-        } else {
-          if (error.response?.status === 401) {
-            setErrMsg('Unauthorized');
-          } else {
-            setErrMsg('Registration Failed');
-          }
-        }
+        setErrMsg('Registration Failed');
       }
     }
   };
 
   useEffect(() => {
     console.log(errMsg);
-    // TODO: Display the error Msg visible for the user
   }, [errMsg]);
 
   return (
@@ -82,12 +91,18 @@ const RegistrationPage = () => {
               Email
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                submitted && (!email || !emailRegex.test(email)) && 'border-red-500'
+              }`}
               id="email"
-              type="email"
+              type="text"
               placeholder="Email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setSubmitted(false);
+                setIsFormValid(true);
+              }}
             />
           </div>
           <div className="mb-4">
@@ -98,12 +113,18 @@ const RegistrationPage = () => {
               Username
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                submitted && !username && 'border-red-500'
+              }`}
               id="username"
               type="text"
               placeholder="Username"
               value={username}
-              onChange={e => setUsername(e.target.value)}
+              onChange={(e) => {
+                setUsername(e.target.value);
+                setSubmitted(false);
+                setIsFormValid(true);
+              }}
             />
           </div>
           <div className="mb-6">
@@ -114,13 +135,22 @@ const RegistrationPage = () => {
               Password
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline ${
+                submitted && !password && 'border-red-500'
+              }`}
               id="password"
               type="password"
               placeholder="Password"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setSubmitted(false);
+                setIsFormValid(true);
+              }}
             />
+            {submitted && (
+              <p className="text-red-500 text-xs italic mb-2">{errMsg}</p>
+            )}
           </div>
           <div className="flex items-center justify-between">
             <button
