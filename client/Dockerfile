@@ -1,25 +1,29 @@
-# Client - Dockerfile
+# Step 1: Build the app using Node
 
-# Use the official Node.js image as the base image
-FROM node:18
-
-# Set the working directory
+FROM node:18 as build
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package.json package-lock.json ./
-
-# Install dependencies
+# Copy package files and install dependencies
+COPY package*.json ./
 RUN npm install
 
-# Copy the source code
-COPY . .
+# Copy the rest of the source code
+COPY . ./
 
-# Build the application
-RUN npm run build
+# Build the app
+RUN npm run build:clean
 
-# Expose the port the application will run on
+# Step 2: Serve the app from Nginx
+FROM nginx:stable-alpine as production
+
+# Copy build output from previous stage
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Expose the listening port
 EXPOSE 3000
 
-# Start the application
-CMD ["npm", "run", "dev"]
+# Copy Nginx configuration file
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]

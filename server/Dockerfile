@@ -1,22 +1,34 @@
-# Server - Dockerfile
+# First Stage
+FROM node:18 AS builder
 
-# Use the official Node.js image as the base image
-FROM node:18
-
-# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package.json package-lock.json ./
+COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+# Install all dependencies
+RUN npm ci
 
 # Copy the source code
 COPY . .
+
+# Build the TypeScript code
+RUN npm run build
+
+# Second Stage
+FROM node:18
+
+WORKDIR /app
+
+COPY package*.json ./
+
+# Install production dependencies
+RUN npm ci --only=production
+
+# Copy the built JavaScript code from the first stage
+COPY --from=builder /app/dist ./dist
 
 # Expose the port the application will run on
 EXPOSE 3001
 
 # Start the application
-CMD ["npm", "run", "dev"]
+CMD ["node", "dist/app.js"]

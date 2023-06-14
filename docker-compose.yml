@@ -12,13 +12,18 @@ services:
       - ./client/.env.production
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:3000", "||", "exit", "1"]
+      interval: 5s
+      retries: 3
+      timeout: 3s
 
   server:
     build: ./server
     ports:
       - "3001:3001"
     environment:
-      MONGODB_URI: mongodb://mongodb:27017/myDatabase
+      MONGODB_URI: mongodb://ecoscan-db:27017/myDatabase
     depends_on:
       - ecoscan-db
     volumes:
@@ -27,6 +32,11 @@ services:
       - ./server/.env.production
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:3001", "||", "exit", "1"]
+      interval: 5s
+      retries: 3
+      timeout: 3s
 
   ecoscan-db:
     image: mongo:4.4
@@ -37,6 +47,11 @@ services:
       - mongodb-data:/data/db
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 volumes:
   mongodb-data:
