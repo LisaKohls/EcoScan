@@ -5,6 +5,7 @@ import axios from '../../../api/axiosAPI';
 import { AxiosError } from 'axios';
 
 const LOGIN_URL = 'api/auth/login';
+
 const LoginPage: React.FC = () => {
   const { setAuth } = useAuth();
 
@@ -15,6 +16,8 @@ const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(true);
 
   useEffect(() => {
     setErrMsg('');
@@ -22,7 +25,23 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-
+  
+    setSubmitted(true);
+  
+    if (!username && !password) {
+      setIsFormValid(false);
+      setErrMsg('Please enter a username and password');
+      return;
+    } else if (!username) {
+      setIsFormValid(false);
+      setErrMsg('Please enter a username');
+      return;
+    } else if (!password) {
+      setIsFormValid(false);
+      setErrMsg('Please enter a password');
+      return;
+    }
+  
     try {
       const response = await axios.post(
         LOGIN_URL,
@@ -38,28 +57,30 @@ const LoginPage: React.FC = () => {
       setPassword('');
       navigate(from, { replace: true });
     } catch (err) {
-      const error = err as AxiosError; // TODO: Check if it is axios Error...
-
+      const error = err as AxiosError;
+  
       if (!error?.response) {
-        setErrMsg('No Server Response');
+        setErrMsg('No server response');
+      } else if (error.response?.status === 401) {
+        setErrMsg('Invalid username or password');
       } else {
-        if (error.response?.status === 400) {
-          setErrMsg('Missing Username or Password');
-        } else {
-          if (error.response?.status === 401) {
-            setErrMsg('Unauthorized');
-          } else {
-            setErrMsg('Login Failed');
-          }
-        }
+        setErrMsg('Login Failed');
       }
     }
   };
+  
 
+  const handleInputChange = () => {
+    setSubmitted(false);
+    setIsFormValid(true);
+  };
+
+ /* 
   useEffect(() => {
     console.log(errMsg);
     // TODO: Display the error Msg visible for the user
   }, [errMsg]);
+  */
 
   return (
     <div className="min-h-screen bg-secondary-color flex items-center justify-center">
@@ -77,12 +98,17 @@ const LoginPage: React.FC = () => {
               Username
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                submitted && !username && 'border-red-500'
+              }`}
               id="username"
               type="text"
               placeholder="Username"
               value={username}
-              onChange={e => setUsername(e.target.value)}
+              onChange={(e) => {
+                setUsername(e.target.value);
+                handleInputChange();
+              }}
             />
           </div>
           <div className="mb-6">
@@ -93,13 +119,21 @@ const LoginPage: React.FC = () => {
               Password
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline ${
+                submitted && !password && 'border-red-500'
+              }`}
               id="password"
               type="password"
               placeholder="Password"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                handleInputChange();
+              }}
             />
+            {submitted && (
+              <p className="text-red-500 text-xs italic mb-2">{errMsg}</p>
+            )}
           </div>
           <div className="flex items-center justify-between">
             <button
