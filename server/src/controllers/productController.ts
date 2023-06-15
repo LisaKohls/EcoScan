@@ -18,6 +18,7 @@ import {
 } from '../services/productService'
 import { PersonalUserProduct } from '../models/personalUserProductModel'
 import { AuthedBarcodeRequest, AuthRequest } from '../types/authTypes'
+import { getFilteredPersonalProductsService } from '../services/personalProductService'
 
 export const postProduct = async (
   req: AuthRequest,
@@ -198,7 +199,13 @@ export const getProductsFilteredByName = async (
   try {
     const name = (req.query.name as string) || ''
     const products = await getFilteredProductsService(name, req.user.username)
-    res.send(products)
+    const personalProducts = await getFilteredPersonalProductsService(
+      name,
+      req.user.username
+    )
+
+    const items = products.concat(personalProducts)
+    res.send(items)
   } catch (error) {
     next(error)
   }

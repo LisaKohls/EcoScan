@@ -18,7 +18,7 @@ const SUSTAINABILITY_METRICS = [
   'social_conflict_minerals'
 ]
 
-const getAverageSustainability = (type: 'eco' | 'social') => {
+export const getAverageSustainability = (type: 'eco' | 'social') => {
   const metrics = SUSTAINABILITY_METRICS.filter(metric =>
     metric.startsWith(type)
   )
