@@ -4,7 +4,10 @@ import {
   Product
 } from '../models/productModel'
 import { getInitialSustainabilities } from './sustainabilityController'
-import { ISustainabilityLabels } from '../models/sustainabilityModel'
+import {
+  ISustainabilityLabels,
+  Sustainability
+} from '../models/sustainabilityModel'
 import productJson from '../resources/product.json'
 import { Converter } from '../utils/converter'
 import { NextFunction, Response } from 'express'
@@ -22,14 +25,38 @@ export const postProduct = async (
   next: NextFunction
 ) => {
   try {
-    // TODO: add sustainability index
     // TODO: check if barcode exists in other doc (prePopulated data)
-    const { barcode, name, description } = req.body
+    const {
+      barcode,
+      name,
+      description,
+      sustainabilityName,
+      sustainabilityEco,
+      sustainabilitySocial
+    } = req.body
+
+    const sustainability = new Sustainability({
+      name: sustainabilityName,
+      eco_chemicals: sustainabilityEco,
+      eco_lifetime: sustainabilityEco,
+      eco_water: sustainabilityEco,
+      eco_inputs: sustainabilityEco,
+      eco_quality: sustainabilityEco,
+      eco_energy: sustainabilityEco,
+      eco_waste_air: sustainabilityEco,
+      eco_environmental_management: sustainabilityEco,
+      social_labour_rights: sustainabilitySocial,
+      social_business_practice: sustainabilitySocial,
+      social_social_rights: sustainabilitySocial,
+      social_company_responsibility: sustainabilitySocial,
+      social_conflict_minerals: sustainabilitySocial
+    })
 
     const personalUserProduct = new PersonalUserProduct({
       barcode,
       name,
-      description
+      description,
+      sustainability
     })
 
     await personalUserProduct.save()

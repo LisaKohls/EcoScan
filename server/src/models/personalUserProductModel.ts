@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose'
+import { SustainabilitySchema } from './sustainabilityModel'
 
 export interface IPersonalUserProduct extends Document {
   _id: number;
@@ -19,6 +20,10 @@ const PersonalUserProductSchema: Schema = new mongoose.Schema(
     description: {
       type: String,
       required: true
+    },
+    sustainability: {
+      type: SustainabilitySchema,
+      required: false
     }
   },
   {
