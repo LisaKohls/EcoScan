@@ -113,11 +113,11 @@ export const getFilteredProductsService = async (
     },
     {
       $project: {
-        _id: true,
-        name: true,
-        barcode: true,
-        categories: true,
-        description: true,
+        _id: 0,
+        name: 1,
+        barcode: '$_id',
+        categories: 1,
+        description: 1,
         image: { $first: '$image_urls' },
         sustainabilityName: '$sustainability.name',
         sustainabilityEcoWater: { $ifNull: ['$sustainability.eco_water', 0] },
