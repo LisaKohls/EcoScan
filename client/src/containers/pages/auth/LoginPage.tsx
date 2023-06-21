@@ -25,9 +25,9 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-  
+
     setSubmitted(true);
-  
+
     if (!username && !password) {
       setIsFormValid(false);
       setErrMsg('Please enter a username and password');
@@ -41,7 +41,7 @@ const LoginPage: React.FC = () => {
       setErrMsg('Please enter a password');
       return;
     }
-  
+
     try {
       const response = await axios.post(
         LOGIN_URL,
@@ -58,7 +58,7 @@ const LoginPage: React.FC = () => {
       navigate(from, { replace: true });
     } catch (err) {
       const error = err as AxiosError;
-  
+
       if (!error?.response) {
         setErrMsg('No server response');
       } else if (error.response?.status === 401) {
@@ -68,14 +68,13 @@ const LoginPage: React.FC = () => {
       }
     }
   };
-  
 
   const handleInputChange = () => {
     setSubmitted(false);
     setIsFormValid(true);
   };
 
- /* 
+  /* 
   useEffect(() => {
     console.log(errMsg);
     // TODO: Display the error Msg visible for the user
@@ -105,7 +104,7 @@ const LoginPage: React.FC = () => {
               type="text"
               placeholder="Username"
               value={username}
-              onChange={(e) => {
+              onChange={e => {
                 setUsername(e.target.value);
                 handleInputChange();
               }}
@@ -126,7 +125,7 @@ const LoginPage: React.FC = () => {
               type="password"
               placeholder="Password"
               value={password}
-              onChange={(e) => {
+              onChange={e => {
                 setPassword(e.target.value);
                 handleInputChange();
               }}

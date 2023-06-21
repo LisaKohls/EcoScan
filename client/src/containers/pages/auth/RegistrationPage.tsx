@@ -92,13 +92,15 @@ const RegistrationPage = () => {
             </label>
             <input
               className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                submitted && (!email || !emailRegex.test(email)) && 'border-red-500'
+                submitted &&
+                (!email || !emailRegex.test(email)) &&
+                'border-red-500'
               }`}
               id="email"
               type="text"
               placeholder="Email"
               value={email}
-              onChange={(e) => {
+              onChange={e => {
                 setEmail(e.target.value);
                 setSubmitted(false);
                 setIsFormValid(true);
@@ -120,7 +122,7 @@ const RegistrationPage = () => {
               type="text"
               placeholder="Username"
               value={username}
-              onChange={(e) => {
+              onChange={e => {
                 setUsername(e.target.value);
                 setSubmitted(false);
                 setIsFormValid(true);
@@ -142,7 +144,7 @@ const RegistrationPage = () => {
               type="password"
               placeholder="Password"
               value={password}
-              onChange={(e) => {
+              onChange={e => {
                 setPassword(e.target.value);
                 setSubmitted(false);
                 setIsFormValid(true);

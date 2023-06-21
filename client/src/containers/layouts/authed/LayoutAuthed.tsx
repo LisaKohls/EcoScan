@@ -4,11 +4,13 @@ import { ReactNode } from 'react';
 
 const LayoutAuthed = ({ children }: { children: ReactNode }) => {
   return (
-    <>
+    <div className="flex flex-col h-screen">
       <Header />
-      <main>{children}</main>
+      <main className="flex-grow overflow-x-hidden overflow-y-auto whitespace-nowrap">
+        {children}
+      </main>
       <BottomNavBar />
-    </>
+    </div>
   );
 };
 
