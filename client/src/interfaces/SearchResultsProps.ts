@@ -7,5 +7,6 @@ export interface SearchResultsProps {
           sustainabilityName: string;
           sustainabilityEco: number;
           sustainabilitySocial: number;
+
           productId: string;
 }

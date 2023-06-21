@@ -11,15 +11,19 @@ ChartJs.register(ArcElement, Tooltip, Legend);
 
 const ProductInfo: React.FC = () => {
   const location = useLocation();
-  let product = location.state as Product | undefined;
+  const product = location.state as Product | undefined;
 
   if (!product) {
-    console.log("product empty")
+    console.log("product empty");
     return null;
-  }else{
-    product = (location.state as { product: Product }).product;
-    console.log(product);
-  };
+  } else {
+    if (!product.name) {
+      console.log("no entries");
+      return null;
+    } else {
+      console.log(`product response: ${product.name}`);
+    }
+  }
 
   const {
     image,
@@ -43,6 +47,17 @@ const ProductInfo: React.FC = () => {
     },
   };
 
+  ProductInfo.propTypes = {
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    sustainabilityEcoWater: PropTypes.number.isRequired,
+    sustainabilityEcoLifetime: PropTypes.number.isRequired,
+    sustainabilityEco: PropTypes.number.isRequired,
+    sustainabilitySocial: PropTypes.number.isRequired,
+    productId: PropTypes.string.isRequired,
+  };
+
   const dataSocialIndex = {
     datasets: [
       {
@@ -62,31 +77,30 @@ const ProductInfo: React.FC = () => {
     ],
   };
 
-  ProductInfo.propTypes = {
-    name: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    sustainabilityEcoWater: PropTypes.number.isRequired,
-    sustainabilityEcoLifetime: PropTypes.number.isRequired,
-    sustainabilityEco: PropTypes.number.isRequired,
-    sustainabilitySocial: PropTypes.number.isRequired,
-    productId: PropTypes.string.isRequired,
-  };
+  console.log(`water: ${sustainabilityEcoWater}`)
+  console.log(`lifetime: ${sustainabilityEcoLifetime}`)
+  console.log(`dataecoIndex: ${dataEcologicalIndex}`)
+
+
 
   return (
     <>
       <div className="mx-auto md:px-20 lg:px-40">
         <div className="flex justify-start mt-4 ms-10 mr-10">
-          <div className="flex flex-1 items-start justify-start">
+          <div className="flex items-start justify-start">
             <img
-              className="w-40 h-600 border border-gray-500 border-width-1 rounded "
-              src={image}
-              alt={name}
+                className="border border-gray-500 border-width-1 rounded w-fit h-fit"
+                src={image}
+                alt={name}
             />
-            <HeartFavorites productIdFavorites={productId} />
           </div>
-          <p className="text-xl sm:text-left lg:text-right">{name}</p>
-          <p className="text-xl sm:text-left lg:text-right">{description}</p>
+          <div className="flex flex-col flex-grow ml-2">
+            <div className="flex items-start justify-between">
+              <p className="text-xl sm:text-left lg:text-right mb-2">{name}</p>
+              <HeartFavorites productIdFavorites={productId} />
+            </div>
+            <p className="text-xs sm:text-left lg:text-right">{description}</p>
+          </div>
         </div>
         <div className="min-h bg-white border border-gray-500 border-width-1 rounded m-10 p-1 pb-9 ">
           <div className="flex justify-between mx-10 ">

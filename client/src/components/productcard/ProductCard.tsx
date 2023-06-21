@@ -5,8 +5,8 @@ import { Product } from '../../interfaces/IProduct';
 const ProductCard: React.FC<Product> = props => {
   const navigate = useNavigate();
   const productInfo = () => {
-    console.log(props.name)
-    console.log('Clicked on product, navigate to infopage')
+    console.log(props.name);
+    console.log('Clicked on product, navigate to infopage');
     navigate('/productInfo', {
       state: {
         barcode: props.barcode,
