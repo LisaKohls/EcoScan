@@ -14,11 +14,11 @@ const ProductInfo: React.FC = () => {
   const product = location.state as Product | undefined;
 
   if (!product) {
-    console.log("product empty");
+    console.log('product empty');
     return null;
   } else {
     if (!product.name) {
-      console.log("no entries");
+      console.log('no entries');
       return null;
     } else {
       console.log(`product response: ${product.name}`);
@@ -36,7 +36,7 @@ const ProductInfo: React.FC = () => {
     productId,
   } = product;
 
-  console.log("infoPage");
+  console.log('infoPage');
   console.log(image);
   const options = {
     elements: {
@@ -77,27 +77,28 @@ const ProductInfo: React.FC = () => {
     ],
   };
 
-  console.log(`water: ${sustainabilityEcoWater}`)
-  console.log(`lifetime: ${sustainabilityEcoLifetime}`)
-  console.log(`dataecoIndex: ${dataEcologicalIndex}`)
-
-
+  console.log(`water: ${sustainabilityEcoWater}`);
+  console.log(`lifetime: ${sustainabilityEcoLifetime}`);
+  console.log(`dataecoIndex: ${dataEcologicalIndex}`);
 
   return (
     <>
       <div className="mx-auto md:px-20 lg:px-40">
         <div className="flex justify-start mt-4 ms-10 mr-10">
-          <div className="flex items-start justify-start">
+          <div>
             <img
-                className="border border-gray-500 border-width-1 rounded w-fit h-fit"
-                src={image}
-                alt={name}
+              className="border border-gray-500 border-width-1 rounded w-fit h-fit "
+              src={image}
+              alt={name}
             />
           </div>
-          <div className="flex flex-col flex-grow ml-2">
-            <div className="flex items-start justify-between">
-              <p className="text-xl sm:text-left lg:text-right mb-2">{name}</p>
-              <HeartFavorites productIdFavorites={productId} />
+          <div className="flex flex-col ml-2">
+            <div className="flex">
+              <p className="text-xl mb-2 text-left">{name}</p>
+              <HeartFavorites
+                productIdFavorites={productId}
+                className="text-right"
+              />
             </div>
             <p className="text-xs sm:text-left lg:text-right">{description}</p>
           </div>

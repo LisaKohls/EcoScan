@@ -24,8 +24,6 @@ const ProductCard: React.FC<Product> = props => {
     });
   };
 
-
-
   return (
     <div className="p-text-between max-w-sm min-w-full min-h-full mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4 flex-1">
       <button onClick={productInfo}>
