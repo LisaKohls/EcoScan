@@ -9,7 +9,7 @@ const ButtonPrimary = ({ children, onClick }: ButtonPrimaryProps) => {
   return (
     <div className="flex justify-center">
       <button
-        className="center-button hover:bg-green-900 text-white hover:text-white rounded-xl bg-primary-color p-text-between m-margin-elements"
+        className="center-button hover:bg-secondary-color text-white hover:text-white rounded-xl bg-primary-color p-text-between m-margin-elements transition ease-in-out duration-300"
         onClick={onClick}
       >
         {children}
