@@ -20,8 +20,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
     <div className="bg-white shadow-md rounded-md overflow-hidden max-w-xs mx-auto">
       <img className="w-full h-64 object-cover" src={image} alt={name} />
       <div className="p-4">
-        <h2 className="text-lg font-semibold mb-2">{name}</h2>
-        <p className="text-gray-600 text-sm">{description}</p>
+        <h2 className="text-lg font-semibold mb-2 whitespace-normal">{name}</h2>
+        <p className="text-gray-600 text-sm whitespace-normal">{description}</p>
       </div>
       <div className="flex justify-between items-center p-4 border-t">
         <div className="text-sm">

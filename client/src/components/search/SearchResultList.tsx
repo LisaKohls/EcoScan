@@ -6,15 +6,24 @@ import { Product } from '../../interfaces/IProduct';
 import ProductCard from '../productcard/ProductCard';
 import ProductContainer from '../../containers/productcontainer/ProductContainer';
 
-const SearchResultList = ({ products }: { products: Product[] }) => {
+const SearchResultList = ({
+  products,
+  searchQuery,
+}: {
+  products: Product[];
+  searchQuery: string;
+}) => {
   const [addProductPopUp, setAddProductPopUp] = useState(false);
 
   return (
-    <>
+    <div className="pt-4">
       {products.length !== 0 ? (
         <ProductContainer products={products} />
       ) : (
-        <div className="items-center">
+        <div className="mt-4 text-center">
+          <p className="mb-2 text-gray-500">
+            No products found for &quot;{searchQuery}&quot;
+          </p>
           <ButtonPrimary onClick={() => setAddProductPopUp(true)}>
             Add new Product
           </ButtonPrimary>
@@ -23,7 +32,7 @@ const SearchResultList = ({ products }: { products: Product[] }) => {
           </PopUp>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
