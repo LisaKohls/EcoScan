@@ -15,7 +15,6 @@ const App: React.FC = () => {
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/registration" element={<RegistrationPage />} />
-
       {/* TODO: replace with real auth */}
       <Route element={<PersistLogin />}>
         <Route path="/" element={<RequireAuth />}>

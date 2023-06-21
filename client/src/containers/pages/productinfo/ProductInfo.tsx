@@ -1,50 +1,43 @@
 import { ArcElement, Chart as ChartJs, Legend, Tooltip } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import SustainabilityBar from '../../../components/sustainabilitybar/SustainabilityBar';
-import testImg from '../../../assets/bio_nut_butter_bar.png';
 
 import HeartFavorites from '../../../components/buttons/ButtonHeart';
+import { Product } from '../../../interfaces/IProduct';
+import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 
 ChartJs.register(ArcElement, Tooltip, Legend);
 
-const ProductInfo = () => {
-  const exampleData = {
-    img: testImg,
-    name: 'Koro Riegel',
-    socialIndex: 50,
-    lifetimeIndex: 10,
-    ecologicalIndex: 20,
-    waterIndex: 50,
-    description: 'High quality product placeholder for a description',
-    barcode: 10389972,
-    favorite: false,
-  };
+const ProductInfo: React.FC = () => {
+  const location = useLocation();
+  const product = location.state as Product | undefined;
 
-  const dataSocialIndex = {
-    datasets: [
-      {
-        backgroundColor: ['#636A5B', '#E0E0E0'],
-        data: [exampleData.socialIndex, 100 - exampleData.socialIndex],
-        labels: [
-          `${exampleData.socialIndex}`,
-          `${100 - exampleData.socialIndex}`,
-        ],
-      },
-    ],
-  };
-  const dataEcologicalIndex = {
-    datasets: [
-      {
-        backgroundColor: ['#636A5B', '#E0E0E0'],
-        data: [exampleData.ecologicalIndex, 100 - exampleData.ecologicalIndex],
-        labels: [
-          `${exampleData.ecologicalIndex}`,
-          `${100 - exampleData.ecologicalIndex}`,
-        ],
-      },
-    ],
-  };
+  if (!product) {
+    console.log('product empty');
+    return null;
+  } else {
+    if (!product.name) {
+      console.log('no entries');
+      return null;
+    } else {
+      console.log(`product response: ${product.name}`);
+    }
+  }
 
+  const {
+    image,
+    name,
+    description,
+    sustainabilityEcoWater,
+    sustainabilityEcoLifetime,
+    sustainabilityEco,
+    sustainabilitySocial,
+    productId,
+  } = product;
+
+  console.log('infoPage');
+  console.log(image);
   const options = {
     elements: {
       arc: {
@@ -54,27 +47,60 @@ const ProductInfo = () => {
     },
   };
 
-  // const [favorit, setFavorit] = useState(false);
+  ProductInfo.propTypes = {
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    sustainabilityEcoWater: PropTypes.number.isRequired,
+    sustainabilityEcoLifetime: PropTypes.number.isRequired,
+    sustainabilityEco: PropTypes.number.isRequired,
+    sustainabilitySocial: PropTypes.number.isRequired,
+    productId: PropTypes.string.isRequired,
+  };
+
+  const dataSocialIndex = {
+    datasets: [
+      {
+        backgroundColor: ['#636A5B', '#E0E0E0'],
+        data: [sustainabilitySocial, 100 - sustainabilitySocial],
+        labels: [`${sustainabilitySocial}`, `${100 - sustainabilitySocial}`],
+      },
+    ],
+  };
+  const dataEcologicalIndex = {
+    datasets: [
+      {
+        backgroundColor: ['#636A5B', '#E0E0E0'],
+        data: [sustainabilityEco, 100 - sustainabilityEco],
+        labels: [`${sustainabilityEco}`, `${100 - sustainabilityEco}`],
+      },
+    ],
+  };
+
+  console.log(`water: ${sustainabilityEcoWater}`);
+  console.log(`lifetime: ${sustainabilityEcoLifetime}`);
+  console.log(`dataecoIndex: ${dataEcologicalIndex}`);
 
   return (
     <>
       <div className="mx-auto md:px-20 lg:px-40">
         <div className="flex justify-start mt-4 ms-10 mr-10">
-          <div className="flex flex-1 items-start justify-start">
+          <div>
             <img
-              className="w-40 h-600 border border-gray-500 border-width-1 rounded "
-              src={exampleData.img}
-              alt={exampleData.name}
+              className="border border-gray-500 border-width-1 rounded w-fit h-fit "
+              src={image}
+              alt={name}
             />
-            <HeartFavorites
-              barcode={exampleData.barcode}
-              isInitiallyFavorite={exampleData.favorite}
-            />
-
-            <div className="flex flex-col pl-3 text-left ">
-              <p className="flex-1 text-xl ">{exampleData.name}</p>
-              <p className="flex-1 text-base ">{exampleData.description}</p>
+          </div>
+          <div className="flex flex-col ml-2">
+            <div className="flex">
+              <p className="text-xl mb-2 text-left">{name}</p>
+              <HeartFavorites
+                productIdFavorites={productId}
+                className="text-right"
+              />
             </div>
+            <p className="text-xs sm:text-left lg:text-right">{description}</p>
           </div>
         </div>
         <div className="min-h bg-white border border-gray-500 border-width-1 rounded m-10 p-1 pb-9 ">
@@ -91,11 +117,11 @@ const ProductInfo = () => {
         </div>
         <div className="min-h bg-white border border-gray-500 border-width-1 rounded mt-8 m-10 p-1 ">
           <SustainabilityBar
-            index={exampleData.lifetimeIndex}
+            index={sustainabilityEcoLifetime}
             title="Lifetime"
           />
           <SustainabilityBar
-            index={exampleData.waterIndex}
+            index={sustainabilityEcoWater}
             title="Water usage"
           />
         </div>

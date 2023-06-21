@@ -50,9 +50,17 @@ const Favorites: React.FC = () => {
   const renderProducts = products.map((product, index) => (
     <ProductCard
       key={index}
-      img={product.image}
+      barcode={product.barcode}
+      categories={product.categories}
       name={product.name}
-      index={index}
+      description={product.description}
+      image={product.image}
+      sustainabilityName={product.sustainabilityName}
+      sustainabilityEcoWater={product.sustainabilityEcoWater}
+      sustainabilityEcoLifetime={product.sustainabilityEcoLifetime}
+      sustainabilityEco={product.sustainabilityEco}
+      sustainabilitySocial={product.sustainabilitySocial}
+      productId={product.productId}
     />
   ));
 

@@ -11,9 +11,17 @@ const SearchResultList = ({ products }: { products: Product[] }) => {
     return (
       <div key={id}>
         <ProductCard
-          img={product.image}
-          index={product.sustainabilityEco}
+          barcode={product.barcode}
+          categories={product.categories}
           name={product.name}
+          description={product.description}
+          image={product.image}
+          sustainabilityName={product.sustainabilityName}
+          sustainabilityEcoWater={product.sustainabilityEcoWater}
+          sustainabilityEcoLifetime={product.sustainabilityEcoLifetime}
+          sustainabilityEco={product.sustainabilityEco}
+          sustainabilitySocial={product.sustainabilitySocial}
+          productId={product.productId}
         />
       </div>
     );
