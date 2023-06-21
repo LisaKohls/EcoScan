@@ -4,6 +4,7 @@ import SearchResultList from '../../../components/search/SearchResultList';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import axios from 'axios';
 import { Product } from '../../../interfaces/IProduct';
+import { AiOutlineSearch } from 'react-icons/ai';
 
 const PRODUCT_URL = '/api/product/';
 const SearchForProduct = () => {
@@ -36,14 +37,27 @@ const SearchForProduct = () => {
   );
 
   useEffect(() => {
-    fetchProducts(searchQuery);
+    if (searchQuery.trim() !== '') {
+      fetchProducts(searchQuery);
+    } else {
+      setProducts([]);
+    }
   }, [searchQuery, fetchProducts]);
-  //console.log(`search for product product: ${products.searchResults}`)
+
   return (
     <>
-      <div className="p-text-between">
+      <div className="px-4 py-2">
         <SearchBar setSearchQuery={setSearchQuery} />
-        <SearchResultList products={products} />
+        {searchQuery.trim() === '' ? (
+          <div className="flex flex-col items-center justify-center mt-10 text-center">
+            <AiOutlineSearch size={50} className="text-gray-400" />
+            <p className="mt-4 text-gray-500 whitespace-normal">
+              Start searching for products by entering a barcode or product name
+            </p>
+          </div>
+        ) : (
+          <SearchResultList products={products} searchQuery={searchQuery} />
+        )}
       </div>
     </>
   );

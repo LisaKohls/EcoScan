@@ -16,16 +16,15 @@ const SearchBar = ({ setSearchQuery }: SearchBarProps) => {
     debounceTimeout = setTimeout(() => {
       setSearchQuery(e.target.value);
     }, 500);
-    setSearchQuery(e.target.value);
   };
 
   return (
-    <div className="p-text-between">
-      <FaSearch id="search-icon" className="absolute right-10 mt-5 w-5 h-5 " />
+    <div className="relative flex items-center rounded-md bg-white shadow-md">
+      <FaSearch className="absolute left-3 text-gray-400" />
       <input
-        className="w-full p-text-between bg-white text-black border-2 border-grey rounded-md focus:outline-none focus:border-black"
+        className="w-full py-2 pr-4 pl-10 text-black rounded-md focus:outline-none focus:border-transparent focus:ring-2 focus:ring-indigo-500"
         type="text"
-        placeholder="Enter barcode number"
+        placeholder="Enter barcode number or product name"
         value={bufSearchQuery}
         onChange={e => handleChange(e)}
       />
