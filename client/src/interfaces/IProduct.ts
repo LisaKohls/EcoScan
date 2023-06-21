@@ -1,5 +1,5 @@
 export interface Product {
-  barcode: string;
+  barcode: number;
   categories: string[];
   name: string;
   description: string;
@@ -9,5 +9,5 @@ export interface Product {
   sustainabilityEcoLifetime: number;
   sustainabilityEco: number;
   sustainabilitySocial: number;
-  productId: string;
+  favorite: boolean;
 }

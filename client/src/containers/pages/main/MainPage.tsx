@@ -36,18 +36,11 @@ const MainPage: React.FC = () => {
         Align the barcode within the frame to scan
       </h2>
       <div className="flex justify-center">
-        <button
-          className="m-10 rounded-md relative "
-          onClick={() => navigate('/productInfo')}
-        >
-          <div className="absolute inset-8 border border-white rounded-md"></div>
-
-          <div className="">
-            <video ref={videoRef}>
-              <track kind="captions" />
-            </video>
-          </div>
-        </button>
+        <div className="">
+          <video ref={videoRef}>
+            <track kind="captions" />
+          </video>
+        </div>
       </div>
       <ButtonPrimary onClick={() => navigateToPage('searchForProduct')}>
         Type in manually

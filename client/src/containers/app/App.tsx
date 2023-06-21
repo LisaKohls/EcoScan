@@ -19,7 +19,7 @@ const App: React.FC = () => {
       <Route element={<PersistLogin />}>
         <Route path="/" element={<RequireAuth />}>
           <Route index element={<MainPage />} />
-          <Route path="/productInfo" element={<ProductInfo />} />
+          <Route path="/product/:barcode" element={<ProductInfo />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/searchForProduct" element={<SearchForProduct />} />
