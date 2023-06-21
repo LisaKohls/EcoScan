@@ -1,24 +1,34 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Product } from '../../interfaces/IProduct';
+import HeartFavorites from '../buttons/ButtonHeart';
 
-const ProductCard: React.FC<Product> = props => {
-  const navigate = useNavigate();
+interface ProductCardProps {
+  name: string;
+  description: string;
+  barcode: number;
+  image: string;
+  favorite: boolean;
+}
 
-  const gotoDetailedView = () => {
-    navigate(`/product/${props.barcode}`);
-  };
-  console.log(props);
-
+const ProductCard: React.FC<ProductCardProps> = ({
+  name,
+  description,
+  barcode,
+  image,
+  favorite,
+}) => {
   return (
-    <div className="p-text-between max-w-sm min-w-full min-h-full mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4 flex-1">
-      <button onClick={gotoDetailedView}>
-        <img src={props.image} alt={props.name} />
-        <div>
-          <div className="text-xl font-medium text-black">{props.name}</div>
-          <p className="text-slate-500">{props.sustainabilityEco}</p>
+    <div className="bg-white shadow-md rounded-md overflow-hidden max-w-xs mx-auto">
+      <img className="w-full h-64 object-cover" src={image} alt={name} />
+      <div className="p-4">
+        <h2 className="text-lg font-semibold mb-2">{name}</h2>
+        <p className="text-gray-600 text-sm">{description}</p>
+      </div>
+      <div className="flex justify-between items-center p-4 border-t">
+        <div className="text-sm">
+          <span className="font-semibold">Barcode:</span> {barcode}
         </div>
-      </button>
+        <HeartFavorites barcode={barcode} isInitiallyFavorite={favorite} />
+      </div>
     </div>
   );
 };
