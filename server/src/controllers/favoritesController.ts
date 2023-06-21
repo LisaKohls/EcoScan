@@ -1,7 +1,11 @@
 import { NextFunction, Response } from 'express'
 import userModel from '../models/userModel'
 import { AuthRequest } from '../types/authTypes'
-import { checkProductExists } from '../services/productService'
+import {
+  checkProductExists,
+  getAverageSustainability
+} from '../services/productService'
+import { Product } from '../models/productModel'
 
 export const addFavorite = async (
   req: AuthRequest,
@@ -62,16 +66,39 @@ export const getAllFavorites = async (
   next: NextFunction
 ) => {
   try {
-    // Find the user by userId and populate their favorite products
+    // Find the user by userId and only fetch the favorites
     const user = await userModel
       .findOne({ username: req.user.username })
-      .populate('favorites')
+      .select('favorites')
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' })
     }
 
-    res.status(200).json(user.favorites)
+    // Perform a second query to fetch the favorite products with the desired structure
+    const favorites = await Product.aggregate([
+      { $match: { _id: { $in: user.favorites } } },
+      {
+        $project: {
+          _id: 0,
+          name: 1,
+          barcode: '$_id',
+          categories: 1,
+          description: 1,
+          image: { $arrayElemAt: ['$image_urls', 0] },
+          sustainabilityName: '$sustainability.name',
+          sustainabilityEcoWater: { $ifNull: ['$sustainability.eco_water', 0] },
+          sustainabilityEcoLifetime: {
+            $ifNull: ['$sustainability.eco_lifetime', 0]
+          },
+          sustainabilityEco: getAverageSustainability('eco'),
+          sustainabilitySocial: getAverageSustainability('social'),
+          favorite: { $literal: true }
+        }
+      }
+    ]).exec()
+
+    res.status(200).json(favorites)
   } catch (error) {
     next(error)
   }

@@ -34,7 +34,10 @@ const Header = () => {
     title = 'Profile';
   }
 
-  if (locationPage == '/searchForProduct' || locationPage == '/productInfo') {
+  if (
+    locationPage == '/searchForProduct' ||
+    locationPage.startsWith('/product')
+  ) {
     return (
       <div className="flex p-11 bg-primary-color">
         <button

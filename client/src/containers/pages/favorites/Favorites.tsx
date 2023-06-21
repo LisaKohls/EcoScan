@@ -5,7 +5,7 @@ import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import axios from 'axios';
 import { Product } from '../../../interfaces/IProduct';
 
-const PRODUCT_URL = '/api/product';
+const FAVORITES_URL = '/api/favorites';
 const Favorites: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [products, setProducts] = useState<Product[]>([]);
@@ -13,12 +13,9 @@ const Favorites: React.FC = () => {
 
   const fetchProducts = useCallback(async () => {
     try {
-      const response = await axiosPrivate.get<Product[]>(PRODUCT_URL, {
+      const response = await axiosPrivate.get<Product[]>(FAVORITES_URL, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true,
-        params: {
-          name: searchQuery,
-        },
       });
 
       setProducts(response.data);
@@ -40,12 +37,9 @@ const Favorites: React.FC = () => {
      * Problem: If there are too many favorites => very long fetching time.
      * Better: Just fetch like 10 favorites and then provide to load more. And when searching, send the searchQuery just like now to the server.
      * */
-    if (searchQuery !== '') {
-      fetchProducts();
-    } else {
-      setProducts([]);
-    }
-  }, [searchQuery, fetchProducts]);
+
+    fetchProducts();
+  }, [fetchProducts]);
 
   const renderProducts = products.map((product, index) => (
     <ProductCard
@@ -60,7 +54,7 @@ const Favorites: React.FC = () => {
       sustainabilityEcoLifetime={product.sustainabilityEcoLifetime}
       sustainabilityEco={product.sustainabilityEco}
       sustainabilitySocial={product.sustainabilitySocial}
-      productId={product.productId}
+      favorite={product.favorite}
     />
   ));
 

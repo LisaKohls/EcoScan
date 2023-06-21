@@ -21,7 +21,7 @@ const SearchResultList = ({ products }: { products: Product[] }) => {
           sustainabilityEcoLifetime={product.sustainabilityEcoLifetime}
           sustainabilityEco={product.sustainabilityEco}
           sustainabilitySocial={product.sustainabilitySocial}
-          productId={product.productId}
+          favorite={product.favorite}
         />
       </div>
     );

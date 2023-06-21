@@ -3,41 +3,40 @@ import { Pie } from 'react-chartjs-2';
 import SustainabilityBar from '../../../components/sustainabilitybar/SustainabilityBar';
 
 import HeartFavorites from '../../../components/buttons/ButtonHeart';
-import { Product } from '../../../interfaces/IProduct';
-import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
+import { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 ChartJs.register(ArcElement, Tooltip, Legend);
 
 const ProductInfo: React.FC = () => {
-  const location = useLocation();
-  const product = location.state as Product | undefined;
+  const axiosPrivate = useAxiosPrivate();
+  const [product, setProduct] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  if (!product) {
-    console.log('product empty');
-    return null;
-  } else {
-    if (!product.name) {
-      console.log('no entries');
-      return null;
-    } else {
-      console.log(`product response: ${product.name}`);
+  const { barcode } = useParams();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        //const barcode = 10390429; // Replace with your barcode
+        const response = await axiosPrivate.get(`/api/product/${barcode}`);
+
+        if (response.status !== 200) {
+          throw new Error(`Error: received ${response.status} response`);
+        }
+
+        setProduct(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+      }
     }
-  }
 
-  const {
-    image,
-    name,
-    description,
-    sustainabilityEcoWater,
-    sustainabilityEcoLifetime,
-    sustainabilityEco,
-    sustainabilitySocial,
-    productId,
-  } = product;
+    fetchData();
+  }, []);
 
-  console.log('infoPage');
-  console.log(image);
   const options = {
     elements: {
       arc: {
@@ -47,23 +46,18 @@ const ProductInfo: React.FC = () => {
     },
   };
 
-  ProductInfo.propTypes = {
-    name: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    sustainabilityEcoWater: PropTypes.number.isRequired,
-    sustainabilityEcoLifetime: PropTypes.number.isRequired,
-    sustainabilityEco: PropTypes.number.isRequired,
-    sustainabilitySocial: PropTypes.number.isRequired,
-    productId: PropTypes.string.isRequired,
-  };
-
   const dataSocialIndex = {
     datasets: [
       {
         backgroundColor: ['#636A5B', '#E0E0E0'],
-        data: [sustainabilitySocial, 100 - sustainabilitySocial],
-        labels: [`${sustainabilitySocial}`, `${100 - sustainabilitySocial}`],
+        data: [
+          product?.sustainabilitySocial || 0,
+          100 - (product?.sustainabilitySocial || 0),
+        ],
+        labels: [
+          `${product?.sustainabilitySocial || 0}`,
+          `${100 - (product?.sustainabilitySocial || 0)}`,
+        ],
       },
     ],
   };
@@ -71,61 +65,73 @@ const ProductInfo: React.FC = () => {
     datasets: [
       {
         backgroundColor: ['#636A5B', '#E0E0E0'],
-        data: [sustainabilityEco, 100 - sustainabilityEco],
-        labels: [`${sustainabilityEco}`, `${100 - sustainabilityEco}`],
+        data: [
+          product?.sustainabilityEco || 0,
+          100 - (product?.sustainabilityEco || 0),
+        ],
+        labels: [
+          `${product?.sustainabilityEco || 0}`,
+          `${100 - (product?.sustainabilityEco || 0)}`,
+        ],
       },
     ],
   };
 
-  console.log(`water: ${sustainabilityEcoWater}`);
-  console.log(`lifetime: ${sustainabilityEcoLifetime}`);
-  console.log(`dataecoIndex: ${dataEcologicalIndex}`);
-
   return (
     <>
-      <div className="mx-auto md:px-20 lg:px-40">
-        <div className="flex justify-start mt-4 ms-10 mr-10">
-          <div>
-            <img
-              className="border border-gray-500 border-width-1 rounded w-fit h-fit "
-              src={image}
-              alt={name}
-            />
-          </div>
-          <div className="flex flex-col ml-2">
-            <div className="flex">
-              <p className="text-xl mb-2 text-left">{name}</p>
-              <HeartFavorites
-                productIdFavorites={productId}
-                className="text-right"
-              />
+      {isLoading ? (
+        <p>Loading product...</p>
+      ) : (
+        <div className="mx-auto md:px-20 lg:px-40">
+          <>
+            <div className="mx-auto md:px-20 lg:px-40">
+              <div className="flex justify-start mt-4 ms-10 mr-10">
+                <div>
+                  <img
+                    className="border border-gray-500 border-width-1 rounded w-fit h-fit "
+                    src={product.image}
+                    alt={product.name}
+                  />
+                </div>
+                <div className="flex flex-col ml-2">
+                  <div className="flex">
+                    <p className="text-xl mb-2 text-left">{product.name}</p>
+                    <HeartFavorites
+                      barcode={product.barcode}
+                      isInitiallyFavorite={product.favorite}
+                    />
+                  </div>
+                  <p className="text-xs sm:text-left lg:text-right">
+                    {product.description}
+                  </p>
+                </div>
+              </div>
+              <div className="min-h bg-white border border-gray-500 border-width-1 rounded m-10 p-1 pb-9 ">
+                <div className="flex justify-between mx-10 ">
+                  <div className="flex flex-col items-center h-20 w-20 md:h-40 md:w-40">
+                    <Pie data={dataSocialIndex} options={options} />
+                    <p className="whitespace-nowrap">Social Index</p>
+                  </div>
+                  <div className="flex flex-col items-center h-20 w-20 md:h-40 md:w-40">
+                    <Pie data={dataEcologicalIndex} options={options} />
+                    <p className="whitespace-nowrap">Ecological Index</p>
+                  </div>
+                </div>
+              </div>
+              <div className="min-h bg-white border border-gray-500 border-width-1 rounded mt-8 m-10 p-1 ">
+                <SustainabilityBar
+                  index={product.sustainabilityEcoLifetime}
+                  title="Lifetime"
+                />
+                <SustainabilityBar
+                  index={product.sustainabilityEcoWater}
+                  title="Water usage"
+                />
+              </div>
             </div>
-            <p className="text-xs sm:text-left lg:text-right">{description}</p>
-          </div>
+          </>
         </div>
-        <div className="min-h bg-white border border-gray-500 border-width-1 rounded m-10 p-1 pb-9 ">
-          <div className="flex justify-between mx-10 ">
-            <div className="flex flex-col items-center h-20 w-20 md:h-40 md:w-40">
-              <Pie data={dataSocialIndex} options={options} />
-              <p className="whitespace-nowrap">Social Index</p>
-            </div>
-            <div className="flex flex-col items-center h-20 w-20 md:h-40 md:w-40">
-              <Pie data={dataEcologicalIndex} options={options} />
-              <p className="whitespace-nowrap">Ecological Index</p>
-            </div>
-          </div>
-        </div>
-        <div className="min-h bg-white border border-gray-500 border-width-1 rounded mt-8 m-10 p-1 ">
-          <SustainabilityBar
-            index={sustainabilityEcoLifetime}
-            title="Lifetime"
-          />
-          <SustainabilityBar
-            index={sustainabilityEcoWater}
-            title="Water usage"
-          />
-        </div>
-      </div>
+      )}
     </>
   );
 };
