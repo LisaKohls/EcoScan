@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import ProductCard from '../../../components/productcard/ProductCard';
-import SearchBar from '../../../components/search/SearchBar';
+import { FaRegHeart } from 'react-icons/fa';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import axios from 'axios';
 import { Product } from '../../../interfaces/IProduct';
 import ProductContainer from '../../productcontainer/ProductContainer';
 
 const FAVORITES_URL = '/api/favorites';
+
 const Favorites: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [products, setProducts] = useState<Product[]>([]);
@@ -43,10 +43,21 @@ const Favorites: React.FC = () => {
   }, [fetchProducts]);
 
   return (
-    <>
-      <SearchBar setSearchQuery={setSearchQuery} />
-      <ProductContainer products={products} />
-    </>
+    <div className="pt-8">
+      {/*<SearchBar setSearchQuery={setSearchQuery} />*/}
+      {products.length > 0 ? (
+        <ProductContainer products={products} />
+      ) : (
+        <div className="flex flex-col items-center justify-center space-y-4">
+          <FaRegHeart className="w-20 h-20 text-gray-300" />
+          <h2 className="text-xl text-gray-600">No favorites yet!</h2>
+          <p className="text-center text-gray-500 max-w-md mx-auto whitespace-normal">
+            Looks like you haven&apos;t added any products to your favorites.
+            Start exploring and add some!
+          </p>
+        </div>
+      )}
+    </div>
   );
 };
 
