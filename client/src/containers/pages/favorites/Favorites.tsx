@@ -4,6 +4,7 @@ import SearchBar from '../../../components/search/SearchBar';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import axios from 'axios';
 import { Product } from '../../../interfaces/IProduct';
+import ProductContainer from '../../productcontainer/ProductContainer';
 
 const FAVORITES_URL = '/api/favorites';
 const Favorites: React.FC = () => {
@@ -41,29 +42,10 @@ const Favorites: React.FC = () => {
     fetchProducts();
   }, [fetchProducts]);
 
-  const renderProducts = products.map((product, index) => (
-    <ProductCard
-      key={index}
-      barcode={product.barcode}
-      categories={product.categories}
-      name={product.name}
-      description={product.description}
-      image={product.image}
-      sustainabilityName={product.sustainabilityName}
-      sustainabilityEcoWater={product.sustainabilityEcoWater}
-      sustainabilityEcoLifetime={product.sustainabilityEcoLifetime}
-      sustainabilityEco={product.sustainabilityEco}
-      sustainabilitySocial={product.sustainabilitySocial}
-      favorite={product.favorite}
-    />
-  ));
-
   return (
     <>
       <SearchBar setSearchQuery={setSearchQuery} />
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-text-between">
-        {renderProducts}
-      </div>
+      <ProductContainer products={products} />
     </>
   );
 };
