@@ -28,7 +28,7 @@ const SearchResultList = ({ products }: { products: Product[] }) => {
   });
 
   const renderAddNewProductButton = (
-    <div>
+    <div className="items-center">
       <ButtonPrimary onClick={() => setAddProductPopUp(true)}>
         Add new Product
       </ButtonPrimary>
@@ -39,7 +39,7 @@ const SearchResultList = ({ products }: { products: Product[] }) => {
   );
   console.log(`search result list length: ${products.length}`);
   return (
-    <div className="grid grid-cols-2 gap-4 p-4 md:grid-cols-3">
+    <div className="grid grid-cols-2 gap-4 p-text-between md:grid-cols-3 lg:grid-cols-4">
       {products.length !== 0 ? renderProducts : renderAddNewProductButton}
     </div>
   );

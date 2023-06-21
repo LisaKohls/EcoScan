@@ -20,7 +20,7 @@ const SearchBar = ({ setSearchQuery }: SearchBarProps) => {
   };
 
   return (
-    <div>
+    <div className="p-text-between">
       <FaSearch id="search-icon" className="absolute right-10 mt-5 w-5 h-5 " />
       <input
         className="w-full p-text-between bg-white text-black border-2 border-grey rounded-md focus:outline-none focus:border-black"
