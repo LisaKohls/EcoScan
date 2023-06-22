@@ -48,7 +48,10 @@ const Profile: FC = (): ReactElement => {
           {exampleData.email}
         </h2>
         <div className="w-full flex justify-center mt-4">
-          <button onClick={() => signOut()} className="w-full sm:w-auto underline">
+          <button
+            onClick={() => signOut()}
+            className="w-full sm:w-auto underline"
+          >
             Logout
           </button>
         </div>

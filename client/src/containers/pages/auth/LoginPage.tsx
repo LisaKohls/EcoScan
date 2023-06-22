@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 import axios from '../../../api/axiosAPI';
 import { AxiosError } from 'axios';
-import EcoScan from "../../../components/logos/EcoScan";
+import EcoScan from '../../../components/logos/EcoScan';
 
 const LOGIN_URL = 'api/auth/login';
 
@@ -84,7 +84,6 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-white to-secondary-light flex items-center justify-center">
-
       <div className="w-full max-w-xs">
         <EcoScan />
         <form
