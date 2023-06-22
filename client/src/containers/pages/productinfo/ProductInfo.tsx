@@ -78,61 +78,65 @@ const ProductInfo: React.FC = () => {
   };
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 whitespace-normal pb-28">
       {isLoading ? (
         <p>Loading product...</p>
       ) : (
-        <div className="mx-auto md:px-20 lg:px-40">
-          <>
-            <div className="mx-auto md:px-20 lg:px-40">
-              <div className="flex justify-start mt-4 ms-10 mr-10">
-                <div>
-                  <img
-                    className="border border-gray-500 border-width-1 rounded w-fit h-fit "
-                    src={product.image}
-                    alt={product.name}
-                  />
-                </div>
-                <div className="flex flex-col ml-2">
-                  <div className="flex">
-                    <p className="text-xl mb-2 text-left">{product.name}</p>
-                    <HeartFavorites
-                      barcode={product.barcode}
-                      isInitiallyFavorite={product.favorite}
-                    />
-                  </div>
-                  <p className="text-xs sm:text-left lg:text-right">
-                    {product.description}
-                  </p>
-                </div>
+        <div className="max-w-md w-full space-y-8">
+          <div className="flex flex-col items-center">
+            <img
+              className="mx-auto h-32 w-32 object-cover"
+              src={product.image}
+              alt={product.name}
+            />
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 whitespace-normal">
+              {product.name}
+            </h2>
+            <p className="mt-2 text-center text-sm text-gray-600 whitespace-normal">
+              {product.description}
+            </p>
+            <HeartFavorites
+              barcode={product.barcode}
+              isInitiallyFavorite={product.favorite}
+            />
+          </div>
+          <div className="mt-10">
+            <h3 className="text-center text-lg font-bold text-gray-900">
+              Sustainability Metrics
+            </h3>
+            <div className="mt-4 flex flex-col items-center space-y-6">
+              <SustainabilityBar
+                index={product.sustainabilityEcoLifetime}
+                title="Lifetime"
+              />
+              <SustainabilityBar
+                index={product.sustainabilityEcoWater}
+                title="Water usage"
+              />
+            </div>
+          </div>
+          <div className="mt-10">
+            <h3 className="text-center text-lg font-bold text-gray-900">
+              Sustainability Indices
+            </h3>
+            <div className="mt-4 flex flex-row items-center justify-center space-x-6">
+              <div className="flex flex-col items-center w-1/3">
+                <Pie data={dataSocialIndex} options={options} />
+                <p className="text-center text-sm text-gray-600">
+                  Social Index
+                </p>
               </div>
-              <div className="min-h bg-white border border-gray-500 border-width-1 rounded m-10 p-1 pb-9 ">
-                <div className="flex justify-between mx-10 ">
-                  <div className="flex flex-col items-center h-20 w-20 md:h-40 md:w-40">
-                    <Pie data={dataSocialIndex} options={options} />
-                    <p className="whitespace-nowrap">Social Index</p>
-                  </div>
-                  <div className="flex flex-col items-center h-20 w-20 md:h-40 md:w-40">
-                    <Pie data={dataEcologicalIndex} options={options} />
-                    <p className="whitespace-nowrap">Ecological Index</p>
-                  </div>
-                </div>
-              </div>
-              <div className="min-h bg-white border border-gray-500 border-width-1 rounded mt-8 m-10 p-1 ">
-                <SustainabilityBar
-                  index={product.sustainabilityEcoLifetime}
-                  title="Lifetime"
-                />
-                <SustainabilityBar
-                  index={product.sustainabilityEcoWater}
-                  title="Water usage"
-                />
+              <div className="flex flex-col items-center w-1/3">
+                <Pie data={dataEcologicalIndex} options={options} />
+                <p className="text-center text-sm text-gray-600">
+                  Ecological Index
+                </p>
               </div>
             </div>
-          </>
+          </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

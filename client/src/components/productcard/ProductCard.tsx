@@ -18,8 +18,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
   favorite,
 }) => {
   return (
-    <Link to={`/product/${barcode}`} className="cursor-pointer">
-      <div className="cursor-pointer bg-white shadow-md rounded-md overflow-hidden max-w-xs mx-auto">
+    <div className="cursor-pointer bg-white shadow-md rounded-md overflow-hidden max-w-xs mx-auto">
+      <Link to={`/product/${barcode}`} className="cursor-pointer">
         <img className="w-full h-64 object-cover" src={image} alt={name} />
         <div className="p-4">
           <h2 className="text-lg font-semibold mb-2 whitespace-normal">
@@ -29,14 +29,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {description}
           </p>
         </div>
-        <div className="flex justify-between items-center p-4 border-t">
-          <div className="text-sm">
-            <span className="font-semibold">Barcode:</span> {barcode}
-          </div>
-          <HeartFavorites barcode={barcode} isInitiallyFavorite={favorite} />
+      </Link>
+      <div className="flex justify-between items-center p-4 border-t">
+        <div className="text-sm">
+          <span className="font-semibold">Barcode:</span> {barcode}
         </div>
+        <HeartFavorites barcode={barcode} isInitiallyFavorite={favorite} />
       </div>
-    </Link>
+    </div>
   );
 };
 
