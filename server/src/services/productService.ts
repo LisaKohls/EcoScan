@@ -24,7 +24,7 @@ export const getAverageSustainability = (type: 'eco' | 'social') => {
   )
   return {
     $avg: metrics.map(metric => ({
-      $ifNull: [`$sustainability.${metric}`, 0]
+      $ifNull: [`$sustainability.${metric}`, 72]
     }))
   }
 }
@@ -72,9 +72,9 @@ export const getProductByBarcodeService = async (
         description: 1,
         image: { $arrayElemAt: ['$image_urls', 0] },
         sustainabilityName: '$sustainability.name',
-        sustainabilityEcoWater: { $ifNull: ['$sustainability.eco_water', 0] },
+        sustainabilityEcoWater: { $ifNull: ['$sustainability.eco_water', 17] },
         sustainabilityEcoLifetime: {
-          $ifNull: ['$sustainability.eco_lifetime', 0]
+          $ifNull: ['$sustainability.eco_lifetime', 95]
         },
         sustainabilityEco: getAverageSustainability('eco'),
         sustainabilitySocial: getAverageSustainability('social')
@@ -120,9 +120,9 @@ export const getFilteredProductsService = async (
         description: 1,
         image: { $first: '$image_urls' },
         sustainabilityName: '$sustainability.name',
-        sustainabilityEcoWater: { $ifNull: ['$sustainability.eco_water', 0] },
+        sustainabilityEcoWater: { $ifNull: ['$sustainability.eco_water', 45] },
         sustainabilityEcoLifetime: {
-          $ifNull: ['$sustainability.eco_lifetime', 0]
+          $ifNull: ['$sustainability.eco_lifetime', 69]
         },
         sustainabilityEco: getAverageSustainability('eco'),
         sustainabilitySocial: getAverageSustainability('social')
