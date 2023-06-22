@@ -22,10 +22,18 @@ export const getAverageSustainability = (type: 'eco' | 'social') => {
   const metrics = SUSTAINABILITY_METRICS.filter(metric =>
     metric.startsWith(type)
   )
-  return {
-    $avg: metrics.map(metric => ({
-      $ifNull: [`$sustainability.${metric}`, 72]
-    }))
+  if (type === 'social') {
+    return {
+      $avg: metrics.map(metric => ({
+        $ifNull: [`$sustainability.${metric}`, 72]
+      }))
+    }
+  } else {
+    return {
+      $avg: metrics.map(metric => ({
+        $ifNull: [`$sustainability.${metric}`, 39]
+      }))
+    }
   }
 }
 
