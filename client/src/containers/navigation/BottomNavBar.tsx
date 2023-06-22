@@ -34,7 +34,7 @@ function BottomNavBar() {
         <button
           key={page}
           className={`flex flex-col items-center text-${
-            activePage === page ? 'white' : ''
+            activePage === page ? 'secondary-color' : 'white'
           } hover:text-secondary-color`}
           onClick={() => navigateToPage(page)}
         >

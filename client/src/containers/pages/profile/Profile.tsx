@@ -35,7 +35,7 @@ const Profile: FC = (): ReactElement => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center bg-lime-100 p-4 rounded-bl-3xl">
+      <div className="flex flex-col items-center justify-center bg-gradient-to-r from-secondary-light to-white  border border-gray-300 p-4 rounded-b-3xl">
         <img
           src={exampleData.img}
           alt="profile_photo"
@@ -48,7 +48,10 @@ const Profile: FC = (): ReactElement => {
           {exampleData.email}
         </h2>
         <div className="w-full flex justify-center mt-4">
-          <button onClick={() => signOut()} className="w-full sm:w-auto">
+          <button
+            onClick={() => signOut()}
+            className="w-full sm:w-auto underline"
+          >
             Logout
           </button>
         </div>

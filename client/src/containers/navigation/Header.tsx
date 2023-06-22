@@ -54,19 +54,19 @@ const Header = () => {
         <header className="p-8 bg-primary-color text-white text-right text-xl md:px-20 lg:px-40">
           <div className="flex space-x-6">
             <button
-              className="text-xl font-normal focus:underline hover:text-black transition ease-in-out duration-300"
+              className="text-xl font-normal focus:underline hover:text-secondary-color transition ease-in-out duration-300"
               onClick={() => navigateToPage('')}
             >
               Scan Product
             </button>
             <button
-              className="flex-col text-xl font-normal focus:underline hover:text-black transition ease-in-out duration-300"
+              className="flex-col text-xl font-normal focus:underline hover:text-secondary-color transition ease-in-out duration-300"
               onClick={() => navigateToPage('favorites')}
             >
               Favorites
             </button>
             <button
-              className="flex-col text-xl font-normal focus:underline hover:text-black transition ease-in-out duration-300"
+              className="flex-col text-xl font-normal focus:underline hover:text-secondary-color transition ease-in-out duration-300"
               onClick={() => navigateToPage('profile')}
             >
               Profile
