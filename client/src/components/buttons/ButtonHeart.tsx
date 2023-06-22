@@ -11,8 +11,17 @@ interface HeartButtonProps {
 const HeartFavorites = ({ barcode, isInitiallyFavorite }: HeartButtonProps) => {
   const [isFavorite, setIsFavorite] = useState(isInitiallyFavorite);
   const axiosPrivate = useAxiosPrivate();
+  const [animationClass, setAnimationClass] = useState('');
 
   const handleIsFavorite = useCallback(async () => {
+    if (!isFavorite) {
+      setAnimationClass('scale-125');
+
+      setTimeout(() => {
+        setAnimationClass('scale-100');
+      }, 300); // Reset scale after 300ms
+    }
+
     const url = isFavorite ? '/api/favorites/remove' : '/api/favorites/add';
 
     try {
@@ -41,8 +50,15 @@ const HeartFavorites = ({ barcode, isInitiallyFavorite }: HeartButtonProps) => {
 
   return (
     <div>
-      <button className="text-4xl pl-2" onClick={handleIsFavorite}>
-        {isFavorite ? <AiFillHeart /> : <AiOutlineHeart />}
+      <button
+        className={`text-4xl pl-2 transition-all duration-300 transform ${animationClass}`}
+        onClick={handleIsFavorite}
+      >
+        {isFavorite ? (
+          <AiFillHeart className="text-red-500" />
+        ) : (
+          <AiOutlineHeart />
+        )}
       </button>
     </div>
   );

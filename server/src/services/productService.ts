@@ -139,10 +139,10 @@ export const getFilteredProductsService = async (
   ]).exec()
 
   const user = await userModel.findOne({ username }).lean()
-  const userFavorites = user ? user.favorites.map(String) : []
+  const userFavorites = user ? user.favorites : []
   return products.map((product: any) => ({
     ...product,
-    favorite: userFavorites.includes(String(product._id))
+    favorite: userFavorites.includes(product.barcode)
   }))
 }
 

@@ -31,12 +31,29 @@ const SustainabilityBar: React.FC<SustainabilityBarProps> = props => {
   }
 
   return (
-    <div className="h-4 bg-gray-300 w-400 m-10 rounded">
-      <div className="h-full rounded" style={barStyles}></div>
-
-      <p className={textColorClass}>
-        {label} {props.title}
-      </p>
+    <div className="relative pt-1">
+      <div className="flex mb-2 items-center justify-between">
+        <div>
+          <span
+            className={`text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full ${textColorClass}`}
+          >
+            {props.title}
+          </span>
+        </div>
+        <div className="text-right">
+          <span
+            className={`text-xs font-semibold inline-block ${textColorClass}`}
+          >
+            {props.index}%
+          </span>
+        </div>
+      </div>
+      <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
+        <div
+          style={{ width: `${props.index}%` }}
+          className={`shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center ${barStyles.backgroundColor}`}
+        ></div>
+      </div>
     </div>
   );
 };
