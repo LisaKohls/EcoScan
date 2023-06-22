@@ -46,7 +46,12 @@ const Favorites: React.FC = () => {
     <div className="pt-8 pb-28">
       {/*<SearchBar setSearchQuery={setSearchQuery} />*/}
       {products.length > 0 ? (
-        <ProductContainer products={products} />
+        <div className="flex flex-col items-center justify-center text-center">
+          <p className="text-center text-gray-500 text-xl max-w-md mb-margin-elements whitespace-normal">
+            Your products added to favorites
+          </p>
+          <ProductContainer products={products} />
+        </div>
       ) : (
         <div className="flex flex-col items-center justify-center space-y-4">
           <FaRegHeart className="w-20 h-20 text-gray-300" />

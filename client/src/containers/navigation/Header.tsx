@@ -44,7 +44,7 @@ const Header = () => {
           className="fixed top-0 left-0 ps-4 pt-8"
           onClick={() => navigate(-1)}
         >
-          <FiArrowLeft className="inline-block text-white text-2xl" />
+          <FiArrowLeft className="inline-block text-white text-2xl hover:text-secondary-color" />
         </button>
       </div>
     );

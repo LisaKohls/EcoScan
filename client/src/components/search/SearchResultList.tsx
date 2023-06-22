@@ -3,7 +3,6 @@ import AddProduct from '../../containers/popupcontent/addproduct/AddProduct';
 import PopUp from '../../containers/layouts/popup/PopUp';
 import ButtonPrimary from '../buttons/ButtonPrimary';
 import { Product } from '../../interfaces/IProduct';
-import ProductCard from '../productcard/ProductCard';
 import ProductContainer from '../../containers/productcontainer/ProductContainer';
 
 const SearchResultList = ({
@@ -16,7 +15,7 @@ const SearchResultList = ({
   const [addProductPopUp, setAddProductPopUp] = useState(false);
 
   return (
-    <div className="pt-4">
+    <div className="pt-4 m-margin-elements">
       {products.length !== 0 ? (
         <ProductContainer products={products} />
       ) : (
