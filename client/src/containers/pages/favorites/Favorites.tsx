@@ -43,7 +43,7 @@ const Favorites: React.FC = () => {
   }, [fetchProducts]);
 
   return (
-    <div className="pt-8">
+    <div className="pt-8 pb-28">
       {/*<SearchBar setSearchQuery={setSearchQuery} />*/}
       {products.length > 0 ? (
         <ProductContainer products={products} />
