@@ -3,7 +3,6 @@ import AddProduct from '../../containers/popupcontent/addproduct/AddProduct';
 import PopUp from '../../containers/layouts/popup/PopUp';
 import ButtonPrimary from '../buttons/ButtonPrimary';
 import { Product } from '../../interfaces/IProduct';
-import ProductCard from '../productcard/ProductCard';
 import ProductContainer from '../../containers/productcontainer/ProductContainer';
 
 const SearchResultList = ({

@@ -1,5 +1,3 @@
-import React from 'react';
-
 const EcoScan = () => {
   return (
     <div className="flex justify-center m-margin-elements">
