@@ -4,7 +4,7 @@ import SustainabilityBar from '../../../components/sustainabilitybar/Sustainabil
 
 import HeartFavorites from '../../../components/buttons/ButtonHeart';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 ChartJs.register(ArcElement, Tooltip, Legend);
