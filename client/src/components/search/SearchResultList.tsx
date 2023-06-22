@@ -16,7 +16,7 @@ const SearchResultList = ({
   const [addProductPopUp, setAddProductPopUp] = useState(false);
 
   return (
-    <div className="pt-4">
+    <div className="pt-4 m-margin-elements">
       {products.length !== 0 ? (
         <ProductContainer products={products} />
       ) : (
