@@ -76,11 +76,11 @@ const RegistrationPage = () => {
   }, [errMsg]);
 
   return (
-    <div className="min-h-screen bg-secondary-color flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-r from-white to-secondary-light flex items-center justify-center">
       <div className="w-full max-w-xs">
         <form
           onSubmit={handleSubmit}
-          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          className="bg-white border border-gray-300 rounded px-8 pt-6 pb-8 mb-4"
         >
           <h2 className="text-2xl font-bold text-center mb-4">Register</h2>
           <div className="mb-4">
@@ -91,7 +91,7 @@ const RegistrationPage = () => {
               Email
             </label>
             <input
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+              className={` appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-primary-color ${
                 submitted &&
                 (!email || !emailRegex.test(email)) &&
                 'border-red-500'
@@ -115,7 +115,7 @@ const RegistrationPage = () => {
               Username
             </label>
             <input
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+              className={` appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-primary-color ${
                 submitted && !username && 'border-red-500'
               }`}
               id="username"
@@ -137,7 +137,7 @@ const RegistrationPage = () => {
               Password
             </label>
             <input
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline ${
+              className={` appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-primary-color ${
                 submitted && !password && 'border-red-500'
               }`}
               id="password"
@@ -156,7 +156,7 @@ const RegistrationPage = () => {
           </div>
           <div className="flex items-center justify-between">
             <button
-              className="bg-primary-color hover:bg-secondary-color text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-primary-color hover:bg-secondary-color text-white font-bold py-2 px-4 rounded focus:outline-primary-color"
               type="submit"
             >
               Sign Up

@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 import axios from '../../../api/axiosAPI';
 import { AxiosError } from 'axios';
+import EcoScan from "../../../components/logos/EcoScan";
 
 const LOGIN_URL = 'api/auth/login';
 
@@ -82,11 +83,13 @@ const LoginPage: React.FC = () => {
   */
 
   return (
-    <div className="min-h-screen bg-secondary-color flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-r from-white to-secondary-light flex items-center justify-center">
+
       <div className="w-full max-w-xs">
+        <EcoScan />
         <form
           onSubmit={handleSubmit}
-          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          className="bg-white border border-gray-300 rounded px-8 pt-6 pb-8 mb-4"
         >
           <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
           <div className="mb-4">
@@ -97,7 +100,7 @@ const LoginPage: React.FC = () => {
               Username
             </label>
             <input
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+              className={` appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-primary-color ${
                 submitted && !username && 'border-red-500'
               }`}
               id="username"
@@ -118,7 +121,7 @@ const LoginPage: React.FC = () => {
               Password
             </label>
             <input
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline ${
+              className={` appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-primary-color  ${
                 submitted && !password && 'border-red-500'
               }`}
               id="password"
@@ -136,7 +139,7 @@ const LoginPage: React.FC = () => {
           </div>
           <div className="flex items-center justify-between">
             <button
-              className="bg-primary-color hover:bg-secondary-color text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-primary-color hover:bg-secondary-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
             >
               Sign In

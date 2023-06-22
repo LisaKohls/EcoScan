@@ -1,30 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import ButtonPrimary from '../../../components/buttons/ButtonPrimary';
 import { useNavigate } from 'react-router-dom';
+import EcoScan from "../../../components/logos/EcoScan";
+import Introduction from "../../../components/introduction/Introduction";
 
 const MainPage: React.FC = () => {
   const navigate = useNavigate();
 
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  const getVideo = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { width: 200, height: 200 },
-      });
-      const video = videoRef.current as HTMLVideoElement;
-      if (video !== null) {
-        video.srcObject = stream;
-        await video.play();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    getVideo();
-  }, [videoRef]);
 
   const navigateToPage = (page: string) => {
     navigate('/' + page);
@@ -32,16 +14,8 @@ const MainPage: React.FC = () => {
 
   return (
     <>
-      <h2 className="mt-7 text-center">
-        Align the barcode within the frame to scan
-      </h2>
-      <div className="flex justify-center">
-        <div className="">
-          <video ref={videoRef}>
-            <track kind="captions" />
-          </video>
-        </div>
-      </div>
+      <EcoScan />
+       <Introduction />
       <ButtonPrimary onClick={() => navigateToPage('searchForProduct')}>
         Type in manually
       </ButtonPrimary>
