@@ -1,6 +1,5 @@
 import ButtonPrimary from '../../../components/buttons/ButtonPrimary';
 import { useNavigate } from 'react-router-dom';
-import EcoScan from '../../../components/logos/EcoScan';
 import Introduction from '../../../components/introduction/Introduction';
 import LeaveLogo from '../../../components/logos/LeaveLogo';
 

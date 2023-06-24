@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 import axios from '../../../api/axiosAPI';
 import { AxiosError } from 'axios';
-import EcoScan from '../../../components/logos/EcoScan';
 import LeaveLogo from '../../../components/logos/LeaveLogo';
 
 const LOGIN_URL = 'api/auth/login';
