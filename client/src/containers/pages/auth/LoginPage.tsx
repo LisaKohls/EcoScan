@@ -4,6 +4,7 @@ import useAuth from '../../../hooks/useAuth';
 import axios from '../../../api/axiosAPI';
 import { AxiosError } from 'axios';
 import EcoScan from '../../../components/logos/EcoScan';
+import LeaveLogo from '../../../components/logos/LeaveLogo';
 
 const LOGIN_URL = 'api/auth/login';
 
@@ -85,7 +86,7 @@ const LoginPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-white to-secondary-light flex items-center justify-center">
       <div className="w-full max-w-xs">
-        <EcoScan />
+        <LeaveLogo sizing="w-2/3 h-auto" />
         <form
           onSubmit={handleSubmit}
           className="bg-white border border-gray-300 rounded px-8 pt-6 pb-8 mb-4"

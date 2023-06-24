@@ -2,6 +2,7 @@ import ButtonPrimary from '../../../components/buttons/ButtonPrimary';
 import { useNavigate } from 'react-router-dom';
 import EcoScan from '../../../components/logos/EcoScan';
 import Introduction from '../../../components/introduction/Introduction';
+import LeaveLogo from '../../../components/logos/LeaveLogo';
 
 const MainPage: React.FC = () => {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ const MainPage: React.FC = () => {
 
   return (
     <>
-      <EcoScan />
+      <LeaveLogo sizing="w-1/2 sm:w-1/6 h-auto" />
       <Introduction />
       <ButtonPrimary onClick={() => navigateToPage('searchForProduct')}>
         Type in manually
