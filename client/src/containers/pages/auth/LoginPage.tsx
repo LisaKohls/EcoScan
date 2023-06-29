@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 import axios from '../../../api/axiosAPI';
 import { AxiosError } from 'axios';
-import LeaveLogo from '../../../components/logos/LeaveLogo';
+import EcoScan from '../../../components/logos/EcoScan';
 
 const LOGIN_URL = 'api/auth/login';
 
@@ -85,7 +85,7 @@ const LoginPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-white to-secondary-light flex items-center justify-center">
       <div className="w-full max-w-xs">
-        <LeaveLogo sizing="w-2/3 h-auto" />
+        <EcoScan />
         <form
           onSubmit={handleSubmit}
           className="bg-white border border-gray-300 rounded px-8 pt-6 pb-8 mb-4"
@@ -138,14 +138,14 @@ const LoginPage: React.FC = () => {
           </div>
           <div className="flex items-center justify-between">
             <button
-              className="bg-primary-color hover:bg-secondary-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-primary-color hover:bg-secondary-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition ease-in-out duration-300"
               type="submit"
             >
               Sign In
             </button>
             <Link
               to="/registration"
-              className="inline-block align-baseline font-bold text-sm text-primary-color hover:text-secondary-color"
+              className="inline-block align-baseline font-bold text-sm text-primary-color hover:text-secondary-dark transition ease-in-out duration-300"
             >
               Create new account!
             </Link>
