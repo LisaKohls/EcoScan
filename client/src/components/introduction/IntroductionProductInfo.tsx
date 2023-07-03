@@ -1,7 +1,8 @@
 const IntroductionProductInfo = () => {
   return (
-    <div className="text-center m-margin-elements ">
-      <h2 className="font-bold mt-6">Sustainability Metrics</h2>
+
+    <div className="text-center mx-margin-elements">
+      <h2 className="font-bold ">Sustainability Metrics</h2>
       <p className="break-words mx-1 whitespace-normal lg:mx-40">
         You can not only see the name and description of the product like on
         usual online shops but also its sustainability. The sustainability
@@ -20,6 +21,7 @@ const IntroductionProductInfo = () => {
         ecological aspect of the product.
       </p>
     </div>
+
   );
 };
 
