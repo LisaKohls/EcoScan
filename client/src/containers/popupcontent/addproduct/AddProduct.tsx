@@ -1,10 +1,12 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
-import axios from 'axios';
+import { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import { axiosPrivate } from '../../../api/axiosAPI';
+import axios from "axios";
 
 interface AddProductProps {
   setTrigger: Dispatch<SetStateAction<boolean>>;
 }
 
+const ADD_PRODUCT_URL = '/api/product/add';
 const AddProduct: React.FC<AddProductProps> = props => {
   const [barcode, setBarcode] = useState('');
   const [name, setName] = useState('');
@@ -12,37 +14,37 @@ const AddProduct: React.FC<AddProductProps> = props => {
   const [sustainabilitySocial, setsustainabilitySocial] = useState('');
   const [description, setDescription] = useState('');
 
-  const add = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault(); // Verhindert das Absenden des Formulars
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJ1c2VybmFtZSI6ImphbmEiLCJyb2xlcyI6WzUxNTAsMjAwMV19LCJpYXQiOjE2ODgwMzY4MTQsImV4cCI6MTY4ODAzODYxNH0.iv7h-2Q9ntEgTdw0EhY9ADnDxjbnTPVrU2_FTwmCKYs'}`,
-      },
-    };
-
-    try {
-      await axios.post(
-        '/api/product/add',
-        {
-          barcode: '378',
-          categories: [],
-          description: 'Bla Bla Bla',
-          imageUrls: [],
-          sustainabilityName: 'sustainabilityName',
-          name: 'Product 1',
-          sustainabilitySocial: 20,
-          sustainabilityEco: 20,
-        },
-        config
-      );
-      // Produkt erfolgreich hinzugefügt
-      props.setTrigger(false);
-    } catch (error) {
-      // Fehler beim Hinzufügen des Produkts
-      console.error(error);
-    }
+  const testProuct = {
+    barcode: 12345678,
+    name: 'Product 1',
+    description: 'Bla Bla Bla',
+    categories: [],
+    imageUrls: [],
+    sustainabilityName: 'sustainabilityName',
+    sustainabilitySocial: 20,
+    sustainabilityEco: 20,
   };
+
+  const addProduct = useCallback(async () => {
+    try {
+      const response = await axiosPrivate.post(ADD_PRODUCT_URL, testProuct, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      });
+
+      if (response.status == 200) {
+        console.log('Product added successfully');
+      } else {
+        console.error('Favorite could not be added or removed');
+      }
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        console.error('Error occurred: ', err.response?.data);
+      } else {
+        console.error('An unknown error occurred: ', err);
+      }
+    }
+  }, [axiosPrivate]);
 
   console.log('pop up add new product opened');
   // das ganze input Zeug ist noch nicht sichtbar, aber die Komponente wird schon geöffnet
@@ -124,7 +126,7 @@ const AddProduct: React.FC<AddProductProps> = props => {
       <div className="flex justify-center pt-2">
         <button
           className="p-3 px-16 m-5 bg-secondary-color text-black rounded-md"
-          onClick={add}
+          onClick={addProduct}
         >
           Add
         </button>
