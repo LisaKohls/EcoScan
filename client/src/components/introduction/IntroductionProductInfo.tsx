@@ -1,6 +1,5 @@
 const IntroductionProductInfo = () => {
   return (
-
     <div className="text-center mx-margin-elements">
       <h2 className="font-bold ">Sustainability Metrics</h2>
       <p className="break-words mx-1 whitespace-normal lg:mx-40">
@@ -21,7 +20,6 @@ const IntroductionProductInfo = () => {
         ecological aspect of the product.
       </p>
     </div>
-
   );
 };
 
