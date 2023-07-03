@@ -28,15 +28,7 @@ const PersonalUserProductSchema: Schema = new mongoose.Schema(
   },
   {
     _id: false,
-    toJSON: {
-      virtuals: true,
-      transform: function (doc, ret) {
-        delete ret._id
-        delete ret.__v
-        delete ret.id
-        return ret
-      }
-    },
+    toJSON: { virtuals: true },
     toObject: { virtuals: true }
   }
 )
