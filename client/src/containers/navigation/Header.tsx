@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
+import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -30,23 +32,40 @@ const Header = () => {
     title = 'Scan a product';
   } else if (locationPage == '/favorites') {
     title = 'Favorites';
+  } else if (locationPage.startsWith('/product')) {
+    title = 'Productinfo';
+  } else if (locationPage == '/appInfo') {
+    title = 'More information';
   } else {
     title = 'Profile';
   }
 
+  const renderQuestionMark = (
+    <button className="fixed top-8 right-8" onClick={() => navigate('appInfo')}>
+      <FontAwesomeIcon icon={faQuestionCircle} />
+    </button>
+  );
+
   if (
     locationPage == '/searchForProduct' ||
-    locationPage.startsWith('/product')
+    locationPage.startsWith('/product') ||
+    locationPage == '/appInfo'
   ) {
     return (
-      <div className="flex p-11 bg-primary-color">
-        <button
-          className="fixed top-0 left-0 ps-4 pt-8"
-          onClick={() => navigate(-1)}
-        >
-          <FiArrowLeft className="inline-block text-white text-2xl hover:text-secondary-color" />
-        </button>
-      </div>
+      <>
+        <header className="p-8 bg-primary-color text-white text-right text-xl md:px-20 lg:px-40">
+          <button
+            className="fixed top-0 left-0 ps-4 pt-8 flex"
+            onClick={() => navigate(-1)}
+          >
+            <FiArrowLeft className="inline-block text-white text-2xl hover:text-secondary-color" />
+          </button>
+          <h1 className="flex-1 text-center text-xl text-white font-normal ">
+            {title}
+          </h1>
+          {locationPage.startsWith('/product') ? renderQuestionMark : ''}
+        </header>
+      </>
     );
   } else if (!isMobile) {
     return (

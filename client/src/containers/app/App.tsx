@@ -9,6 +9,7 @@ import Favorites from '../pages/favorites/Favorites';
 import SearchForProduct from '../pages/searchproduct/SearchForProduct';
 import RequireAuth from '../RequireAuth';
 import PersistLogin from '../PersistentLogin';
+import AppInfo from '../pages/appinfo/AppInfo';
 
 const App: React.FC = () => {
   return (
@@ -23,6 +24,7 @@ const App: React.FC = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/searchForProduct" element={<SearchForProduct />} />
+          <Route path="/appInfo" element={<AppInfo />} />
         </Route>
       </Route>
     </Routes>
