@@ -10,12 +10,14 @@ const PRODUCT_URL = '/api/product/';
 const SearchForProduct = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const axiosPrivate = useAxiosPrivate();
 
   const fetchProducts = useCallback(
     async (nameParam: string) => {
       try {
+        setIsLoading(true);
         const response = await axiosPrivate.get<Product[]>(PRODUCT_URL, {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true,
@@ -25,7 +27,9 @@ const SearchForProduct = () => {
         });
 
         setProducts(response.data);
+        setIsLoading(false);
       } catch (err) {
+        setIsLoading(false);
         if (axios.isAxiosError(err)) {
           console.error('Error occurred: ', err.response?.data);
         } else {
@@ -43,7 +47,7 @@ const SearchForProduct = () => {
       setProducts([]);
     }
   }, [searchQuery, fetchProducts]);
-
+  console.log(`loading: ${isLoading}`);
   return (
     <>
       <div className="px-4 py-2">
@@ -56,7 +60,11 @@ const SearchForProduct = () => {
             </p>
           </div>
         ) : (
-          <SearchResultList products={products} searchQuery={searchQuery} />
+          <SearchResultList
+            products={products}
+            searchQuery={searchQuery}
+            loading={isLoading}
+          />
         )}
       </div>
     </>
