@@ -33,7 +33,7 @@ const SustainabilityBar: React.FC<SustainabilityBarProps> = props => {
       <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-300 w-32">
         <div
           style={{ width: `${index}%` }}
-          className={`shadow-none flex flex-col text-center whitespace-nowrap justify-center bg-${color} transition-all duration-500`}
+          className={`shadow-none flex flex-col text-center whitespace-nowrap justify-center bg-${color}`}
         ></div>
       </div>
     </div>
