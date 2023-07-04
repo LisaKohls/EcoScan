@@ -11,11 +11,11 @@ const SustainabilityBar: React.FC<SustainabilityBarProps> = props => {
   let color: string;
 
   if (index >= 70) {
-    color = 'green-500'; 
+    color = 'lime-600'; 
   } else if (index >= 40) {
-    color = 'yellow-500'; 
+    color = 'amber-300'; 
   } else {
-    color = 'red-500'; 
+    color = 'orange-400'; 
   }
 
   return (
@@ -33,7 +33,7 @@ const SustainabilityBar: React.FC<SustainabilityBarProps> = props => {
       <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-300 w-32">
         <div
           style={{ width: `${index}%` }}
-          className={`shadow-none flex flex-col text-center whitespace-nowrap justify-center bg-${color}`}
+          className={`shadow-none flex flex-col text-center whitespace-nowrap justify-center bg-${color} transition-all duration-500`}
         ></div>
       </div>
     </div>
