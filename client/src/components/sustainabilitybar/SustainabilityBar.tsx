@@ -6,52 +6,34 @@ export interface SustainabilityBarProps {
 }
 
 const SustainabilityBar: React.FC<SustainabilityBarProps> = props => {
-  let label: string;
-  let textColorClass: string;
+  const { index, title } = props;
 
-  const barStyles = {
-    width: `${props.index}%`,
-    backgroundColor:
-      props.index >= 70
-        ? 'rgb(101 163 13)'
-        : props.index >= 40
-        ? 'rgb(252 211 77)'
-        : 'rgb(251 146 60)',
-  };
+  let color: string;
 
-  if (props.index >= 70) {
-    label = 'Good';
-    textColorClass = 'text-lime-600';
-  } else if (props.index >= 40) {
-    textColorClass = 'text-amber-300';
-    label = 'Medium';
+  if (index >= 70) {
+    color = 'green-500'; 
+  } else if (index >= 40) {
+    color = 'yellow-500'; 
   } else {
-    textColorClass = 'text-orange-400';
-    label = 'Bad';
+    color = 'red-500'; 
   }
 
   return (
-    <div className="relative pt-1">
+    <div className="relative">
       <div className="flex mb-2 items-center justify-between">
         <div>
-          <span
-            className={`text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full ${textColorClass}`}
-          >
-            {props.title}
+          <span className={`text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-${color}`}>
+            {title}
           </span>
         </div>
         <div className="text-right">
-          <span
-            className={`text-xs font-semibold inline-block ${textColorClass}`}
-          >
-            {props.index}%
-          </span>
+          <span className={`text-xs font-semibold inline-block text-${color}`}>{index}%</span>
         </div>
       </div>
-      <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
+      <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-300 w-32">
         <div
-          style={{ width: `${props.index}%` }}
-          className={`shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center ${barStyles.backgroundColor}`}
+          style={{ width: `${index}%` }}
+          className={`shadow-none flex flex-col text-center whitespace-nowrap justify-center bg-${color}`}
         ></div>
       </div>
     </div>
