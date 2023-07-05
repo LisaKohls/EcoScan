@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import useLogout from '../../../hooks/useLogout';
 import useAuth from '../../../hooks/useAuth';
-import { ReactElement, FC } from 'react';
+import { ReactElement, FC, useContext, useEffect } from 'react';
 import ButtonPrimary from '../../../components/buttons/ButtonPrimary';
+import HeaderContext from '../../../contexts/HeaderProvider';
+import { FaSignOutAlt } from 'react-icons/fa';
 
 interface Product {
   id: string;
@@ -20,6 +22,18 @@ const Profile: FC = (): ReactElement => {
   const navigate = useNavigate();
   const logout = useLogout();
 
+  const { setHeaderOptions } = useContext(HeaderContext);
+
+  useEffect(() => {
+    setHeaderOptions({
+      title: 'Profile',
+      backButton: false,
+      rightIcon: (
+        <FaSignOutAlt onClick={() => signOut()} className="cursor-pointer" />
+      ),
+    });
+  }, []);
+
   const signOut = async () => {
     await logout();
     navigate('/login');
@@ -35,28 +49,18 @@ const Profile: FC = (): ReactElement => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center bg-gradient-to-r from-secondary-light to-white  border border-gray-300 p-4 rounded-b-3xl">
+      <div className="flex flex-row items-center justify-start p-4 border">
         <img
           src={exampleData.img}
           alt="profile_photo"
-          className="w-24 h-24 border-2 border-gray-400 rounded-full mt-4"
+          className="w-24 h-24 border-2 border-gray-400 rounded-full mr-4"
         />
-        <h1 className="text-center text-xl font-medium mt-4">
-          {auth.auth.username}
-        </h1>
-        <h2 className="text-center text-base font-light mt-2">
-          {exampleData.email}
-        </h2>
-        <div className="w-full flex justify-center mt-4">
-          <button
-            onClick={() => signOut()}
-            className="w-full sm:w-auto underline"
-          >
-            Logout
-          </button>
+        <div>
+          <h1 className="text-xl font-medium">{auth.auth.username}</h1>
+          <h2 className="text-base font-light mt-2">{exampleData.email}</h2>
         </div>
       </div>
-      <h1 className="text-center text-xl font-medium mt-8">Added Products</h1>
+      <h1 className="p-4 text-xl font-medium mt-8">Added Products</h1>
       {products.length > 0 ? (
         products.map((product: Product) => (
           <div
@@ -68,8 +72,8 @@ const Profile: FC = (): ReactElement => {
           </div>
         ))
       ) : (
-        <div className="flex flex-col items-center justify-center mt-4">
-          <p className="mb-4">You haven&apos;t added any products yet.</p>
+        <div className="flex flex-col items-center justify-center mt-16">
+          <p>You haven&apos;t added any products yet.</p>
           <ButtonPrimary onClick={addProduct}>Add Product</ButtonPrimary>
         </div>
       )}

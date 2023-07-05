@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { FaRegHeart } from 'react-icons/fa';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import axios from 'axios';
 import { Product } from '../../../interfaces/IProduct';
 import ProductContainer from '../../productcontainer/ProductContainer';
+import HeaderContext from '../../../contexts/HeaderProvider';
 
 const FAVORITES_URL = '/api/favorites';
 
@@ -11,6 +12,15 @@ const Favorites: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [products, setProducts] = useState<Product[]>([]);
   const axiosPrivate = useAxiosPrivate();
+  const { setHeaderOptions } = useContext(HeaderContext);
+
+  useEffect(() => {
+    setHeaderOptions({
+      title: 'Favorites',
+      backButton: false,
+      rightIcon: null,
+    });
+  }, [setHeaderOptions]);
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -43,13 +53,10 @@ const Favorites: React.FC = () => {
   }, [fetchProducts]);
 
   return (
-    <div className="pt-8 pb-28">
+    <div className="pb-28">
       {/*<SearchBar setSearchQuery={setSearchQuery} />*/}
       {products.length > 0 ? (
         <div className="flex flex-col items-center justify-center text-center">
-          <p className="text-center text-gray-500 text-xl max-w-md mb-margin-elements whitespace-normal">
-            Your products added to favorites
-          </p>
           <ProductContainer products={products} />
         </div>
       ) : (

@@ -1,4 +1,17 @@
-const IntroductionProductInfo = () => {
+import { useContext, useEffect } from 'react';
+import HeaderContext from '../../../contexts/HeaderProvider';
+
+const MoreInfo = () => {
+  const { setHeaderOptions } = useContext(HeaderContext);
+
+  useEffect(() => {
+    setHeaderOptions({
+      title: 'Information',
+      backButton: true,
+      rightIcon: null,
+    });
+  }, [setHeaderOptions]);
+
   return (
     <div className="mx-margin-elements">
       <h2 className="font-bold ">Sustainability Metrics</h2>
@@ -23,4 +36,4 @@ const IntroductionProductInfo = () => {
   );
 };
 
-export default IntroductionProductInfo;
+export default MoreInfo;
