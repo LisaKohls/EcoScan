@@ -13,9 +13,9 @@ const MoreInfo = () => {
   }, [setHeaderOptions]);
 
   return (
-    <div className="mx-margin-elements">
-      <h2 className="font-bold ">Sustainability Metrics</h2>
-      <p className="break-words mx-1 whitespace-normal lg:mx-40">
+    <div className="m-margin-elements lg:mx-40">
+      <h2 className="font-bold">Sustainability Metrics</h2>
+      <p className="break-words mx-1 whitespace-normal ">
         You can not only see the name and description of the product like on
         usual online shops but also its sustainability. The sustainability
         metrics show the lifetime and water usage of the product. If the product
@@ -25,8 +25,8 @@ const MoreInfo = () => {
         rating and 0 being the worst. It is calculated based on factors such as
         the amount of water the product requires for production.
       </p>
-      <h2 className="font-bold mt-6">Sustainability Indices</h2>
-      <p className="break-words mx-1 whitespace-normal lg:mx-40">
+      <h2 className="font-bold mt-6 ">Sustainability Indices</h2>
+      <p className="break-words mx-1 whitespace-normal ">
         The Sustainability Indices provide information about the ethical aspects
         of the product. The Social Index is related to the working conditions of
         the employees. The ecological Index is an overall rating of the

@@ -12,9 +12,8 @@ const Header: React.FC = () => {
   const { title, backButton, rightIcon } = useContext(HeaderContext);
   const { scrollY } = useScrollPosition();
 
-  const colorScheme = scrollY > 0 ? 'white' : 'black';
-  const bgScheme =
-    scrollY > 0 ? 'bg-primary-color opacity-90' : 'bg-transparent';
+  const colorScheme = 'white';
+  const bgScheme = 'bg-primary-color opacity-90';
 
   useEffect(() => {
     const handleResize = () => {
@@ -37,17 +36,13 @@ const Header: React.FC = () => {
       className={`fixed top-0 left-0 right-0 z-50 p-4 text-center text-xl flex justify-center items-center h-16 md:hidden lg:hidden transition-colors duration-200 ${bgScheme}`}
     >
       <h1
-        className={`font-bold transition-colors duration-200 ${
-          scrollY > 0 ? 'text-white' : 'text-black'
-        }`}
+        className='font-bold transition-colors duration-200 text-white'
       >
         {title}
       </h1>
       {backButton && (
         <button
-          className={`absolute left-4 flex items-center transition-colors duration-200 ${
-            scrollY > 0 ? 'text-white' : 'text-black'
-          }`}
+          className='absolute left-4 flex items-center transition-colors duration-200 text-white'
           onClick={() => navigate(-1)}
         >
           <FiArrowLeft className="text-2xl hover:text-secondary-color" />
@@ -55,9 +50,7 @@ const Header: React.FC = () => {
       )}
       {rightIcon && (
         <div
-          className={`absolute right-4 transition-colors duration-200 ${
-            scrollY > 0 ? 'text-white' : 'text-black'
-          }`}
+          className='absolute right-4 transition-colors duration-200 text-white'
         >
           {rightIcon}
         </div>
@@ -71,9 +64,8 @@ const Header: React.FC = () => {
     >
       {backButton && (
         <button
-          className={`absolute left-4 flex items-center transition-colors duration-200 ${
-            scrollY > 0 ? 'text-white' : 'text-black'
-          }`}
+          className='absolute left-4 flex items-center transition-colors duration-200 ${
+            text-white'
           onClick={() => navigate(-1)}
         >
           <FiArrowLeft className="text-2xl hover:text-secondary-color" />
@@ -113,6 +105,13 @@ const Header: React.FC = () => {
         >
           Profile
         </button>
+        {rightIcon && (
+            <div
+                className='absolute right-4 transition-colors duration-200 text-white'
+            >
+              {rightIcon}
+            </div>
+        )}
       </div>
     </header>
   );
