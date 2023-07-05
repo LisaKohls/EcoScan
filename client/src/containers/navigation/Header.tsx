@@ -35,23 +35,19 @@ const Header: React.FC = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 p-4 text-center text-xl flex justify-center items-center h-16 md:hidden lg:hidden transition-colors duration-200 ${bgScheme}`}
     >
-      <h1
-        className='font-bold transition-colors duration-200 text-white'
-      >
+      <h1 className="font-bold transition-colors duration-200 text-white">
         {title}
       </h1>
       {backButton && (
         <button
-          className='absolute left-4 flex items-center transition-colors duration-200 text-white'
+          className="absolute left-4 flex items-center transition-colors duration-200 text-white"
           onClick={() => navigate(-1)}
         >
           <FiArrowLeft className="text-2xl hover:text-secondary-color" />
         </button>
       )}
       {rightIcon && (
-        <div
-          className='absolute right-4 transition-colors duration-200 text-white'
-        >
+        <div className="absolute right-4 transition-colors duration-200 text-white">
           {rightIcon}
         </div>
       )}
@@ -64,8 +60,8 @@ const Header: React.FC = () => {
     >
       {backButton && (
         <button
-          className='absolute left-4 flex items-center transition-colors duration-200 ${
-            text-white'
+          className="absolute left-4 flex items-center transition-colors duration-200 ${
+            text-white"
           onClick={() => navigate(-1)}
         >
           <FiArrowLeft className="text-2xl hover:text-secondary-color" />
@@ -106,11 +102,9 @@ const Header: React.FC = () => {
           Profile
         </button>
         {rightIcon && (
-            <div
-                className='absolute right-4 transition-colors duration-200 text-white'
-            >
-              {rightIcon}
-            </div>
+          <div className="absolute right-4 transition-colors duration-200 text-white">
+            {rightIcon}
+          </div>
         )}
       </div>
     </header>
