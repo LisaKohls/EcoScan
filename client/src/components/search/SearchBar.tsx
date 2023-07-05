@@ -19,7 +19,7 @@ const SearchBar = ({ setSearchQuery }: SearchBarProps) => {
   };
 
   return (
-    <div className="relative flex items-center rounded-md bg-white border border-gray-300 m-margin-elements">
+    <div className="relative flex items-center rounded-md bg-white border border-gray-300 mx-margin-elements">
       <FaSearch className="absolute left-3 text-gray-400" />
       <input
         className="w-full py-2 pr-4 pl-10 text-black rounded-md focus:outline-none focus:border-transparent focus:ring-2 focus:ring-primary-color"

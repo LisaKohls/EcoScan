@@ -75,7 +75,7 @@ const Profile: FC = (): ReactElement => {
 
   return (
     <div className="pb-28">
-      <div className="flex flex-row items-center justify-start p-4 border">
+      <div className="flex flex-row items-center justify-start p-4 border border-gray-400">
         <img
           src={exampleData.img}
           alt="profile_photo"
