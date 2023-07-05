@@ -28,3 +28,6 @@ Desktop.ini
 
 # Logs
 src/logs/**
+
+#Upload Folder
+uploads/

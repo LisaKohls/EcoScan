@@ -15,6 +15,7 @@ import {
   lastRouteMiddleware
 } from './middlewares/errorMiddleware'
 import { prePopulateDataToDB } from './services/productService'
+import { userRoutes } from './routes/userRoutes'
 
 if (process.env.NODE_ENV === 'production') {
   dotenv.config({ path: './.env.production' })
@@ -52,12 +53,24 @@ app.use(authMiddleware)
 // Authed Routes
 app.use('/api/product', productRoutes)
 app.use('/api/favorites', favoriteRoutes)
+app.use('/api/users', userRoutes)
 
 // Internal server Middleware
 app.use(internalErrorMiddleware)
 
 // Middleware after all routes
 app.use(lastRouteMiddleware)
+
+const fs = require('fs')
+const path = require('path')
+
+// Resolve the absolute path to your uploads directory
+const uploadsDir = path.resolve(process.cwd(), 'uploads')
+
+// Ensure the uploads directory exists
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir)
+}
 
 mongoose
   .connect(`${process.env.MONGODB_URI}`)
