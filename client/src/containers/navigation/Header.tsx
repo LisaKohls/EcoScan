@@ -1,18 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
-import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import logo from '../../assets/logo.png';
+import HeaderContext from '../../contexts/HeaderProvider';
+import useScrollPosition from '../../hooks/useScrollPosition';
 
-const Header = () => {
+const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 960);
-  const locationPage = location.pathname;
-  let title;
-  const navigateToPage = (page: string) => {
-    navigate('/' + page);
-  };
+  const { title, backButton, rightIcon } = useContext(HeaderContext);
+  const { scrollY } = useScrollPosition();
+
+  const colorScheme = scrollY > 0 ? 'white' : 'black';
+  const bgScheme =
+    scrollY > 0 ? 'bg-primary-color opacity-90' : 'bg-transparent';
 
   useEffect(() => {
     const handleResize = () => {
@@ -26,81 +28,96 @@ const Header = () => {
     };
   }, []);
 
-  if (locationPage == '/searchForProduct') {
-    title = 'Search for product';
-  } else if (locationPage == '/') {
-    title = 'Scan a product';
-  } else if (locationPage == '/favorites') {
-    title = 'Favorites';
-  } else if (locationPage.startsWith('/product')) {
-    title = 'Productinfo';
-  } else if (locationPage == '/appInfo') {
-    title = 'More information';
-  } else {
-    title = 'Profile';
-  }
+  const navigateToPage = (page: string) => {
+    navigate('/' + page);
+  };
 
-  const renderQuestionMark = (
-    <button className="fixed top-8 right-8" onClick={() => navigate('appInfo')}>
-      <FontAwesomeIcon icon={faQuestionCircle} />
-    </button>
+  const MobileHeader = () => (
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 p-4 text-center text-xl flex justify-center items-center h-16 md:hidden lg:hidden transition-colors duration-200 ${bgScheme}`}
+    >
+      <h1
+        className={`font-bold transition-colors duration-200 ${
+          scrollY > 0 ? 'text-white' : 'text-black'
+        }`}
+      >
+        {title}
+      </h1>
+      {backButton && (
+        <button
+          className={`absolute left-4 flex items-center transition-colors duration-200 ${
+            scrollY > 0 ? 'text-white' : 'text-black'
+          }`}
+          onClick={() => navigate(-1)}
+        >
+          <FiArrowLeft className="text-2xl hover:text-secondary-color" />
+        </button>
+      )}
+      {rightIcon && (
+        <div
+          className={`absolute right-4 transition-colors duration-200 ${
+            scrollY > 0 ? 'text-white' : 'text-black'
+          }`}
+        >
+          {rightIcon}
+        </div>
+      )}
+    </header>
   );
 
-  if (
-    locationPage == '/searchForProduct' ||
-    locationPage.startsWith('/product') ||
-    locationPage == '/appInfo'
-  ) {
-    return (
-      <>
-        <header className="p-8 bg-primary-color text-white text-right text-xl md:px-20 lg:px-40">
-          <button
-            className="fixed top-0 left-0 ps-4 pt-8 flex"
-            onClick={() => navigate(-1)}
-          >
-            <FiArrowLeft className="inline-block text-white text-2xl hover:text-secondary-color" />
-          </button>
-          <h1 className="flex-1 text-center text-xl text-white font-normal ">
-            {title}
-          </h1>
-          {locationPage.startsWith('/product') ? renderQuestionMark : ''}
-        </header>
-      </>
-    );
-  } else if (!isMobile) {
-    return (
-      <div className="text-right">
-        <header className="p-8 bg-primary-color text-white text-right text-xl md:px-20 lg:px-40">
-          <div className="flex space-x-6">
-            <button
-              className="text-xl font-normal focus:underline hover:text-secondary-color transition ease-in-out duration-300"
-              onClick={() => navigateToPage('')}
-            >
-              Scan Product
-            </button>
-            <button
-              className="flex-col text-xl font-normal focus:underline hover:text-secondary-color transition ease-in-out duration-300"
-              onClick={() => navigateToPage('favorites')}
-            >
-              Favorites
-            </button>
-            <button
-              className="flex-col text-xl font-normal focus:underline hover:text-secondary-color transition ease-in-out duration-300"
-              onClick={() => navigateToPage('profile')}
-            >
-              Profile
-            </button>
-          </div>
-        </header>
+  const DesktopHeader = () => (
+    <header
+      className={`p-4 text-xl flex justify-between items-center h-16 md:px-20 lg:px-40 ${bgScheme}`}
+    >
+      {backButton && (
+        <button
+          className={`absolute left-4 flex items-center transition-colors duration-200 ${
+            scrollY > 0 ? 'text-white' : 'text-black'
+          }`}
+          onClick={() => navigate(-1)}
+        >
+          <FiArrowLeft className="text-2xl hover:text-secondary-color" />
+        </button>
+      )}
+      <div className={`flex space-x-6 text-${colorScheme}`}>
+        <button
+          type="button"
+          className={`font-normal focus:underline transition ease-in-out duration-300 ${
+            location.pathname === '/favorites'
+              ? 'text-secondary-color'
+              : 'hover:text-secondary-color'
+          }`}
+          onClick={() => navigateToPage('favorites')}
+        >
+          Favorites
+        </button>
+        <button
+          type="button"
+          className={`font-normal focus:underline transition ease-in-out duration-300 ${
+            location.pathname === '/'
+              ? 'text-secondary-color'
+              : 'hover:text-secondary-color'
+          }`}
+          onClick={() => navigateToPage('')}
+        >
+          Search
+        </button>
+        <button
+          type="button"
+          className={`font-normal focus:underline transition ease-in-out duration-300 ${
+            location.pathname === '/profile'
+              ? 'text-secondary-color'
+              : 'hover:text-secondary-color'
+          }`}
+          onClick={() => navigateToPage('profile')}
+        >
+          Profile
+        </button>
       </div>
-    );
-  } else {
-    return (
-      <header className="p-8 bg-primary-color text-white text-center text-xl  md:hidden lg:hidden">
-        <h1 className="text-center text-xl font-normal ">{title}</h1>
-      </header>
-    );
-  }
+    </header>
+  );
+
+  return isMobile ? <MobileHeader /> : <DesktopHeader />;
 };
 
 export default Header;

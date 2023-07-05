@@ -4,8 +4,11 @@ import SustainabilityBar from '../../../components/sustainabilitybar/Sustainabil
 
 import HeartFavorites from '../../../components/buttons/ButtonHeart';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import HeaderContext from '../../../contexts/HeaderProvider';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
 
 ChartJs.register(ArcElement, Tooltip, Legend);
 
@@ -13,8 +16,25 @@ const ProductInfo: React.FC = () => {
   const axiosPrivate = useAxiosPrivate();
   const [product, setProduct] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const navigate = useNavigate();
 
   const { barcode } = useParams();
+
+  const { setHeaderOptions } = useContext(HeaderContext);
+
+  useEffect(() => {
+    setHeaderOptions({
+      title: 'Product',
+      backButton: true,
+      rightIcon: (
+        <FontAwesomeIcon
+          icon={faQuestionCircle}
+          className="cursor-pointer"
+          onClick={() => navigate('/more-info')}
+        />
+      ),
+    });
+  }, [navigate]);
 
   useEffect(() => {
     async function fetchData() {
