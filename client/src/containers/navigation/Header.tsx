@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
-import logo from '../../assets/logo.png';
 import HeaderContext from '../../contexts/HeaderProvider';
 import useScrollPosition from '../../hooks/useScrollPosition';
 
@@ -10,7 +9,6 @@ const Header: React.FC = () => {
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 960);
   const { title, backButton, rightIcon } = useContext(HeaderContext);
-  const { scrollY } = useScrollPosition();
 
   const colorScheme = 'white';
   const bgScheme = 'bg-primary-color opacity-90';
