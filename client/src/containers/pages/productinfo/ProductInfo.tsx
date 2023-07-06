@@ -98,7 +98,7 @@ const ProductInfo: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 whitespace-normal pb-28">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 whitespace-normal pb-28 mt-[-2rem]">
       {isLoading ? (
         <p>Loading product...</p>
       ) : (
