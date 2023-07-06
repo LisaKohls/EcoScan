@@ -90,7 +90,7 @@ export const getProductByBarcodeService = async (
     }
   ]).exec()
 
-  if (product) {
+  if (product.length > 0) {
     const favorite = await isFavorite(username, barcode)
     return { ...product[0], favorite }
   }

@@ -19,7 +19,10 @@ const userSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
   createdAt: { type: Date, default: Date.now },
-  favorites: [{ type: Number, ref: 'Product' }]
+  favorites: [
+    { type: Number, ref: 'Product' },
+    { type: Number, ref: 'PersonalUserProduct' }
+  ]
 })
 
 export default model<UserType>('User', userSchema)

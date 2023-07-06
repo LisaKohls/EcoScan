@@ -1,7 +1,7 @@
 import { ArcElement, Chart as ChartJs, Legend, Tooltip } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import SustainabilityBar from '../../../components/sustainabilitybar/SustainabilityBar';
-
+import product_placeholder from '../../../assets/noimage_placeholder.png';
 import HeartFavorites from '../../../components/buttons/ButtonHeart';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import { useContext, useEffect, useState } from 'react';
@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import HeaderContext from '../../../contexts/HeaderProvider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
+import profilePlaceholder from '../../../assets/profile_placeholder.webp';
 
 ChartJs.register(ArcElement, Tooltip, Legend);
 
@@ -106,7 +107,7 @@ const ProductInfo: React.FC = () => {
           <div className="flex flex-col items-center">
             <img
               className="mx-auto h-32 w-32 object-cover"
-              src={product.image}
+              src={product.image ?? product_placeholder}
               alt={product.name}
             />
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 whitespace-normal">

@@ -18,7 +18,11 @@ import {
 } from '../services/productService'
 import { PersonalUserProduct } from '../models/personalUserProductModel'
 import { AuthedBarcodeRequest, AuthRequest } from '../types/authTypes'
-import { getFilteredPersonalProductsService } from '../services/personalProductService'
+import {
+  getFilteredPersonalProductsService,
+  getPersonalProductByBarcodeService,
+  getPersonalProductsService
+} from '../services/personalProductService'
 
 export const postProduct = async (
   req: AuthRequest,
@@ -87,9 +91,18 @@ export const getProductByBarcode = async (
     )
 
     if (!product) {
-      return res
-        .status(400)
-        .send(`No Product with barcode ${barcodeNumber} found`)
+      const personalProduct = await getPersonalProductByBarcodeService(
+        barcodeNumber,
+        req.user.username
+      )
+
+      if (!personalProduct) {
+        return res
+          .status(400)
+          .send(`No Product with barcode ${barcodeNumber} found`)
+      }
+      console.log(personalProduct)
+      return res.status(200).send(personalProduct)
     }
 
     res.send(product)
@@ -235,7 +248,9 @@ export const getPersonalProducts = async (
   next: NextFunction
 ) => {
   try {
-    const personalProducts = await PersonalUserProduct.find()
+    const personalProducts = await getPersonalProductsService(
+      req.user.username
+    )
     res.send(personalProducts)
   } catch (error) {
     next(error)
