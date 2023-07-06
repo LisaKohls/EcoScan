@@ -6,7 +6,6 @@ import {
   saveProfilePicture
 } from '../controllers/usersController'
 import multer from 'multer'
-import path from 'path'
 
 export const userRoutes = Router()
 
@@ -19,7 +18,6 @@ const storage = multer.diskStorage({
     cb(null, './uploads/')
   },
   filename: function (req: AuthedFileRequest, file, cb) {
-    // Add a check for req.user.username here
     if (req.user && req.user.username) {
       cb(null, `${req.user.username}.jpeg`)
     } else {

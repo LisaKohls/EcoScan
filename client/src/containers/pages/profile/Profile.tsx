@@ -2,48 +2,49 @@ import { useNavigate } from 'react-router-dom';
 import useLogout from '../../../hooks/useLogout';
 import useAuth from '../../../hooks/useAuth';
 import {
-  ReactElement,
+  ChangeEvent,
   FC,
+  ReactElement,
+  useCallback,
   useContext,
   useEffect,
   useState,
-  useCallback,
-  ChangeEvent, useRef,
 } from 'react';
 import ButtonPrimary from '../../../components/buttons/ButtonPrimary';
 import HeaderContext from '../../../contexts/HeaderProvider';
 import { FaSignOutAlt } from 'react-icons/fa';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
-import axios, {AxiosResponse} from 'axios';
+import { AxiosResponse } from 'axios';
 import { Product } from '../../../interfaces/IProduct';
 import ProductContainer from '../../productcontainer/ProductContainer';
-import profilePlaceholder from '../../../assets/profile_placeholder.webp'
+import profilePlaceholder from '../../../assets/profile_placeholder.webp';
+import {
+  getFavorites,
+  getProfilePicture,
+  getUserInfo,
+} from '../../../services/userService';
 
 interface User {
   username: string;
   firstName: string;
   lastName: string;
   email: string;
-  img: string;
 }
 
-const FAVORITES_URL = '/api/product/personal';
-const OWN_USER_URL = '/api/users/me';
 const Profile: FC = (): ReactElement => {
   const auth = useAuth();
   const navigate = useNavigate();
   const logout = useLogout();
   const [products, setProducts] = useState<Product[]>([]);
-  const imgRef = useRef<HTMLImageElement>(null)
-  const [user, setUser] = useState<User>({
+  const [user, setUser] = useState<User | null>({
     username: '',
     firstName: '',
     lastName: '',
     email: '',
-    img: '',
   });
   const axiosPrivate = useAxiosPrivate();
   const { setHeaderOptions } = useContext(HeaderContext);
+  const [imgData, setImgData] = useState<string>('');
 
   useEffect(() => {
     setHeaderOptions({
@@ -56,43 +57,18 @@ const Profile: FC = (): ReactElement => {
   }, []);
 
   const fetchOwnProducts = useCallback(async () => {
-    try {
-      const response = await axiosPrivate.get<Product[]>(FAVORITES_URL, {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
-      });
-
-      setProducts(response.data);
-      console.log(response.data);
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        console.error('Error occurred: ', err.response?.data);
-      } else {
-        console.error('An unknown error occurred: ', err);
-      }
-    }
-  }, [axiosPrivate]);
-
-  const fetchOwnUser = useCallback(async () => {
-    try {
-      const response = await axiosPrivate.get<User>(OWN_USER_URL);
-
-      setUser(prev => ({
-        ...prev,
-        ...response.data,
-      }));
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        console.error('Error occurred: ', err.response?.data);
-      } else {
-        console.error('An unknown error occurred: ', err);
-      }
-    }
+    const products = await getFavorites(axiosPrivate);
+    setProducts(products);
   }, [axiosPrivate]);
 
   useEffect(() => {
     fetchOwnProducts();
   }, [fetchOwnProducts]);
+
+  const fetchOwnUser = useCallback(async () => {
+    const myUser = await getUserInfo(axiosPrivate);
+    setUser(myUser);
+  }, [axiosPrivate]);
 
   useEffect(() => {
     fetchOwnUser();
@@ -112,33 +88,21 @@ const Profile: FC = (): ReactElement => {
         },
       })
       .then(response => {
-        if (response.data.img) {
-          setUser(prev => ({ ...prev, img: response.data.img }));
-        }
+        fetchProfilePicture();
       })
       .catch(err => console.error(err));
   };
 
-  const [imgData, setImgData] = useState<string>('');
-  const getProfilePicture = async () => {
-    try {
-      const res: AxiosResponse = await axiosPrivate.get('/api/users/me/profile-picture', { responseType: 'arraybuffer' });
-      const base64 = btoa(
-          new Uint8Array(res.data).reduce(
-              (data, byte) => data + String.fromCharCode(byte),
-              '',
-          ),
-      );
-      setImgData(`data:image/jpeg;base64,${base64}`);
-      console.log(`data:image/jpeg;base64,${base64}`)
-    } catch (error) {
-      console.error(error);
+  const fetchProfilePicture = useCallback(async () => {
+    const image = await getProfilePicture(axiosPrivate);
+    if (image) {
+      setImgData(image);
     }
-  }
+  }, [axiosPrivate]);
 
   useEffect(() => {
-    getProfilePicture();
-  }, [user.img]);
+    fetchProfilePicture();
+  }, [fetchProfilePicture]);
 
   const signOut = async () => {
     await logout();
@@ -153,23 +117,34 @@ const Profile: FC = (): ReactElement => {
   return (
     <div className="pb-28">
       <div className="flex flex-row items-center justify-start p-4 border">
-        <img
-          src={imgData !== '' ? imgData : profilePlaceholder }
-          alt="profile_photo"
-          className="w-24 h-24 border-2 border-gray-400 rounded-full mr-4"
+        <button
+          className="focus:outline-none"
           onClick={() =>
             document.getElementById('profile-picture-upload')?.click()
           }
-        />
+        >
+          <img
+            src={imgData !== '' ? imgData : profilePlaceholder}
+            alt="profile_photo"
+            className="w-24 h-24 border-2 border-gray-400 rounded-full mr-4"
+          />
+        </button>
         <input
           id="profile-picture-upload"
           type="file"
+          accept="image/*"
           style={{ display: 'none' }}
           onChange={handleProfilePictureUpload}
         />
         <div>
-          <h1 className="text-xl font-medium">{user.username}</h1>
-          <h2 className="text-base font-light mt-2">{user.email}</h2>
+          {user ? (
+            <>
+              <h1 className="text-xl font-medium">{user.username}</h1>
+              <h2 className="text-base font-light mt-2">{user.email}</h2>
+            </>
+          ) : (
+            <p>Loading...</p>
+          )}
         </div>
       </div>
       <h1 className="p-4 text-xl font-medium mt-8">Added Products</h1>

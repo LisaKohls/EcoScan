@@ -9,7 +9,6 @@ export interface UserType extends Document {
   lastName?: string;
   createdAt: Date;
   favorites: number[];
-  img: string;
 }
 
 const userSchema = new mongoose.Schema({
@@ -20,8 +19,7 @@ const userSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
   createdAt: { type: Date, default: Date.now },
-  favorites: [{ type: Number, ref: 'Product' }],
-  img: { type: String, default: '' }
+  favorites: [{ type: Number, ref: 'Product' }]
 })
 
 export default model<UserType>('User', userSchema)
