@@ -1,9 +1,11 @@
-import axios from '../api/axiosAPI';
 import useAuth from './useAuth';
+import axios from 'axios';
+import useAxiosPrivate from './useAxiosPrivate';
 
-const URL_LOGOUT = 'api/auth/logout';
+const URL_LOGOUT = '/api/auth/logout';
 const useLogout = (): (() => Promise<void>) => {
   const { setAuth } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
 
   const logout = async () => {
     setAuth({
@@ -11,7 +13,7 @@ const useLogout = (): (() => Promise<void>) => {
       accessToken: '',
     });
     try {
-      /*const response = */ await axios(URL_LOGOUT, {
+      /*const response = */ await axiosPrivate(URL_LOGOUT, {
         withCredentials: true,
       });
     } catch (err) {

@@ -20,3 +20,8 @@ export interface AuthedBarcodeRequest extends Request {
     barcode: string;
   };
 }
+
+export interface AuthedFileRequest extends Request {
+  user: UserInfo;
+  file: any;
+}
