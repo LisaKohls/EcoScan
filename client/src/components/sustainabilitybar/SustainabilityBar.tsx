@@ -62,6 +62,7 @@ const SustainabilityBar: React.FC<SustainabilityBarProps> = props => {
             transition: 'width 2s ease',
           }}
           className="shadow-none flex flex-col text-center whitespace-nowrap justify-center"
+          role="progressbar"
         ></div>
       </div>
     </div>
