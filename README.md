@@ -2,6 +2,20 @@
 
 EcoScan is a web application that allows users to scan or search for products and see their sustainability rating. The application provides users with valuable information about the environmental impact of the products they use and helps them make more sustainable choices.
 
+## Members
+
+- Lea Bretz lb153 39217,
+
+- Sandra Barsoum sb283 40168, 
+
+- Julius Beutel js266 42768, 
+
+- Steffen Singer ss536 42686, 
+
+- Lisa Kohls lk210 43583, 
+
+- Jana Eichholz je067 42961
+
 ## Run with docker
 
 `docker compose up`
@@ -38,6 +52,15 @@ EcoScan is built using the following technologies:
 - Vite
 - Node.js
 - Express
+
+## Testing
+
+### Frontend
+- PrimaryButton component Test
+- SustainabilityBar component Test
+
+### Backend
+
 
 ## License
 
