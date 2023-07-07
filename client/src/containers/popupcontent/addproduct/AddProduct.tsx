@@ -1,6 +1,8 @@
-import { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import ButtonAddNewProduct from '../../../components/buttons/ButtonAddNewProduct';
+import InputField from '../../../components/addProduct/InputField';
 import { axiosPrivate } from '../../../api/axiosAPI';
-import axios from "axios";
+import axios from 'axios';
 
 interface AddProductProps {
   setTrigger: Dispatch<SetStateAction<boolean>>;
@@ -10,30 +12,18 @@ const ADD_PRODUCT_URL = '/api/product/add';
 const AddProduct: React.FC<AddProductProps> = props => {
   const [barcode, setBarcode] = useState('');
   const [name, setName] = useState('');
-  const [sustainabilityEco, setsustainabilityEco] = useState('');
-  const [sustainabilitySocial, setsustainabilitySocial] = useState('');
-  const [description, setDescription] = useState('');
-
-  const testProuct = {
-    barcode: 12345678,
-    name: 'Product 1',
-    description: 'Bla Bla Bla',
-    categories: [],
-    imageUrls: [],
-    sustainabilityName: 'sustainabilityName',
-    sustainabilitySocial: 20,
-    sustainabilityEco: 20,
-  };
+  const [sustainabilityIndex, setsustaibabilityIndex] = useState('');
 
   const addProduct = useCallback(async () => {
     try {
-      const response = await axiosPrivate.post(ADD_PRODUCT_URL, testProuct, {
+      const response = await axiosPrivate.post(ADD_PRODUCT_URL, AddProduct, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true,
       });
 
-      if (response.status == 200) {
+      if (response.status === 200) {
         console.log('Product added successfully');
+        props.setTrigger(false); // Close the window
       } else {
         console.error('Favorite could not be added or removed');
       }
@@ -44,92 +34,59 @@ const AddProduct: React.FC<AddProductProps> = props => {
         console.error('An unknown error occurred: ', err);
       }
     }
-  }, [axiosPrivate]);
+  }, [props]);
+
+  const handleClose = () => {
+    props.setTrigger(false); // Close the window
+  };
 
   console.log('pop up add new product opened');
   // das ganze input Zeug ist noch nicht sichtbar, aber die Komponente wird schon geöffnet
   return (
     <div className="text-black z-10 flex flex-col p-4 overflow-auto">
-      <h2 className="mt-5 text-center text-white text-xl">
-        Create new product
-      </h2>
-      <div className="pt-4 text-white">
-        <label>
-          Barcode Number
-          <div className="pt-2">
-            <input
-              className="w-full p-2 bg-white text-black border-2 border-grey rounded-md focus:outline-none focus:border-black"
-              type="text"
-              placeholder="Enter barcode number"
-              value={barcode}
-              onChange={e => setBarcode(e.target.value)}
+      <div className="flex justify-end">
+        <button className="text-white focus:outline-none" onClick={handleClose}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
             />
-          </div>
-        </label>
-      </div>
-      <div className="pt-4 text-white">
-        <label>
-          Name of Product
-          <div className="pt-2">
-            <input
-              className="w-full p-2 bg-white text-black border-2 border-grey rounded-md focus:outline-none focus:border-black"
-              type="text"
-              placeholder="Enter name of product"
-              value={name}
-              onChange={e => setName(e.target.value)}
-            />
-          </div>
-        </label>
-      </div>
-      <div className="pt-4 text-white">
-        <label>
-          Sustainability index
-          <div className="pt-2">
-            <input
-              className="w-full p-2 bg-white text-black border-2 border-grey rounded-md focus:outline-none focus:border-black"
-              type="number"
-              placeholder="Enter sustainability index"
-              value={sustainabilitySocial}
-              onChange={e => setsustainabilitySocial(e.target.value)}
-            />
-          </div>
-        </label>
-      </div>
-      <div className="pt-4 text-white">
-        <label>
-          Sustainability eco
-          <div className="pt-2">
-            <input
-              className="w-full p-2 bg-white text-black border-2 border-grey rounded-md focus:outline-none focus:border-black"
-              type="number"
-              placeholder="Enter sustainability index"
-              value={sustainabilityEco}
-              onChange={e => setsustainabilityEco(e.target.value)}
-            />
-          </div>
-        </label>
-      </div>
-      <div className="pt-4 text-white">
-        <label>
-          Description of Product
-          <div className="pt-2">
-            <input
-              className="w-full p-2 bg-white text-black border-2 border-grey rounded-md focus:outline-none focus:border-black"
-              type="text"
-              placeholder="Enter description of product"
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-            />
-          </div>
-        </label>
-      </div>
-      <div className="flex justify-center pt-2">
-        <button
-          className="p-3 px-16 m-5 bg-secondary-color text-black rounded-md"
-          onClick={addProduct}
-        >
-          Add
+          </svg>
         </button>
+      </div>
+      <h2 className="mt-5 text-center text-white text-xl">
+        Create New Product
+      </h2>
+      {/* Barcode field */}
+      <InputField
+        label="Barcode Number"
+        value={barcode}
+        onChange={setBarcode}
+        placeholder="Enter barcode number"
+      />
+      {/* Barcode field */}
+      <InputField
+        label="Name of Product"
+        value={name}
+        onChange={setName}
+        placeholder="Enter name of product"
+      />
+      <InputField
+        label="Sustainability Index"
+        value={sustainabilityIndex}
+        onChange={setsustaibabilityIndex}
+        placeholder="Enter sustainability index"
+      />
+      <div>
+        <ButtonAddNewProduct onClick={addProduct}>Add</ButtonAddNewProduct>
       </div>
     </div>
   );
