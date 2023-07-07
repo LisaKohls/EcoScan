@@ -23,6 +23,7 @@ import {
   getProfilePicture,
   getUserInfo,
 } from '../../../services/userService';
+import ButtonAddProduct from '../../../components/buttons/ButtonAddProduct';
 
 interface User {
   username: string;
@@ -155,7 +156,7 @@ const Profile: FC = (): ReactElement => {
       ) : (
         <div className="flex flex-col items-center justify-center mt-16">
           <p>You haven&apos;t added any products yet.</p>
-          <ButtonPrimary onClick={addProduct}>Add Product</ButtonPrimary>
+          <ButtonAddProduct />
         </div>
       )}
     </div>

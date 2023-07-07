@@ -1,31 +1,75 @@
-import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import ButtonAddNewProduct from '../../../components/buttons/ButtonAddNewProduct';
 import InputField from '../../../components/addProduct/InputField';
 import { axiosPrivate } from '../../../api/axiosAPI';
 import axios from 'axios';
-
-interface AddProductProps {
-  setTrigger: Dispatch<SetStateAction<boolean>>;
-}
+import { useNavigate } from 'react-router-dom';
 
 const ADD_PRODUCT_URL = '/api/product/add';
-const AddProduct: React.FC<AddProductProps> = props => {
+
+interface AddProductProps {
+  onClose: () => void;
+}
+
+const AddProduct: React.FC<AddProductProps> = ({ onClose }) => {
+  const navigate = useNavigate();
   const [barcode, setBarcode] = useState('');
-  const [name, setName] = useState('');
-  const [sustainabilityIndex, setsustaibabilityIndex] = useState('');
+  const [productName, setProductName] = useState('');
+  const [description, setDescription] = useState('');
+  const [sustainabilityIndex, setSustainabilityIndex] = useState('');
+  const [barcodeError, setBarcodeError] = useState('');
+  const [productNameError, setProductNameError] = useState('');
+  const [descriptionError, setDescriptionError] = useState('');
+  const [sustainabilityIndexError, setSustainabilityIndexError] = useState('');
+
+  const validateInputs = () => {
+    let isValid = true;
+
+    if (!barcode || isNaN(Number(barcode))) {
+      setBarcodeError('Please enter a valid barcode.');
+      isValid = false;
+    }
+
+    if (!productName) {
+      setProductNameError('Please enter a product name.');
+      isValid = false;
+    }
+
+    if (!description) {
+      setDescriptionError('Please enter a product description.');
+      isValid = false;
+    }
+
+    if (!sustainabilityIndex || isNaN(Number(sustainabilityIndex))) {
+      setSustainabilityIndexError('Please enter a valid sustainability index.');
+      isValid = false;
+    }
+
+    return isValid;
+  };
 
   const addProduct = useCallback(async () => {
+    if (!validateInputs()) return;
+
+    const addProductRequest = {
+      barcode: Number(barcode),
+      name: productName,
+      description: description,
+      sustainabilityIndex: Number(sustainabilityIndex),
+    };
+
     try {
-      const response = await axiosPrivate.post(ADD_PRODUCT_URL, AddProduct, {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
-      });
+      const response = await axiosPrivate.post(
+        ADD_PRODUCT_URL,
+        addProductRequest
+      );
 
       if (response.status === 200) {
         console.log('Product added successfully');
-        props.setTrigger(false); // Close the window
+        onClose(); // Close the window
+        navigate(`/product/${barcode}`);
       } else {
-        console.error('Favorite could not be added or removed');
+        console.error('Product could not be added');
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
@@ -34,18 +78,12 @@ const AddProduct: React.FC<AddProductProps> = props => {
         console.error('An unknown error occurred: ', err);
       }
     }
-  }, [props]);
+  }, [barcode, productName, sustainabilityIndex, onClose]);
 
-  const handleClose = () => {
-    props.setTrigger(false); // Close the window
-  };
-
-  console.log('pop up add new product opened');
-  // das ganze input Zeug ist noch nicht sichtbar, aber die Komponente wird schon geöffnet
   return (
     <div className="text-black z-10 flex flex-col p-4 overflow-auto">
       <div className="flex justify-end">
-        <button className="text-white focus:outline-none" onClick={handleClose}>
+        <button className="text-white focus:outline-none" onClick={onClose}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -65,24 +103,48 @@ const AddProduct: React.FC<AddProductProps> = props => {
       <h2 className="mt-5 text-center text-white text-xl">
         Create New Product
       </h2>
-      {/* Barcode field */}
       <InputField
         label="Barcode Number"
         value={barcode}
-        onChange={setBarcode}
+        onChange={value => {
+          setBarcode(value);
+          setBarcodeError('');
+        }}
+        onBlur={validateInputs}
+        error={barcodeError}
         placeholder="Enter barcode number"
       />
-      {/* Barcode field */}
       <InputField
         label="Name of Product"
-        value={name}
-        onChange={setName}
+        value={productName}
+        onChange={value => {
+          setProductName(value);
+          setProductNameError('');
+        }}
+        onBlur={validateInputs}
+        error={productNameError}
         placeholder="Enter name of product"
+      />
+      <InputField
+        label="Product Description"
+        value={description}
+        onChange={value => {
+          setDescription(value);
+          setDescriptionError('');
+        }}
+        onBlur={validateInputs}
+        error={descriptionError}
+        placeholder="Enter product description"
       />
       <InputField
         label="Sustainability Index"
         value={sustainabilityIndex}
-        onChange={setsustaibabilityIndex}
+        onChange={value => {
+          setSustainabilityIndex(value);
+          setSustainabilityIndexError('');
+        }}
+        onBlur={validateInputs}
+        error={sustainabilityIndexError}
         placeholder="Enter sustainability index"
       />
       <div>
