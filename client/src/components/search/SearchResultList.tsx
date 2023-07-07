@@ -31,7 +31,7 @@ const SearchResultList = ({
             Add new Product
           </ButtonPrimary>
           <PopUp trigger={addProductPopUp} setTrigger={setAddProductPopUp}>
-            <AddProduct setTrigger={setAddProductPopUp} />
+            <AddProduct onClose={() => setAddProductPopUp(false)} />
           </PopUp>
         </div>
       )}

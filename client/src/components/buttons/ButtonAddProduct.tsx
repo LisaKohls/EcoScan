@@ -13,7 +13,7 @@ const ButtonAddProduct = () => {
         Add new Product
       </button>
       <PopUp trigger={addProductPopUp} setTrigger={setAddProductPopUp}>
-        <AddProduct setTrigger={setAddProductPopUp} />
+        <AddProduct onClose={() => setAddProductPopUp(false)} />
       </PopUp>
     </div>
   );
