@@ -67,7 +67,7 @@ const SearchForProduct = () => {
       <div className="px-4 pb-28">
         <SearchBar setSearchQuery={setSearchQuery} />
         {searchQuery.trim() === '' ? (
-          <div className="flex flex-col items-center justify-center text-center">
+          <div className="flex flex-col items-center justify-center text-center pt-4">
             <AiOutlineSearch size={50} className="text-gray-400" />
             <p className="mt-4 text-gray-500 whitespace-normal">
               Start searching for products by entering a barcode or product name
