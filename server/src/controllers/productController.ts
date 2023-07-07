@@ -18,7 +18,14 @@ import {
 } from '../services/productService'
 import { PersonalUserProduct } from '../models/personalUserProductModel'
 import { AuthedBarcodeRequest, AuthRequest } from '../types/authTypes'
-import { getFilteredPersonalProductsService } from '../services/personalProductService'
+import {
+  getFilteredPersonalProductsService,
+  getPersonalProductByBarcodeService,
+  getPersonalProductsService
+} from '../services/personalProductService'
+import UserModel from '../models/userModel'
+import PermissionForbiddenError from '../errors/PermissionForbiddenError'
+import UserNotFoundError from '../errors/UserNotFoundError'
 
 export const postProduct = async (
   req: AuthRequest,
@@ -26,7 +33,6 @@ export const postProduct = async (
   next: NextFunction
 ) => {
   try {
-    // TODO: check if barcode exists in other doc (prePopulated data)
     const {
       barcode,
       name,
@@ -61,6 +67,12 @@ export const postProduct = async (
     })
 
     await personalUserProduct.save()
+
+    await UserModel.updateOne(
+      { username: req.user.username },
+      { $addToSet: { personalProducts: barcode } }
+    )
+
     res.status(200).json({ message: 'Product added successfully' })
   } catch (error) {
     next(error)
@@ -87,9 +99,28 @@ export const getProductByBarcode = async (
     )
 
     if (!product) {
-      return res
-        .status(400)
-        .send(`No Product with barcode ${barcodeNumber} found`)
+      try {
+        const personalProduct = await getPersonalProductByBarcodeService(
+          barcodeNumber,
+          req.user.username
+        )
+
+        if (!personalProduct) {
+          return res
+            .status(400)
+            .send(`No Product with barcode ${barcodeNumber} found`)
+        }
+
+        return res.status(200).send(personalProduct)
+      } catch (error) {
+        if (error instanceof PermissionForbiddenError) {
+          return res.status(403).json({ error: 'Access forbidden' })
+        } else if (error instanceof UserNotFoundError) {
+          return res.status(404).json({ error: 'User not found' })
+        } else {
+          next(error)
+        }
+      }
     }
 
     res.send(product)
@@ -235,7 +266,9 @@ export const getPersonalProducts = async (
   next: NextFunction
 ) => {
   try {
-    const personalProducts = await PersonalUserProduct.find()
+    const personalProducts = await getPersonalProductsService(
+      req.user.username
+    )
     res.send(personalProducts)
   } catch (error) {
     next(error)

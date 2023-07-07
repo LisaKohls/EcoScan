@@ -9,13 +9,14 @@ import SearchForProduct from '../pages/searchproduct/SearchForProduct';
 import RequireAuth from '../RequireAuth';
 import PersistLogin from '../PersistentLogin';
 import MoreInfo from '../pages/moreinfo/MoreInfo';
+import Status403 from '../pages/status403/Status403';
+import Status404 from '../pages/status404/Status404';
 
 const App: React.FC = () => {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/registration" element={<RegistrationPage />} />
-      {/* TODO: replace with real auth */}
       <Route element={<PersistLogin />}>
         <Route path="/" element={<RequireAuth />}>
           <Route index element={<SearchForProduct />} />
@@ -25,6 +26,9 @@ const App: React.FC = () => {
           <Route path="/more-info" element={<MoreInfo />} />
         </Route>
       </Route>
+      <Route path="/unauthorized" element={<Status403 />} />
+      <Route path="/notfound" element={<Status404 />} />
+      <Route path="*" element={<Status404 />} />
     </Routes>
   );
 };
