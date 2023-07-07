@@ -4,6 +4,7 @@ import useRefreshToken from '../hooks/useRefreshToken';
 import useAuth from '../hooks/useAuth';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { AxiosError } from 'axios';
+import LoadingAnimation from '../components/loadinganimation/LoadingAnimation';
 
 const PersistLogin = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,12 +17,10 @@ const PersistLogin = () => {
 
     const verifyRefreshToken = async () => {
       try {
-        console.warn('ReFREsh START');
         await refresh();
       } catch (err) {
         const e = err as AxiosError;
-        console.warn('ReFREsh ERRERERERER', e.code);
-        console.error(err);
+        console.error(e);
       } finally {
         isMounted && setIsLoading(false);
       }
@@ -36,7 +35,9 @@ const PersistLogin = () => {
   }, [auth.accessToken, persist, refresh]);
 
   return (
-    <>{(!persist && isLoading) || isLoading ? <p>Loading...</p> : <Outlet />}</>
+    <>
+      {(!persist && isLoading) || isLoading ? <LoadingAnimation /> : <Outlet />}
+    </>
   );
 };
 
