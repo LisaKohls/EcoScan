@@ -33,7 +33,11 @@ export const getFilteredPersonalProductsService = async (
           {
             $or: [
               { name: { $regex: filter, $options: 'i' } },
-              { str_id: isNaNBarcode ? '0' : { $regex: `^${filter}`, $options: 'i' } }
+              {
+                str_id: isNaNBarcode
+                  ? '0'
+                  : { $regex: `^${filter}`, $options: 'i' }
+              }
             ]
           }
         ]
