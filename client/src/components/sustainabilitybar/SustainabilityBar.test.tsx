@@ -1,47 +1,51 @@
-import { render } from '@testing-library/react';
+import React from 'react';
+import { render, screen, act } from '@testing-library/react';
 import SustainabilityBar from './SustainabilityBar';
 
-describe('SustainabilityBar', () => {
-  it('render title and index', () => {
-    const title = 'Sustainability Score';
-    const index = 65;
-
-    const { getByText } = render(
-      <SustainabilityBar title={title} index={index} />
-    );
-
-    const titleElement = getByText(title);
-    const indexElement = getByText(`${index}%`);
-
-    expect(titleElement).toBeInTheDocument();
-    expect(indexElement).toBeInTheDocument();
+describe('SustainabilityBar component', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
   });
 
-  it('check color based on score', () => {
-    const title = 'Sustainability Score';
-    const highIndex = 80;
-    const mediumIndex = 50;
-    const lowIndex = 30;
+  afterEach(() => {
+    jest.useRealTimers();
+  });
 
-    const { container } = render(
-      <SustainabilityBar title={title} index={highIndex} />
-    );
-    const highBar = container.querySelector('.text-lime-600');
+  it('should display the correct title', () => {
+    render(<SustainabilityBar index={50} title="Energy" />);
+    expect(screen.getByText('Energy')).toBeInTheDocument();
+  });
 
-    expect(highBar).toBeInTheDocument();
+  it('should display the correct percentage', () => {
+    render(<SustainabilityBar index={50} title="Energy" />);
+    expect(screen.getByText('50%')).toBeInTheDocument();
+  });
 
-    const { container: container2 } = render(
-      <SustainabilityBar title={title} index={mediumIndex} />
-    );
-    const mediumBar = container2.querySelector('.text-amber-300');
+  it('should have the correct color for given index', () => {
+    const { rerender } = render(<SustainabilityBar index={75} title="Water" />);
+    act(() => {
+      jest.advanceTimersByTime(100);
+    });
+    expect(screen.getByText('Water')).toHaveStyle({ color: '#32CD32' });
 
-    expect(mediumBar).toBeInTheDocument();
+    rerender(<SustainabilityBar index={45} title="Water" />);
+    act(() => {
+      jest.advanceTimersByTime(100);
+    });
+    expect(screen.getByText('Water')).toHaveStyle({ color: '#FFBF00' });
 
-    const { container: container3 } = render(
-      <SustainabilityBar title={title} index={lowIndex} />
-    );
-    const lowBar = container3.querySelector('.text-orange-400');
+    rerender(<SustainabilityBar index={20} title="Water" />);
+    act(() => {
+      jest.advanceTimersByTime(100);
+    });
+    expect(screen.getByText('Water')).toHaveStyle({ color: '#FF7F00' });
+  });
 
-    expect(lowBar).toBeInTheDocument();
+  it('should adjust progress bar width as per index', () => {
+    render(<SustainabilityBar index={70} title="Energy" />);
+    act(() => {
+      jest.advanceTimersByTime(100);
+    });
+    expect(screen.getByRole('progressbar')).toHaveStyle({ width: '70%' });
   });
 });
