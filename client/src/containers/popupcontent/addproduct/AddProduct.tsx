@@ -3,7 +3,7 @@ import ButtonAddNewProduct from '../../../components/buttons/ButtonAddNewProduct
 import InputField from '../../../components/addProduct/InputField';
 import { axiosPrivate } from '../../../api/axiosAPI';
 import axios from 'axios';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const ADD_PRODUCT_URL = '/api/product/add';
 
@@ -12,7 +12,7 @@ interface AddProductProps {
 }
 
 const AddProduct: React.FC<AddProductProps> = ({ onClose }) => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
   const [barcode, setBarcode] = useState('');
   const [productName, setProductName] = useState('');
   const [description, setDescription] = useState('');
@@ -67,7 +67,7 @@ const AddProduct: React.FC<AddProductProps> = ({ onClose }) => {
       if (response.status === 200) {
         console.log('Product added successfully');
         onClose(); // Close the window
-          navigate(`/product/${barcode}`)
+        navigate(`/product/${barcode}`);
       } else {
         console.error('Product could not be added');
       }
