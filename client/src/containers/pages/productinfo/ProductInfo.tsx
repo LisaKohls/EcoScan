@@ -9,7 +9,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import HeaderContext from '../../../contexts/HeaderProvider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
-import profilePlaceholder from '../../../assets/profile_placeholder.webp';
 import { AxiosError } from 'axios';
 
 ChartJs.register(ArcElement, Tooltip, Legend);
@@ -113,6 +112,34 @@ const ProductInfo: React.FC = () => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 whitespace-normal pb-28 mt-[-2rem]">
       {isLoading ? (
         <p>Loading product...</p>
+      ) : product.sustainabilityEcoLifetime == 0 &&
+        product.sustainabilityEcoWater == 0 &&
+        product.sustainabilitySocial == 0 ? (
+        <div className="flex flex-col items-center">
+          <img
+            className="mx-auto h-32 w-32 object-cover"
+            src={product.image ?? product_placeholder}
+            alt={product.name}
+          />
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 whitespace-normal">
+            {product.name}
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600 whitespace-normal">
+            {product.description}
+          </p>
+          <div className="mt-8 items-center">
+            <HeartFavorites
+              barcode={product.barcode}
+              isInitiallyFavorite={product.favorite}
+            />
+          </div>
+          <div className="mt-8 items-center">
+            <SustainabilityBar
+              index={product.sustainabilityEcoLifetime}
+              title="Sustainability Index"
+            />
+          </div>
+        </div>
       ) : (
         <div className="max-w-md w-full space-y-8">
           <div className="flex flex-col items-center">
