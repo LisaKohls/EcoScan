@@ -12,11 +12,9 @@ import {
   useEffect,
   useState,
 } from 'react';
-import ButtonPrimary from '../../../components/buttons/ButtonPrimary';
 import HeaderContext from '../../../contexts/HeaderProvider';
 import { FaSignOutAlt } from 'react-icons/fa';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
-import { AxiosResponse } from 'axios';
 import { Product } from '../../../interfaces/IProduct';
 import ProductContainer from '../../productcontainer/ProductContainer';
 import profilePlaceholder from '../../../assets/profile_placeholder.webp';
@@ -49,6 +47,7 @@ const Profile: FC = (): ReactElement => {
   const axiosPrivate = useAxiosPrivate();
   const { setHeaderOptions } = useContext(HeaderContext);
   const [imgData, setImgData] = useState<string>('');
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     setHeaderOptions({
@@ -61,8 +60,10 @@ const Profile: FC = (): ReactElement => {
   }, []);
 
   const fetchOwnProducts = useCallback(async () => {
+    setLoading(true);
     const products = await getFavorites(axiosPrivate);
     setProducts(products);
+    setLoading(false);
   }, [axiosPrivate]);
 
   useEffect(() => {
@@ -119,7 +120,7 @@ const Profile: FC = (): ReactElement => {
   };
 
   return (
-    <div className="pb-28">
+    <div className="pb-28 lg:mx-20">
       <div className="flex flex-row items-center justify-start p-4 border">
         <button
           className="focus:outline-none"
@@ -157,8 +158,10 @@ const Profile: FC = (): ReactElement => {
         <div className="flex flex-col items-center justify-center text-center">
           <ProductContainer products={products} />
         </div>
+      ) : isLoading ? (
+        <LoadingAnimation />
       ) : (
-        <div className="flex flex-col items-center justify-center mt-16">
+        <div className="flex flex-col items-center justify-center mt-16 lg:mt-0">
           <p>You haven&apos;t added any products yet.</p>
           <ButtonAddProduct />
         </div>

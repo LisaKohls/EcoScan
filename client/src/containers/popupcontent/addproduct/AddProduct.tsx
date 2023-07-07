@@ -81,7 +81,7 @@ const AddProduct: React.FC<AddProductProps> = ({ onClose }) => {
   }, [barcode, productName, sustainabilityIndex, onClose]);
 
   return (
-    <div className="text-black z-10 flex flex-col p-4 overflow-auto">
+    <div className="text-black z-10 flex flex-col p-4 overflow-auto lg:px-10">
       <div className="flex justify-end">
         <button className="text-white focus:outline-none" onClick={onClose}>
           <svg
