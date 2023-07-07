@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import useLogout from '../../../hooks/useLogout';
 import useAuth from '../../../hooks/useAuth';
+import { MdAddPhotoAlternate } from 'react-icons/md';
+
 import {
   ChangeEvent,
   FC,
@@ -125,10 +127,11 @@ const Profile: FC = (): ReactElement => {
             document.getElementById('profile-picture-upload')?.click()
           }
         >
+          <MdAddPhotoAlternate className="absolute w-7 h-7 ml-20 top-40 z-10 text-gray-400" />
           <img
             src={imgData !== '' ? imgData : profilePlaceholder}
             alt="profile_photo"
-            className="w-24 h-24 border-2 border-gray-400 rounded-full mr-4"
+            className="relative w-24 h-24 border-2 border-gray-400 rounded-full mr-8"
           />
         </button>
         <input
