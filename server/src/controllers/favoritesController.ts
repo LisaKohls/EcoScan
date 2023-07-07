@@ -28,7 +28,7 @@ export const addFavorite = async (
       })
     }
 
-    if (await checkPersonalProductExists(barcode)) {
+    if (await checkPersonalProductExists(req.user.username, barcode)) {
       await userModel.updateOne(
         { username: req.user.username },
         { $addToSet: { favorites: barcode } }
@@ -65,7 +65,7 @@ export const removeFavorite = async (
       })
     }
 
-    if (await checkPersonalProductExists(barcode)) {
+    if (await checkPersonalProductExists(req.user.username, barcode)) {
       await userModel.updateOne(
         { username: req.user.username },
         { $pull: { favorites: barcode } }
