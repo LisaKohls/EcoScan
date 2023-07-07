@@ -10,6 +10,7 @@ import HeaderContext from '../../../contexts/HeaderProvider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
 import profilePlaceholder from '../../../assets/profile_placeholder.webp';
+import { AxiosError } from 'axios';
 
 ChartJs.register(ArcElement, Tooltip, Legend);
 
@@ -50,6 +51,16 @@ const ProductInfo: React.FC = () => {
         setProduct(response.data);
         setIsLoading(false);
       } catch (error) {
+        if (error instanceof AxiosError) {
+          if (error.response?.status === 403) {
+            navigate('/unauthorized');
+            return <p>TEST</p>;
+          } else if (error.response?.status === 404) {
+            navigate('/unauthorized');
+            return;
+          }
+        }
+
         console.error(error);
         setIsLoading(false);
       }

@@ -2,6 +2,8 @@ import userModel from '../models/userModel'
 import { getAverageSustainability, isFavorite } from './productService'
 import { PersonalUserProduct } from '../models/personalUserProductModel'
 import { IProduct } from '../models/productModel'
+import PermissionForbiddenError from '../errors/PermissionForbiddenError'
+import UserNotFoundError from '../errors/UserNotFoundError'
 
 export const getFilteredPersonalProductsService = async (
   filter: string,
@@ -9,6 +11,14 @@ export const getFilteredPersonalProductsService = async (
 ) => {
   const barcode = Number(filter)
   const isNaNBarcode = isNaN(barcode)
+
+  const user = await userModel.findOne({ username }).lean()
+
+  if (!user) {
+    throw new UserNotFoundError()
+  }
+
+  const userPersonalProducts = user.personalProducts
 
   const personalProducts = await PersonalUserProduct.aggregate([
     {
@@ -18,9 +28,14 @@ export const getFilteredPersonalProductsService = async (
     },
     {
       $match: {
-        $or: [
-          { name: { $regex: filter, $options: 'i' } },
-          { str_id: isNaNBarcode ? '0' : { $regex: filter, $options: 'i' } }
+        $and: [
+          { _id: { $in: userPersonalProducts } },
+          {
+            $or: [
+              { name: { $regex: filter, $options: 'i' } },
+              { str_id: isNaNBarcode ? '0' : { $regex: `^${filter}`, $options: 'i' } }
+            ]
+          }
         ]
       }
     },
@@ -43,7 +58,6 @@ export const getFilteredPersonalProductsService = async (
     }
   ]).exec()
 
-  const user = await userModel.findOne({ username }).lean()
   const userFavorites = user ? user.favorites : []
   return personalProducts.map((product: any) => ({
     ...product,
@@ -55,8 +69,24 @@ export const getPersonalProductByBarcodeService = async (
   barcode: number,
   username: string
 ) => {
+  const user = await userModel.findOne({ username }).lean()
+
+  if (!user) {
+    throw new UserNotFoundError()
+  }
+
+  const userPersonalProducts = user.personalProducts
+
+  if (!userPersonalProducts.includes(barcode)) {
+    throw new PermissionForbiddenError()
+  }
+
   const product = await PersonalUserProduct.aggregate([
-    { $match: { _id: barcode } },
+    {
+      $match: {
+        $and: [{ _id: barcode }, { _id: { $in: userPersonalProducts } }]
+      }
+    },
     {
       $project: {
         _id: 0,
@@ -85,7 +115,15 @@ export const getPersonalProductByBarcodeService = async (
 }
 
 export const getPersonalProductsService = async (username: string) => {
+  const user = await userModel.findOne({ username }).lean()
+  const userPersonalProducts = user ? user.personalProducts : []
+
   const products = await PersonalUserProduct.aggregate([
+    {
+      $match: {
+        _id: { $in: userPersonalProducts }
+      }
+    },
     {
       $project: {
         _id: 0,
@@ -105,7 +143,6 @@ export const getPersonalProductsService = async (username: string) => {
     }
   ]).exec()
 
-  const user = await userModel.findOne({ username }).lean()
   const userFavorites = user ? user.favorites : []
   return products.map((product: any) => ({
     ...product,
