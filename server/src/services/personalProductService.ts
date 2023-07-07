@@ -155,10 +155,11 @@ export const getPersonalProductsService = async (username: string) => {
 }
 
 export const checkPersonalProductExists = async (
+  username: string,
   barcode: number
 ): Promise<boolean> => {
-  const product: IProduct | null = await PersonalUserProduct.findOne({
-    _id: barcode
-  })
-  return !!product
+  const user = await userModel.findOne({ username }).lean()
+  const userPersonalProducts = user ? user.personalProducts : []
+
+  return userPersonalProducts.includes(barcode)
 }
