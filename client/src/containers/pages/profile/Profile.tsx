@@ -12,11 +12,9 @@ import {
   useEffect,
   useState,
 } from 'react';
-import ButtonPrimary from '../../../components/buttons/ButtonPrimary';
 import HeaderContext from '../../../contexts/HeaderProvider';
 import { FaSignOutAlt } from 'react-icons/fa';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
-import { AxiosResponse } from 'axios';
 import { Product } from '../../../interfaces/IProduct';
 import ProductContainer from '../../productcontainer/ProductContainer';
 import profilePlaceholder from '../../../assets/profile_placeholder.webp';
