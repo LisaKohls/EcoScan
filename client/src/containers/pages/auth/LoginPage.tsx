@@ -83,7 +83,7 @@ const LoginPage: React.FC = () => {
   */
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-white to-secondary-light flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-b from-white to-secondary-light flex items-center justify-center">
       <div className="w-full max-w-xs">
         <EcoScan />
         <form
@@ -138,7 +138,7 @@ const LoginPage: React.FC = () => {
           </div>
           <div className="flex items-center justify-between">
             <button
-              className="bg-primary-color hover:bg-secondary-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition ease-in-out duration-300"
+              className=" text-primary-color hover:text-white rounded-3xl border-2 border-primary-color hover:bg-primary-color p-3 transition ease-in-out duration-300"
               type="submit"
             >
               Sign In

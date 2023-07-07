@@ -61,7 +61,7 @@ const SearchForProduct = () => {
       setProducts([]);
     }
   }, [searchQuery, fetchProducts]);
-  console.log(`loading: ${isLoading}`);
+
   return (
     <>
       <div className="px-4 pb-28">
