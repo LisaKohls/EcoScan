@@ -42,7 +42,7 @@ const ProductInfo: React.FC = () => {
     async function fetchData() {
       try {
         //const barcode = 10390429; // Replace with your barcode
-        const response = await axiosPrivate.get(`/api/product/${barcode}`);
+        const response = await axiosPrivate.get(`/api/products/${barcode}`);
 
         if (response.status !== 200) {
           throw new Error(`Error: received ${response.status} response`);

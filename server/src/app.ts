@@ -6,7 +6,7 @@ import mongoose from 'mongoose'
 import authRoutes from './routes/authRoutes'
 import { logger } from './middlewares/logEvents'
 import { productRoutes } from './routes/productRoutes'
-import { favoriteRoutes } from './routes/favoritesRoutes'
+import { favoriteRoutes } from './routes/favoriteRoutes'
 import authMiddleware from './middlewares/authMiddleware'
 import credentialsMiddleware from './middlewares/credentialsMiddleware'
 import corsOptions from './config/corsOptions'
@@ -51,7 +51,7 @@ app.use('/api/auth', authRoutes)
 app.use(authMiddleware)
 
 // Authed Routes
-app.use('/api/product', productRoutes)
+app.use('/api/products', productRoutes)
 app.use('/api/favorites', favoriteRoutes)
 app.use('/api/users', userRoutes)
 

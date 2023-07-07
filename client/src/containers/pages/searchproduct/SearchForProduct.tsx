@@ -7,7 +7,7 @@ import { Product } from '../../../interfaces/IProduct';
 import { AiOutlineSearch } from 'react-icons/ai';
 import HeaderContext from '../../../contexts/HeaderProvider';
 
-const PRODUCT_URL = '/api/product/';
+const PRODUCT_URL = '/api/products/';
 const SearchForProduct = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [products, setProducts] = useState<Product[]>([]);
