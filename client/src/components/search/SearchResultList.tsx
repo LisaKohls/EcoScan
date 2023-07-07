@@ -4,6 +4,7 @@ import PopUp from '../../containers/layouts/popup/PopUp';
 import ButtonPrimary from '../buttons/ButtonPrimary';
 import { Product } from '../../interfaces/IProduct';
 import ProductContainer from '../../containers/productcontainer/ProductContainer';
+import LoadingAnimation from '../loadinganimation/LoadingAnimation';
 
 const SearchResultList = ({
   products,
@@ -19,7 +20,7 @@ const SearchResultList = ({
   return (
     <div className="pt-4 m-margin-elements">
       {loading ? (
-        <p className="mt-2 text-center text-gray-500 ">Loading...</p>
+        <LoadingAnimation />
       ) : products.length !== 0 ? (
         <ProductContainer products={products} />
       ) : (

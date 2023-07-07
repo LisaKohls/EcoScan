@@ -24,6 +24,7 @@ import {
   getUserInfo,
 } from '../../../services/userService';
 import ButtonAddProduct from '../../../components/buttons/ButtonAddProduct';
+import LoadingAnimation from '../../../components/loadinganimation/LoadingAnimation';
 
 interface User {
   username: string;
@@ -144,7 +145,7 @@ const Profile: FC = (): ReactElement => {
               <h2 className="text-base font-light mt-2">{user.email}</h2>
             </>
           ) : (
-            <p>Loading...</p>
+            <LoadingAnimation />
           )}
         </div>
       </div>
