@@ -121,14 +121,14 @@ const Profile: FC = (): ReactElement => {
 
   return (
     <div className="pb-28 lg:mx-20">
-      <div className="flex flex-row items-center justify-start p-4 border">
+      <div className="flex flex-row items-center justify-start p-4 mx-margin-elements border">
         <button
-          className="focus:outline-none"
+          className="focus:outline-none sticky"
           onClick={() =>
             document.getElementById('profile-picture-upload')?.click()
           }
         >
-          <MdAddPhotoAlternate className="absolute w-7 h-7 ml-20 top-40 z-10 text-gray-400" />
+          <MdAddPhotoAlternate className="absolute w-7 h-7 ml-20 top-[4rem] z-10 text-gray-400 " />
           <img
             src={imgData !== '' ? imgData : profilePlaceholder}
             alt="profile_photo"
