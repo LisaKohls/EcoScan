@@ -5,7 +5,7 @@ import { axiosPrivate } from '../../../api/axiosAPI';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const ADD_PRODUCT_URL = '/api/product/add';
+const ADD_PRODUCT_URL = '/api/products/add';
 
 interface AddProductProps {
   onClose: () => void;
@@ -67,7 +67,7 @@ const AddProduct: React.FC<AddProductProps> = ({ onClose }) => {
       if (response.status === 200) {
         console.log('Product added successfully');
         onClose(); // Close the window
-        navigate(`/product/${barcode}`);
+        navigate(`/products/${barcode}`);
       } else {
         console.error('Product could not be added');
       }

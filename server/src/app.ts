@@ -51,7 +51,7 @@ app.use('/api/auth', authRoutes)
 app.use(authMiddleware)
 
 // Authed Routes
-app.use('/api/product', productRoutes)
+app.use('/api/products', productRoutes)
 app.use('/api/favorites', favoriteRoutes)
 app.use('/api/users', userRoutes)
 

@@ -14,7 +14,7 @@ export const getFavorites = async (
 ): Promise<Product[]> => {
   try {
     const response = await axiosInstance.get<Product[]>(
-      '/api/product/personal'
+      '/api/products/personal'
     );
     return response.data;
   } catch (err) {
