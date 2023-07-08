@@ -23,7 +23,7 @@ const SearchForProduct = () => {
         : `Results for "${searchQuery}" (${products.length})`;
     setHeaderOptions({
       title: title,
-      backButton: false,
+      backButton: true,
       rightIcon: null,
     });
   }, [setHeaderOptions, products.length, searchQuery]);
@@ -65,14 +65,21 @@ const SearchForProduct = () => {
   return (
     <>
       <div className="px-4 pb-28">
-        <SearchBar setSearchQuery={setSearchQuery} />
+        <SearchBar
+          setSearchQuery={setSearchQuery}
+          searchQuery={searchQuery}
+          focus={true}
+        />
         {searchQuery.trim() === '' ? (
-          <div className="flex flex-col items-center justify-center text-center pt-4">
-            <AiOutlineSearch size={50} className="text-gray-400" />
-            <p className="mt-4 text-gray-500 whitespace-normal">
-              Start searching for products by entering a barcode or product name
-            </p>
-          </div>
+          <>
+            <div className="flex flex-col items-center justify-center text-center pt-4">
+              <AiOutlineSearch size={50} className="text-gray-400" />
+              <p className="mt-4 text-gray-500 whitespace-normal">
+                Start searching for products by entering a barcode or product
+                name
+              </p>
+            </div>
+          </>
         ) : (
           <SearchResultList
             products={products}

@@ -10,6 +10,7 @@ import HeaderContext from '../../../contexts/HeaderProvider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
 import { AxiosError } from 'axios';
+import ProductNotFound from '../productnotfound/ProductNotFound';
 
 ChartJs.register(ArcElement, Tooltip, Legend);
 
@@ -17,6 +18,7 @@ const ProductInfo: React.FC = () => {
   const axiosPrivate = useAxiosPrivate();
   const [product, setProduct] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [productExists, setProductExists] = useState(true);
   const navigate = useNavigate();
 
   const { barcode } = useParams();
@@ -52,8 +54,8 @@ const ProductInfo: React.FC = () => {
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 403) {
-            navigate('/unauthorized');
-            return <p>TEST</p>;
+            setProductExists(false);
+            return;
           } else if (error.response?.status === 404) {
             navigate('/unauthorized');
             return;
@@ -108,7 +110,7 @@ const ProductInfo: React.FC = () => {
     ],
   };
 
-  return (
+  const ValidProduct = () => (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 whitespace-normal pb-28 mt-[-2rem]">
       {isLoading ? (
         <p>Loading product...</p>
@@ -196,6 +198,12 @@ const ProductInfo: React.FC = () => {
         </div>
       )}
     </div>
+  );
+
+  return productExists ? (
+    <ValidProduct />
+  ) : (
+    <ProductNotFound barcode={barcode ?? ''} />
   );
 };
 

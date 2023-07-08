@@ -21,6 +21,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@zxing/library": "^0.20.0",
     "axios": "^1.4.0",
     "chart.js": "^4.3.0",
     "dotenv": "^16.0.3",
