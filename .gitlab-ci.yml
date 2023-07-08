@@ -33,14 +33,14 @@ setup-frontend:
 
 lint_backend:
     stage: code_formating
-    image: node:backend
+    image: node:18
     script:
       - cd $BACKEND_DIR
       - npm run lint
 
 format_backend:
     stage: code_formating
-    image: node:backend
+    image: node:18
     script:
       - cd $BACKEND_DIR
       - npm run format
