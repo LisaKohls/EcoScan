@@ -9,7 +9,7 @@ variables:
 
 setup-backend:
   stage: setup
-  image: node:alpine
+  image: node:18
   script:
     - cd $BACKEND_DIR
     - npm ci
@@ -33,14 +33,14 @@ setup-frontend:
 
 lint_backend:
     stage: code_formating
-    image: node:alpine
+    image: node:backend
     script:
       - cd $BACKEND_DIR
       - npm run lint
 
 format_backend:
     stage: code_formating
-    image: node:alpine
+    image: node:backend
     script:
       - cd $BACKEND_DIR
       - npm run format
@@ -69,7 +69,7 @@ test_client:
 
 test_backend:
   stage: testing
-  image: node:alpine
+  image: node:18
   before_script:
     - cd $BACKEND_DIR
   script:
