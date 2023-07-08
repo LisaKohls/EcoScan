@@ -26,7 +26,6 @@ import {
 } from '../../../services/userService';
 import ButtonAddProduct from '../../../components/buttons/ButtonAddProduct';
 import LoadingAnimation from '../../../components/loadinganimation/LoadingAnimation';
-import ButtonPrimary from '../../../components/buttons/ButtonPrimary';
 
 interface User {
   username: string;
@@ -125,19 +124,21 @@ const Profile: FC = (): ReactElement => {
   };
 
   const editName = () => {
-    const newUser: User = {
-      username: user?.username || '',
-      firstName: firstName,
-      lastName: lastName,
-      email: user?.email || '',
-    };
+    if (firstName != null) {
+      const newUser: User = {
+        username: user?.username || '',
+        firstName: firstName,
+        lastName: lastName,
+        email: user?.email || '',
+      };
+      setUser(newUser);
+    }
     setInput(false);
-    setUser(newUser);
   };
 
   return (
-    <div className="pb-28 mx-10 lg:mx-20">
-      <div className="flex flex-row items-center justify-start p-4 border">
+    <div className="pb-28 mx-2 lg:mx-20">
+      <div className="flex flex-row  items-center justify-start p-4 border">
         <button
           className="focus:outline-none sticky"
           onClick={() =>
@@ -162,25 +163,28 @@ const Profile: FC = (): ReactElement => {
           {user ? (
             <>
               {!input ? (
-                <div className="flex">
-                  <h1 className="flex text-xl font-medium">
-                    {user.lastName == 'Doe'
-                      ? user.username
-                      : `${user.firstName} ${user.lastName}`}
-                  </h1>
-                  <button
-                    className="mx-margin-elements"
-                    onClick={() => setInput(true)}
-                  >
-                    <AiOutlineEdit />
-                  </button>
-                </div>
+                <>
+                  <div className="flex">
+                    <h1 className="flex text-xl font-medium">
+                      {user.lastName == 'Doe' || user.lastName == ''
+                        ? user.username
+                        : `${user.firstName} ${user.lastName}`}
+                    </h1>
+                    <button
+                      className="mx-margin-elements"
+                      onClick={() => setInput(true)}
+                    >
+                      <AiOutlineEdit />
+                    </button>
+                  </div>
+                  <h2 className="text-base font-light mt-2">{user.email}</h2>
+                </>
               ) : (
-                <div className="flex">
+                <div className="block md:flex ">
                   <input
                     type="text"
                     placeholder="firstname"
-                    className="flex flex-1 border rounded-lg focus:outline-black p-1 w-20 mr-margin-elements"
+                    className="block md:flex-1 mt-3 md:mt-0 border rounded-lg focus:outline-black p-1 w-30 mr-margin-elements"
                     id="firstName"
                     value={firstName}
                     onChange={event => setFirstname(event.target.value)}
@@ -188,31 +192,32 @@ const Profile: FC = (): ReactElement => {
                   <input
                     type="text"
                     placeholder="lastName"
-                    className="flex flex-1 border rounded-lg focus:outline-black p-1 w-20 mr-margin-elements"
+                    className="block md:flex md:flex-1 mt-3 md:mt-0 border rounded-lg focus:outline-black p-1 w-30 mr-margin-elements"
                     id="lastName"
                     value={lastName}
                     onChange={event => setLastName(event.target.value)}
                   />
                   <button
                     onClick={() => editName()}
-                    className="flex flex-2 bg-gray-400 text-white rounded-lg p-2 hover:bg-primary-color transition ease-in-out duration-300 "
+                    className="md:flex md:flex-2 mt-3 md:mt-0 bg-gray-400  text-white rounded-lg p-1 hover:bg-primary-color transition ease-in-out duration-300 "
                   >
                     Save
                   </button>
                 </div>
               )}
-              <h2 className="text-base font-light mt-2">{user.email}</h2>
             </>
           ) : (
             <LoadingAnimation />
           )}
         </div>
       </div>
-      <div className="flex">
-        <h1 className="flex flex-row-4 text-xl font-medium mt-8 ">
-          Added Products
+      <div className="flex ">
+        <h1 className="flex flex-row-4 text-xl font-medium mt-[3rem] lg:mt-8">
+          Added Products:{' '}
+          {products.length != 0 ? products.length : 'No added products'}
         </h1>
-        <div className="flex flex-1 justify-end">
+
+        <div className="flex flex-1 justify-end mt-[1rem] lg:mt-0">
           <ButtonAddProduct />
         </div>
       </div>
