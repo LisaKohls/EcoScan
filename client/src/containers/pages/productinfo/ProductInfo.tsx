@@ -114,7 +114,7 @@ const ProductInfo: React.FC = () => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 whitespace-normal pb-28 mt-[-2rem]">
       {isLoading ? (
         <p>Loading product...</p>
-      ) : product.sustainabilitySocial == 0 ? (
+      ) : product.isPersonalProduct ? (
         <div className="flex flex-col items-center">
           <img
             className="mx-auto h-32 w-32 object-cover"
