@@ -26,7 +26,7 @@ import {
 } from '../../../services/userService';
 import ButtonAddProduct from '../../../components/buttons/ButtonAddProduct';
 import LoadingAnimation from '../../../components/loadinganimation/LoadingAnimation';
-import ButtonPrimary from "../../../components/buttons/ButtonPrimary";
+import ButtonPrimary from '../../../components/buttons/ButtonPrimary';
 
 interface User {
   username: string;
@@ -162,16 +162,19 @@ const Profile: FC = (): ReactElement => {
           {user ? (
             <>
               {!input ? (
-              <div className="flex">
-                <h1 className="flex text-xl font-medium">
-                  {user.lastName == 'Doe'
-                    ? user.username
-                    : `${user.firstName} ${user.lastName}`}
-                </h1>
-                <button className="mx-margin-elements" onClick={() => setInput(true)}>
-                  <AiOutlineEdit />
-                </button>
-              </div>
+                <div className="flex">
+                  <h1 className="flex text-xl font-medium">
+                    {user.lastName == 'Doe'
+                      ? user.username
+                      : `${user.firstName} ${user.lastName}`}
+                  </h1>
+                  <button
+                    className="mx-margin-elements"
+                    onClick={() => setInput(true)}
+                  >
+                    <AiOutlineEdit />
+                  </button>
+                </div>
               ) : (
                 <div className="flex">
                   <input
