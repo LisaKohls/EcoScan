@@ -230,6 +230,33 @@ export const deleteProductByBarcode = async (
   }
 }
 
+export const deletePersonalProductByBarcode = async (
+  req: AuthedBarcodeRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const barcode = req.params.barcode
+
+    const personalProduct = await getPersonalProductByBarcodeService(
+      Number(barcode),
+      req.user.username
+    )
+
+    const product = await PersonalUserProduct.findOneAndRemove({
+      _id: personalProduct.barcode
+    })
+
+    if (!product) {
+      res.status(400).send(`There is no Product saved with barcode ${barcode}`)
+    } else {
+      res.send('Product was successfully deleted')
+    }
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const patchProduct = async (
   req: AuthedBarcodeRequest,
   res: Response,

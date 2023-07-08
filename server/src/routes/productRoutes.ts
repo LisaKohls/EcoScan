@@ -7,7 +7,8 @@ import {
   getProductsFilteredByName,
   getPersonalProducts,
   postProduct,
-  patchPersonalProduct
+  patchPersonalProduct,
+  deletePersonalProductByBarcode
 } from '../controllers/productController'
 import { AuthedBarcodeRequest, AuthRequest } from '../types/authTypes'
 
@@ -47,6 +48,12 @@ productRoutes.delete('/:barcode', (req, res, next) =>
 productRoutes.patch('/:barcode', (req, res, next) =>
   patchProduct(req as AuthedBarcodeRequest, res, next)
 )
+
+// delete personal product with barcode
+productRoutes.delete('/personal/:barcode', (req, res, next) =>
+  deletePersonalProductByBarcode(req as AuthedBarcodeRequest, res, next)
+)
+
 // update personal product with barcode
 productRoutes.patch('/personal/:barcode', (req, res, next) =>
   patchPersonalProduct(req as AuthedBarcodeRequest, res, next)
