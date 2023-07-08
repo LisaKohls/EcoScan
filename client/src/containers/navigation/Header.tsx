@@ -86,7 +86,7 @@ const Header: React.FC = () => {
           }`}
           onClick={() => navigateToPage('')}
         >
-          Search
+          Scan
         </button>
         <button
           type="button"
