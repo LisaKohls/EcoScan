@@ -22,7 +22,7 @@ productRoutes.post('/add', (req, res, next) =>
   postPersonalProduct(req as AuthRequest, res, next)
 )
 
-// create personal product
+// create greendb product
 productRoutes.post('/add-greendb', (req, res, next) =>
   postProduct(req as AuthRequest, res, next)
 )
