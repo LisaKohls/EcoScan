@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import useLogout from '../../../hooks/useLogout';
 import useAuth from '../../../hooks/useAuth';
 import { MdAddPhotoAlternate } from 'react-icons/md';
+import { AiOutlineEdit } from 'react-icons/ai';
 
 import {
   ChangeEvent,
@@ -25,6 +26,7 @@ import {
 } from '../../../services/userService';
 import ButtonAddProduct from '../../../components/buttons/ButtonAddProduct';
 import LoadingAnimation from '../../../components/loadinganimation/LoadingAnimation';
+import ButtonPrimary from '../../../components/buttons/ButtonPrimary';
 
 interface User {
   username: string;
@@ -48,6 +50,9 @@ const Profile: FC = (): ReactElement => {
   const { setHeaderOptions } = useContext(HeaderContext);
   const [imgData, setImgData] = useState<string>('');
   const [isLoading, setLoading] = useState(false);
+  const [input, setInput] = useState(false);
+  const [firstName, setFirstname] = useState('');
+  const [lastName, setLastName] = useState('');
 
   useEffect(() => {
     setHeaderOptions({
@@ -119,6 +124,17 @@ const Profile: FC = (): ReactElement => {
     console.log('Add product');
   };
 
+  const editName = () => {
+    const newUser: User = {
+      username: user?.username || '',
+      firstName: firstName,
+      lastName: lastName,
+      email: user?.email || '',
+    };
+    setInput(false);
+    setUser(newUser);
+  };
+
   return (
     <div className="pb-28 mx-10 lg:mx-20">
       <div className="flex flex-row items-center justify-start p-4 border">
@@ -145,7 +161,46 @@ const Profile: FC = (): ReactElement => {
         <div>
           {user ? (
             <>
-              <h1 className="text-xl font-medium">{user.username}</h1>
+              {!input ? (
+                <div className="flex">
+                  <h1 className="flex text-xl font-medium">
+                    {user.lastName == 'Doe'
+                      ? user.username
+                      : `${user.firstName} ${user.lastName}`}
+                  </h1>
+                  <button
+                    className="mx-margin-elements"
+                    onClick={() => setInput(true)}
+                  >
+                    <AiOutlineEdit />
+                  </button>
+                </div>
+              ) : (
+                <div className="flex">
+                  <input
+                    type="text"
+                    placeholder="firstname"
+                    className="flex flex-1 border rounded-lg focus:outline-black p-1 w-20 mr-margin-elements"
+                    id="firstName"
+                    value={firstName}
+                    onChange={event => setFirstname(event.target.value)}
+                  />
+                  <input
+                    type="text"
+                    placeholder="lastName"
+                    className="flex flex-1 border rounded-lg focus:outline-black p-1 w-20 mr-margin-elements"
+                    id="lastName"
+                    value={lastName}
+                    onChange={event => setLastName(event.target.value)}
+                  />
+                  <button
+                    onClick={() => editName()}
+                    className="flex flex-2 bg-gray-400 text-white rounded-lg p-2 hover:bg-primary-color transition ease-in-out duration-300 "
+                  >
+                    Save
+                  </button>
+                </div>
+              )}
               <h2 className="text-base font-light mt-2">{user.email}</h2>
             </>
           ) : (
