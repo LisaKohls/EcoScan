@@ -14,6 +14,7 @@ import { NextFunction, Response } from 'express'
 import {
   getFilteredProductsService,
   getProductByBarcodeService,
+  updatePersonalProductByBarcodeService,
   updateProductByBarcodeService
 } from '../services/productService'
 import { PersonalUserProduct } from '../models/personalUserProductModel'
@@ -296,6 +297,79 @@ export const patchProduct = async (
     res.send({
       message: 'Product was successfully updated',
       product: updatedProduct
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const patchPersonalProduct = async (
+  req: AuthedBarcodeRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { barcode } = req.params
+    const {
+      barcode: updatedBarcode,
+      name,
+      description,
+      sustainabilityName,
+      sustainabilityEco,
+      sustainabilitySocial,
+      username
+    } = req.body
+
+    const updatedFields: any = {}
+    if (updatedBarcode) updatedFields.barcode = updatedBarcode
+    if (name) updatedFields.name = name
+    if (description) updatedFields.description = description
+    if (sustainabilityName) {
+      updatedFields['sustainability.name'] = sustainabilityName
+    }
+    if (sustainabilityEco) {
+      const ecoFields = [
+        'eco_chemicals',
+        'eco_lifetime',
+        'eco_water',
+        'eco_inputs',
+        'eco_quality',
+        'eco_energy',
+        'eco_waste_air',
+        'eco_environmental_management'
+      ]
+      ecoFields.forEach(field => {
+        updatedFields[`sustainability.${field}`] = sustainabilityEco
+      })
+    }
+    if (sustainabilitySocial) {
+      const socialFields = [
+        'social_labour_rights',
+        'social_business_practice',
+        'social_social_rights',
+        'social_company_responsibility',
+        'social_conflict_minerals'
+      ]
+      socialFields.forEach(field => {
+        updatedFields[`sustainability.${field}`] = sustainabilitySocial
+      })
+    }
+
+    const updatedPersonalProduct = await updatePersonalProductByBarcodeService(
+      barcode,
+      username,
+      updatedFields
+    )
+
+    if (!updatedPersonalProduct) {
+      return res
+        .status(404)
+        .send({ message: `Product not found with barcode ${barcode}` })
+    }
+
+    res.send({
+      message: 'Product was successfully updated',
+      product: updatedPersonalProduct
     })
   } catch (error) {
     next(error)

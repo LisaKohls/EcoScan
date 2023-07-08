@@ -1,6 +1,8 @@
 import { IProduct, Product } from '../models/productModel'
 import productJson from '../resources/product.json'
 import userModel from '../models/userModel'
+import { PersonalUserProduct } from '../models/personalUserProductModel'
+import { getPersonalProductByBarcodeService } from './personalProductService'
 
 const SUSTAINABILITY_METRICS = [
   'eco_chemicals',
@@ -152,6 +154,23 @@ export const updateProductByBarcodeService = async (
 ) => {
   return Product.findOneAndUpdate(
     { barcode },
+    { $set: updatedFields },
+    { new: true }
+  )
+}
+
+export const updatePersonalProductByBarcodeService = async (
+  barcode: string,
+  username: string,
+  updatedFields: any
+) => {
+  const personalProduct = await getPersonalProductByBarcodeService(
+    Number(barcode),
+    username
+  )
+
+  return PersonalUserProduct.findOneAndUpdate(
+    { _id: personalProduct.barcode },
     { $set: updatedFields },
     { new: true }
   )
