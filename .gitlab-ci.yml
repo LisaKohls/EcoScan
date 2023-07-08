@@ -1,7 +1,7 @@
 stages:
   - setup
-  -  code_formating
-  - test
+  - code_formating
+  - test_client
 
 variables:
   CLIENT_DIR: 'client'
@@ -59,8 +59,8 @@ format_client:
       - cd $CLIENT_DIR
       - npm run format
 
-tests:
-  stage: test
+test_client:
+  stage: test_client
   image: node:alpine
   before_script:
     - cd $CLIENT_DIR
