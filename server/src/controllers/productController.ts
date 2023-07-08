@@ -189,7 +189,9 @@ export const getProductByBarcode = async (
             .send(`No Product with barcode ${barcodeNumber} found`)
         }
 
-        return res.status(200).send(personalProduct)
+        return res
+          .status(200)
+          .send({ ...personalProduct, isPersonalProduct: true })
       } catch (error) {
         if (error instanceof PermissionForbiddenError) {
           return res.status(403).json({ error: 'Access forbidden' })
