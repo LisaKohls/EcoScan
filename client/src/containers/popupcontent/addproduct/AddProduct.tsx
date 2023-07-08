@@ -55,7 +55,8 @@ const AddProduct: React.FC<AddProductProps> = ({ onClose }) => {
       barcode: Number(barcode),
       name: productName,
       description: description,
-      sustainabilityIndex: Number(sustainabilityIndex),
+      sustainabilityEco: Number(sustainabilityIndex),
+      sustainabilitySocial: 0,
     };
 
     try {

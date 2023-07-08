@@ -120,8 +120,8 @@ const Profile: FC = (): ReactElement => {
   };
 
   return (
-    <div className="pb-28 lg:mx-20">
-      <div className="flex flex-row items-center justify-start p-4 mx-margin-elements border">
+    <div className="pb-28 mx-10 lg:mx-20">
+      <div className="flex flex-row items-center justify-start p-4 border">
         <button
           className="focus:outline-none sticky"
           onClick={() =>
@@ -153,7 +153,14 @@ const Profile: FC = (): ReactElement => {
           )}
         </div>
       </div>
-      <h1 className="p-4 text-xl font-medium mt-8">Added Products</h1>
+      <div className="flex">
+        <h1 className="flex flex-row-4 text-xl font-medium mt-8 ">
+          Added Products
+        </h1>
+        <div className="flex flex-1 justify-end">
+          <ButtonAddProduct />
+        </div>
+      </div>
       {products.length > 0 ? (
         <div className="flex flex-col items-center justify-center text-center">
           <ProductContainer products={products} />
@@ -163,7 +170,7 @@ const Profile: FC = (): ReactElement => {
       ) : (
         <div className="flex flex-col items-center justify-center mt-16 lg:mt-0">
           <p>You haven&apos;t added any products yet.</p>
-          <ButtonAddProduct />
+          <p>Click on the button to add your first product</p>
         </div>
       )}
     </div>
