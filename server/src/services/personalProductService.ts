@@ -64,7 +64,8 @@ export const getFilteredPersonalProductsService = async (
   const userFavorites = user ? user.favorites : []
   return personalProducts.map((product: any) => ({
     ...product,
-    favorite: userFavorites.includes(product.barcode)
+    favorite: userFavorites.includes(product.barcode),
+    isPersonalProduct: true
   }))
 }
 
@@ -111,7 +112,7 @@ export const getPersonalProductByBarcodeService = async (
 
   if (product.length > 0) {
     const favorite = await isFavorite(username, barcode)
-    return { ...product[0], favorite }
+    return { ...product[0], favorite, isPersonalProduct: true }
   }
 
   return null
@@ -149,7 +150,8 @@ export const getPersonalProductsService = async (username: string) => {
   const userFavorites = user ? user.favorites : []
   return products.map((product: any) => ({
     ...product,
-    favorite: userFavorites.includes(product.barcode)
+    favorite: userFavorites.includes(product.barcode),
+    isPersonalProduct: true
   }))
 }
 
