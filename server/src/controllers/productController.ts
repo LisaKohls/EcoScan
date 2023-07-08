@@ -47,7 +47,6 @@ export const postProduct = async (
       brand,
       price,
       currency,
-      imageUrls,
       colors,
       sustainabilityName,
       sustainabilityEco,
@@ -55,6 +54,80 @@ export const postProduct = async (
     } = req.body
 
     const consumerLifestage = req.body.consumer_lifestage
+    const imageUrls = req.body.image_urls
+
+    if (!barcode) {
+      res.status(400).json({ error: 'Barcode is required' })
+      return
+    }
+    if (isNaN(Number(barcode))) {
+      res.status(400).json({ error: 'Barcode should be a number.' })
+      return
+    }
+
+    if (!name) {
+      res.status(400).json({ error: 'Name is required' })
+      return
+    }
+
+    if (!description) {
+      res.status(400).json({ error: 'Description is required' })
+      return
+    }
+
+    if (!source) {
+      res.status(400).json({ error: 'Source is required' })
+      return
+    }
+
+    if (!merchant) {
+      res.status(400).json({ error: 'Merchant is required' })
+      return
+    }
+
+    if (!url) {
+      res.status(400).json({ error: 'Url is required' })
+      return
+    }
+
+    if (!country) {
+      res.status(400).json({ error: 'Country is required' })
+      return
+    }
+
+    if (!brand) {
+      res.status(400).json({ error: 'Brand is required' })
+      return
+    }
+
+    if (!price) {
+      res.status(400).json({ error: 'Price is required' })
+      return
+    }
+    if (isNaN(Number(price))) {
+      res.status(400).json({ error: 'Price should be a number.' })
+      return
+    }
+
+    if (!currency) {
+      res.status(400).json({ error: 'Currency is required' })
+      return
+    }
+
+    if (!imageUrls) {
+      res.status(400).json({ error: 'Image_urls is required' })
+      return
+    }
+
+    if (!consumerLifestage) {
+      res.status(400).json({ error: 'Consumer_lifestage is required' })
+      return
+    }
+
+    if (!colors) {
+      res.status(400).json({ error: 'Colors is required' })
+      return
+    }
 
     const sustainability = new Sustainability({
       name: sustainabilityName,
@@ -99,7 +172,14 @@ export const postProduct = async (
         res.send({ message: 'Product was successfully created', product })
       })
       .catch(error => {
-        res.status(400).send(error.toString())
+        // Only catch duplicate key error
+        if (error.code === 11000) {
+          res.status(409).json({
+            duplicate_key_error: `There already exists a product with barcode ${barcode}`
+          })
+        } else {
+          throw error
+        }
       })
   } catch (error) {
     next(error)
@@ -120,6 +200,25 @@ export const postPersonalProduct = async (
       sustainabilityEco,
       sustainabilitySocial
     } = req.body
+
+    if (!barcode) {
+      res.status(400).json({ error: 'Barcode is required' })
+      return
+    }
+    if (isNaN(Number(barcode))) {
+      res.status(400).json({ error: 'Barcode should be a number.' })
+      return
+    }
+
+    if (!name) {
+      res.status(400).json({ error: 'Name is required' })
+      return
+    }
+
+    if (!description) {
+      res.status(400).json({ error: 'Description is required' })
+      return
+    }
 
     const sustainability = new Sustainability({
       name: sustainabilityName,
@@ -159,7 +258,14 @@ export const postPersonalProduct = async (
         })
       })
       .catch(error => {
-        res.status(400).send(error.toString())
+        // Only catch duplicate key error
+        if (error.code === 11000) {
+          res.status(409).json({
+            duplicate_key_error: `There already exists a product with barcode ${barcode}`
+          })
+        } else {
+          throw error
+        }
       })
   } catch (error) {
     next(error)
