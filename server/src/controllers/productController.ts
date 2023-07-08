@@ -36,6 +36,84 @@ export const postProduct = async (
     const {
       barcode,
       name,
+      gender,
+      url,
+      source,
+      merchant,
+      categories,
+      description,
+      country,
+      brand,
+      price,
+      currency,
+      imageUrls,
+      colors,
+      sustainabilityName,
+      sustainabilityEco,
+      sustainabilitySocial
+    } = req.body
+
+    const consumerLifestage = req.body.consumer_lifestage
+
+    const sustainability = new Sustainability({
+      name: sustainabilityName,
+      eco_chemicals: sustainabilityEco,
+      eco_lifetime: sustainabilityEco,
+      eco_water: sustainabilityEco,
+      eco_inputs: sustainabilityEco,
+      eco_quality: sustainabilityEco,
+      eco_energy: sustainabilityEco,
+      eco_waste_air: sustainabilityEco,
+      eco_environmental_management: sustainabilityEco,
+      social_labour_rights: sustainabilitySocial,
+      social_business_practice: sustainabilitySocial,
+      social_social_rights: sustainabilitySocial,
+      social_company_responsibility: sustainabilitySocial,
+      social_conflict_minerals: sustainabilitySocial
+    })
+
+    const product = new Product({
+      barcode,
+      categories,
+      timestamp: Date(),
+      source,
+      merchant,
+      url,
+      country,
+      description,
+      brand,
+      price,
+      currency,
+      image_urls: imageUrls,
+      consumer_lifestage: consumerLifestage,
+      colors,
+      gender,
+      name,
+      sustainability
+    })
+
+    await product
+      .save()
+      .then(product => {
+        res.send({ message: 'Product was successfully created', product })
+      })
+      .catch(error => {
+        res.status(400).send(error.toString())
+      })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const postPersonalProduct = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const {
+      barcode,
+      name,
       description,
       sustainabilityName,
       sustainabilityEco,

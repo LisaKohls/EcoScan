@@ -2,10 +2,11 @@ import { Router } from 'express'
 import {
   getProductByBarcode,
   deleteProductByBarcode,
-  postProduct,
+  postPersonalProduct,
   patchProduct,
   getProductsFilteredByName,
-  getPersonalProducts
+  getPersonalProducts,
+  postProduct
 } from '../controllers/productController'
 import { AuthedBarcodeRequest, AuthRequest } from '../types/authTypes'
 
@@ -18,6 +19,11 @@ productRoutes.get('', (req, res, next) =>
 
 // create personal product
 productRoutes.post('/add', (req, res, next) =>
+  postPersonalProduct(req as AuthRequest, res, next)
+)
+
+// create personal product
+productRoutes.post('/add-greendb', (req, res, next) =>
   postProduct(req as AuthRequest, res, next)
 )
 
