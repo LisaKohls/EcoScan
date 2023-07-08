@@ -145,14 +145,22 @@ export const postPersonalProduct = async (
       sustainability
     })
 
-    await personalUserProduct.save()
+    await personalUserProduct
+      .save()
+      .then(async product => {
+        await UserModel.updateOne(
+          { username: req.user.username },
+          { $addToSet: { personalProducts: barcode } }
+        )
 
-    await UserModel.updateOne(
-      { username: req.user.username },
-      { $addToSet: { personalProducts: barcode } }
-    )
-
-    res.status(200).json({ message: 'Product added successfully' })
+        res.send({
+          message: 'Personal product was successfully created',
+          product
+        })
+      })
+      .catch(error => {
+        res.status(400).send(error.toString())
+      })
   } catch (error) {
     next(error)
   }
@@ -218,6 +226,11 @@ export const deleteProductByBarcode = async (
   try {
     const barcode = req.params.barcode
 
+    if (isNaN(Number(barcode))) {
+      res.status(400).json({ error: 'Barcode should be a number.' })
+      return
+    }
+
     const product = await Product.findOneAndRemove({ barcode })
 
     if (!product) {
@@ -237,6 +250,11 @@ export const deletePersonalProductByBarcode = async (
 ) => {
   try {
     const barcode = req.params.barcode
+
+    if (isNaN(Number(barcode))) {
+      res.status(400).json({ error: 'Barcode should be a number.' })
+      return
+    }
 
     const personalProduct = await getPersonalProductByBarcodeService(
       Number(barcode),
@@ -264,6 +282,12 @@ export const patchProduct = async (
 ) => {
   try {
     const { barcode } = req.params
+
+    if (isNaN(Number(barcode))) {
+      res.status(400).json({ error: 'Barcode should be a number.' })
+      return
+    }
+
     const {
       barcode: updatedBarcode,
       categories,
@@ -337,6 +361,12 @@ export const patchPersonalProduct = async (
 ) => {
   try {
     const { barcode } = req.params
+
+    if (isNaN(Number(barcode))) {
+      res.status(400).json({ error: 'Barcode should be a number.' })
+      return
+    }
+
     const {
       barcode: updatedBarcode,
       name,
