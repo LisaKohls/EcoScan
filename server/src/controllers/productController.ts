@@ -316,8 +316,7 @@ export const patchPersonalProduct = async (
       description,
       sustainabilityName,
       sustainabilityEco,
-      sustainabilitySocial,
-      username
+      sustainabilitySocial
     } = req.body
 
     const updatedFields: any = {}
@@ -357,7 +356,7 @@ export const patchPersonalProduct = async (
 
     const updatedPersonalProduct = await updatePersonalProductByBarcodeService(
       barcode,
-      username,
+      req.user.username,
       updatedFields
     )
 
