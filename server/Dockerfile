@@ -1,34 +1,25 @@
-# First Stage
-FROM node:18 AS builder
+# Used this to work with bcrypt dependency, have a look here:
+# https://stackoverflow.com/questions/32105251/bcrypt-invalid-elf-header-with-docker-and-sails-js
 
-WORKDIR /app
-
-COPY package*.json ./
-
-# Install all dependencies
-RUN npm ci
-
-# Copy the source code
-COPY . .
-
-# Build the TypeScript code
-RUN npm run build
-
-# Second Stage
 FROM node:18
 
-WORKDIR /app
+# Create a directory for the application
+RUN mkdir -p /usr/src/app
 
-COPY package*.json ./
+# Set the working directory
+WORKDIR /usr/src/app
 
-# Install production dependencies
-RUN npm ci --only=production
+# Copy package.json to the container
+COPY package.json /usr/src/app/
 
-# Copy the built JavaScript code from the first stage
-COPY --from=builder /app/dist ./dist
+# Install dependencies
+RUN npm install
 
-# Expose the port the application will run on
+# Copy the application code to the container
+COPY . /usr/src/app
+
+# Expose port 3001
 EXPOSE 3001
 
 # Start the application
-CMD ["node", "dist/app.js"]
+CMD [ "npm", "start" ]

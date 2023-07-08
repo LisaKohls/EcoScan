@@ -11,7 +11,7 @@ RUN npm install
 COPY . ./
 
 # Build the app
-RUN npm run build:clean
+RUN npm run build
 
 # Step 2: Serve the app from Nginx
 FROM nginx:stable-alpine as production
