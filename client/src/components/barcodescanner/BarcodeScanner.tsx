@@ -36,6 +36,9 @@ export const BarcodeScanner: React.FC<BarcodeScannerProps> = ({
 
   return (
     <div className="flex flex-col items-center justify-center mt-6">
+      <p className="mt-4 text-center">
+        Align the barcode within the scanner window
+      </p>
       {isLoading && <LoadingAnimation />}
       {isCameraDenied && (
         <div>
@@ -43,13 +46,10 @@ export const BarcodeScanner: React.FC<BarcodeScannerProps> = ({
           <button onClick={handleCameraAccess}>Allow Access</button>
         </div>
       )}
-      <div className="scanner-window-border">
+      <div className="scanner-window-border mx-10 mt-2">
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <video ref={ref} onCanPlay={() => setIsLoading(false)} />
       </div>
-      <p className="mt-4 text-center">
-        Align the barcode within the scanner window
-      </p>
     </div>
   );
 };
