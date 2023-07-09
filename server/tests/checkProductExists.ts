@@ -15,7 +15,7 @@ describe('checkProductExists', () => {
   afterAll(async () => {
     await mongoose.connection.close()
     await mongoServer.stop()
-  })
+  }, 30000)
 
   it('should return false if product does not exist', async () => {
     const barcode = 123456

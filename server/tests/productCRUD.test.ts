@@ -42,7 +42,9 @@ describe('Product Service', () => {
 
   afterEach(async () => {
     await mongoose.connection.close()
-    await mongoServer.stop()
+    if (mongoServer) {
+      await mongoServer.stop()
+    }
   }, 30000)
 
   // Test creating a new product
