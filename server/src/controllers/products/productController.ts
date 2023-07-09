@@ -1,7 +1,10 @@
 import { Product } from '../../models/productModel'
 import { Sustainability } from '../../models/sustainabilityModel'
 import { NextFunction, Response } from 'express'
-import { updateProductByBarcodeService } from '../../services/products/productService'
+import {
+  getAllProductsService,
+  updateProductByBarcodeService
+} from '../../services/products/productService'
 import { AuthedBarcodeRequest, AuthRequest } from '../../types/authTypes'
 
 export const postProduct = async (
@@ -95,7 +98,7 @@ export const getAllProducts = async (
   next: NextFunction
 ) => {
   try {
-    const products = await Product.find()
+    const products = await getAllProductsService()
     return res.status(200).send(products)
   } catch (error) {
     next(error)

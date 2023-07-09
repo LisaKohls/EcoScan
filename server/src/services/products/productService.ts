@@ -39,6 +39,15 @@ export const getProductByBarcodeService = async (
   return null
 }
 
+export const getAllProductsService = async () => {
+  try {
+    const products = await Product.find()
+    return products
+  } catch (error: any) {
+    throw new Error(`Error occurred while getting products: ${error.message}`)
+  }
+}
+
 export const getFilteredProductsService = async (
   filter: string,
   username: string
