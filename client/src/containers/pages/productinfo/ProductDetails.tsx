@@ -51,7 +51,7 @@ const ProductDetails = ({ product }: { product: any }) => {
       <div className="max-w-4xl w-full space-y-8 md:flex md:flex-row md:space-y-0 md:space-x-6">
         <div className="relative flex flex-col items-center w-full md:w-1/2">
           <img
-            className="w-full h-64 object-cover rounded-b-lg mb-4"
+            className="w-full h-64 object-cover rounded-lg mb-4"
             src={product.image ?? product_placeholder}
             alt={product.name}
           />

@@ -2,32 +2,49 @@ import React from 'react';
 import SustainabilityBar from '../../../components/sustainabilitybar/SustainabilityBar';
 import HeartFavorites from '../../../components/buttons/ButtonHeart';
 import product_placeholder from '../../../assets/noimage_placeholder.png';
+import {AiOutlineDelete} from "react-icons/ai";
 
 const PersonalProductDetails = ({ product }: { product: any }) => (
-  <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 whitespace-normal pb-28 mt-[-2rem]">
-    <div className="flex flex-col items-center">
+  <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 whitespace-normal pb-28 mt-[-5rem]">
+    <div className="relative flex flex-col items-center w-full md:w-1/2">
       <img
-        className="mx-auto h-32 w-32 object-cover"
+        className="w-full lg:w-fit h-64 object-cover rounded-lg mb-4"
         src={product.image ?? product_placeholder}
         alt={product.name}
       />
-      <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 whitespace-normal">
+
+      <h2 className="text-center text-3xl font-extrabold text-gray-900 whitespace-normal">
         {product.name}
       </h2>
+      <button
+          onClick={() => {
+            // deleteProduct();
+          }}
+          className="absolute right-0 lg:right-40 bottom-40 p-4"
+      >
+        <AiOutlineDelete className="w-7 h-7 mt-0" />
+      </button>
       <p className="mt-2 text-center text-sm text-gray-600 whitespace-normal">
         {product.description}
       </p>
-      <div className="mt-8 items-center">
+      <div className="absolute top-0 right-0 mt-2 mr-2 md:mt-2 md:mr-6 lg:right-40">
         <HeartFavorites
           barcode={product.barcode}
           isInitiallyFavorite={product.favorite}
         />
       </div>
-      <div className="flex mt-8 justify-center items-center">
-        <SustainabilityBar
-          index={product.sustainabilityEco}
-          title="Sustainability Index"
-        />
+      <div className="w-full md:w-1/2">
+        <div className="mt-10">
+          <h3 className="text-center text-lg font-bold text-gray-900">
+            Personal Sustainability Metric
+          </h3>
+          <div className="mt-4 flex flex-col items-center space-y-6">
+            <SustainabilityBar
+              index={product.sustainabilityEco}
+              title="Lifetime"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>

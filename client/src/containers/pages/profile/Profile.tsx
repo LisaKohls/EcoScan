@@ -214,7 +214,7 @@ const Profile: FC = (): ReactElement => {
       <div className="flex ">
         <h1 className="flex flex-row-4 text-xl font-medium mt-[3rem] lg:mt-8">
           Added Products:{' '}
-          {products.length != 0 ? products.length : 'No added products'}
+          {products.length != 0 ? products.length : 0}
         </h1>
 
         <div className="flex flex-1 justify-end mt-[1rem] lg:mt-0">
