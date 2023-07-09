@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { MongoMemoryServer } from 'mongodb-memory-server'
+import { MongoMemoryServer } from 'mongodb-memory-server-global-4.4'
 import { IProductInitialFormat, Product } from '../src/models/productModel'
 import { checkProductExists } from '../src/services/products/productService'
 

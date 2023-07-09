@@ -1,5 +1,5 @@
 import app from '../src/app'
-import { MongoMemoryServer } from 'mongodb-memory-server'
+import { MongoMemoryServer } from 'mongodb-memory-server-global-4.4'
 import mongoose, { ConnectOptions } from 'mongoose'
 import generateToken from '../src/utils/generateToken'
 const request = require('supertest')
