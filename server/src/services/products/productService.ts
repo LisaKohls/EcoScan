@@ -1,6 +1,7 @@
 import { IProduct, Product } from '../../models/productModel'
 import userModel from '../../models/userModel'
 import { getAverageSustainability, isFavorite } from './productHelperService'
+import { Sustainability } from '../../models/sustainabilityModel'
 
 export const getProductByBarcodeService = async (
   barcode: number,
@@ -105,6 +106,74 @@ export const updateProductByBarcodeService = async (
     { $set: updatedFields },
     { new: true }
   )
+}
+
+export const createProductService = async (productData: any) => {
+  const {
+    barcode,
+    name,
+    gender,
+    url,
+    source,
+    merchant,
+    categories,
+    description,
+    country,
+    brand,
+    price,
+    currency,
+    imageUrls,
+    colors,
+    sustainabilityName,
+    sustainabilityEco,
+    sustainabilitySocial,
+    consumerLifestage
+  } = productData
+
+  const sustainability = new Sustainability({
+    name: sustainabilityName,
+    eco_chemicals: sustainabilityEco,
+    eco_lifetime: sustainabilityEco,
+    eco_water: sustainabilityEco,
+    eco_inputs: sustainabilityEco,
+    eco_quality: sustainabilityEco,
+    eco_energy: sustainabilityEco,
+    eco_waste_air: sustainabilityEco,
+    eco_environmental_management: sustainabilityEco,
+    social_labour_rights: sustainabilitySocial,
+    social_business_practice: sustainabilitySocial,
+    social_social_rights: sustainabilitySocial,
+    social_company_responsibility: sustainabilitySocial,
+    social_conflict_minerals: sustainabilitySocial
+  })
+
+  const product = new Product({
+    barcode,
+    categories,
+    timestamp: Date(),
+    source,
+    merchant,
+    url,
+    country,
+    description,
+    brand,
+    price,
+    currency,
+    image_urls: imageUrls,
+    colors,
+    gender,
+    name,
+    sustainability,
+    consumer_lifestage: consumerLifestage
+  })
+
+  const savedProduct = await product.save()
+  return savedProduct
+}
+
+export const deleteProductByBarcodeService = async (barcode: string) => {
+  const product = await Product.findOneAndRemove({ _id: barcode })
+  return product
 }
 
 export const checkProductExists = async (barcode: number): Promise<boolean> => {

@@ -1,7 +1,7 @@
-import { Product } from '../../models/productModel'
-import { Sustainability } from '../../models/sustainabilityModel'
 import { NextFunction, Response } from 'express'
 import {
+  createProductService,
+  deleteProductByBarcodeService,
   getAllProductsService,
   updateProductByBarcodeService
 } from '../../services/products/productService'
@@ -13,81 +13,19 @@ export const postProduct = async (
   next: NextFunction
 ) => {
   try {
-    const {
-      barcode,
-      name,
-      gender,
-      url,
-      source,
-      merchant,
-      categories,
-      description,
-      country,
-      brand,
-      price,
-      currency,
-      imageUrls,
-      colors,
-      sustainabilityName,
-      sustainabilityEco,
-      sustainabilitySocial,
-      consumerLifestage
-    } = req.body
+    const product = await createProductService(req.body)
 
-    const sustainability = new Sustainability({
-      name: sustainabilityName,
-      eco_chemicals: sustainabilityEco,
-      eco_lifetime: sustainabilityEco,
-      eco_water: sustainabilityEco,
-      eco_inputs: sustainabilityEco,
-      eco_quality: sustainabilityEco,
-      eco_energy: sustainabilityEco,
-      eco_waste_air: sustainabilityEco,
-      eco_environmental_management: sustainabilityEco,
-      social_labour_rights: sustainabilitySocial,
-      social_business_practice: sustainabilitySocial,
-      social_social_rights: sustainabilitySocial,
-      social_company_responsibility: sustainabilitySocial,
-      social_conflict_minerals: sustainabilitySocial
-    })
-
-    const product = new Product({
-      barcode,
-      categories,
-      timestamp: Date(),
-      source,
-      merchant,
-      url,
-      country,
-      description,
-      brand,
-      price,
-      currency,
-      image_urls: imageUrls,
-      colors,
-      gender,
-      name,
-      sustainability,
-      consumer_lifestage: consumerLifestage
-    })
-
-    await product
-      .save()
-      .then(product => {
-        res
-          .status(201)
-          .send({ message: 'Product was successfully created', product })
+    res
+      .status(201)
+      .send({ message: 'Product was successfully created', product })
+  } catch (error: any) {
+    if (error.code === 11000) {
+      res.status(409).json({
+        error: `There already exists a product with barcode ${req.body.barcode}`
       })
-      .catch(error => {
-        if (error.code === 11000) {
-          res.status(409).json({
-            error: `There already exists a product with barcode ${barcode}`
-          })
-        } else {
-          res.status(400).send(error.toString())
-        }
-      })
-  } catch (error) {
+    } else {
+      res.status(400).send(error.toString())
+    }
     next(error)
   }
 }
@@ -119,7 +57,7 @@ export const deleteProductByBarcode = async (
     }
 
     // Delete GreenDB Product
-    const product = await Product.findOneAndRemove({ _id: barcode })
+    const product = await deleteProductByBarcodeService(barcode)
     if (!product) {
       res.status(400).send(`There is no Product saved with barcode ${barcode}`)
       return

@@ -1,12 +1,10 @@
 import {
-  getProductByBarcodeService,
   getAllProductsService,
   updateProductByBarcodeService,
-  checkProductExists
+  checkProductExists,
+  deleteProductByBarcodeService
 } from '../src/services/products/productService'
 import { Product } from '../src/models/productModel'
-import userModel from '../src/models/userModel'
-import * as helperService from '../src/services/products/productHelperService'
 
 export const mockProduct = {
   _id: 12345,
@@ -38,7 +36,9 @@ jest.mock('../src/models/productModel', () => ({
     })),
     find: jest.fn(),
     findOne: jest.fn(),
-    findOneAndUpdate: jest.fn()
+    findOneAndUpdate: jest.fn(),
+    findOneAndRemove: jest.fn(),
+    save: jest.fn()
   }
 }))
 
@@ -48,19 +48,23 @@ jest.mock('../src/models/userModel', () => ({
 
 jest.mock('../src/services/products/productHelperService')
 
+jest.mock('../src/models/sustainabilityModel', () => {
+  return {
+    Sustainability: jest.fn().mockImplementation(() => {
+      return { save: jest.fn() }
+    })
+  }
+})
+
 describe('Product Service', () => {
   beforeEach(() => {
+    (
+      Product as jest.Mocked<typeof Product> & { save?: jest.Mock }
+    ).save?.mockResolvedValue(mockProduct);
     (Product.find as jest.Mock).mockResolvedValue([mockProduct]);
     (Product.findOne as jest.Mock).mockResolvedValue(mockProduct);
     (Product.findOneAndUpdate as jest.Mock).mockResolvedValue(mockProduct);
-    (userModel.findOne as jest.Mock).mockResolvedValue(mockUser);
-    (helperService.getAverageSustainability as jest.Mock).mockReturnValue(60);
-    (helperService.isFavorite as jest.Mock).mockReturnValue(true)
-  })
-
-  test('getProductByBarcodeService', async () => {
-    const product = await getProductByBarcodeService(12345, 'mockUsername')
-    expect(product).toEqual({ ...mockProduct, favorite: true })
+    (Product.findOneAndRemove as jest.Mock).mockResolvedValue(mockProduct)
   })
 
   test('getAllProductsService', async () => {
@@ -78,5 +82,11 @@ describe('Product Service', () => {
   test('checkProductExists', async () => {
     const exists = await checkProductExists(12345)
     expect(exists).toEqual(true)
+  })
+
+  test('deleteProductByBarcodeService', async () => {
+    const barcode = '12345'
+    const deletedProduct = await deleteProductByBarcodeService(barcode)
+    expect(deletedProduct).toEqual(mockProduct)
   })
 })
