@@ -70,6 +70,9 @@ test_client:
 test_backend:
   stage: testing
   image: node:18
+  services:
+    - name: mongo:4.4
+      alias: mongodb
   before_script:
     - cd $BACKEND_DIR
   script:
