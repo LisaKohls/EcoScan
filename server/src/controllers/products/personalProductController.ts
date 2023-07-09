@@ -1,10 +1,10 @@
 import { NextFunction, Response } from 'express'
-import { updatePersonalProductByBarcodeService } from '../../services/products/productService'
 import { PersonalUserProduct } from '../../models/personalUserProductModel'
 import { AuthedBarcodeRequest, AuthRequest } from '../../types/authTypes'
 import {
   getPersonalProductByBarcodeService,
-  getPersonalProductsService
+  getPersonalProductsService,
+  updatePersonalProductByBarcodeService
 } from '../../services/products/personalProductService'
 import UserModel from '../../models/userModel'
 import { Sustainability } from '../../models/sustainabilityModel'

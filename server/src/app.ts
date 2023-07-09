@@ -76,16 +76,22 @@ if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir)
 }
 
-mongoose
-  .connect(`${process.env.MONGODB_URI}`)
-  .then(() => {
-    console.log('Connected to MongoDB.')
-    const PORT = process.env.PORT || 3001
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
-  })
-  .then(() => {
-    prePopulateDataToDB()
-  })
-  .catch(error => console.error('Error connecting to MongoDB:', error))
+function areWeTestingWithJest () {
+  return process.env.JEST_WORKER_ID !== undefined
+}
+
+if (!areWeTestingWithJest()) {
+  mongoose
+    .connect(`${process.env.MONGODB_URI}`)
+    .then(() => {
+      console.log('Connected to MongoDB.')
+      const PORT = process.env.PORT || 3001
+      app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+    })
+    .then(() => {
+      prePopulateDataToDB()
+    })
+    .catch(error => console.error('Error connecting to MongoDB:', error))
+}
 
 export default app

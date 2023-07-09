@@ -1,22 +1,22 @@
 import mongoose from 'mongoose'
-import { MongoMemoryServer } from 'mongodb-memory-server'
+import { MongoMemoryServer } from 'mongodb-memory-server-global-4.4'
 import { IProductInitialFormat, Product } from '../src/models/productModel'
 import { checkProductExists } from '../src/services/products/productService'
 
 let mongoServer: MongoMemoryServer
 
-beforeAll(async () => {
-  mongoServer = await MongoMemoryServer.create()
-  const mongoUri = mongoServer.getUri()
-  await mongoose.connect(mongoUri)
-}, 30000)
-
-afterAll(async () => {
-  await mongoose.connection.close()
-  await mongoServer.stop()
-})
-
 describe('checkProductExists', () => {
+  beforeAll(async () => {
+    mongoServer = await MongoMemoryServer.create()
+    const mongoUri = mongoServer.getUri()
+    await mongoose.connect(mongoUri)
+  }, 30000)
+
+  afterAll(async () => {
+    await mongoose.connection.close()
+    await mongoServer.stop()
+  }, 30000)
+
   it('should return false if product does not exist', async () => {
     const barcode = 123456
     const exists = await checkProductExists(barcode)
