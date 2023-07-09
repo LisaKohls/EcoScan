@@ -19,16 +19,16 @@ const InputField: React.FC<InputFieldProps> = ({
   error,
   onBlur,
 }) => (
-  <div className="pt-4 text-white">
-    <label>
+  <div className="pt-2 text-white">
+    <label className="ml-2">
       {label}
       <div
-        className={`relative flex items-center rounded-md bg-white border ${
-          error ? 'border-red-500' : 'border-gray-300'
-        } m-margin-elements`}
+        className={`relative w-60 flex items-center rounded-md bg-white border  ${
+          error ? 'border-red-500 m-2' : 'border-gray-300 m-4'
+        } `}
       >
         <input
-          className="w-full py-2 pr-4 pl-4 text-black rounded-md focus:outline-none focus:border-transparent focus:ring-2 focus:ring-secondary-color"
+          className="w-60 py-2 pr-4 pl-4 text-black rounded-md focus:outline-none focus:border-transparent focus:ring-2 focus:ring-secondary-color"
           type={type}
           placeholder={placeholder}
           value={value}
@@ -36,7 +36,7 @@ const InputField: React.FC<InputFieldProps> = ({
           onBlur={onBlur}
         />
       </div>
-      {error && <div className="text-red-500 text-sm mt-1">{error}</div>}
+      {error && <div className="text-red-500 text-sm mt-1 ml-2">{error}</div>}
     </label>
   </div>
 );

@@ -73,7 +73,8 @@ describe('ProductInfo', () => {
     expect(
       screen.getByText('This is a test personal product.')
     ).toBeInTheDocument();
-    expect(screen.getByRole('button')).toBeInTheDocument();
+    const buttons = screen.getAllByRole('button');
+    expect(buttons.length).toBe(2);
     // expect(screen.queryByText('Loading product...')).toBeNull();
   });
 

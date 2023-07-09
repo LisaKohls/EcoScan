@@ -19,7 +19,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   favorite,
 }) => {
   return (
-    <div className="cursor-pointer bg-white border border-gray-300 rounded-md overflow-hidden max-w-xs mx-auto">
+    <div className="cursor-pointer bg-gray-50 border border-gray-300 rounded-md overflow-hidden max-w-xs mx-auto">
       <Link to={`/products/${barcode}`} className="cursor-pointer">
         <img
           className="w-full h-64 object-cover"

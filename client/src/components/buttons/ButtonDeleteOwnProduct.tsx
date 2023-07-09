@@ -6,7 +6,7 @@ import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const ButtonDeleteOwnProduct = ({ barcode }: { barcode: number }) => {
-  const DELETE_PRODUCT_URL = `/api/products/${barcode}`;
+  const DELETE_PRODUCT_URL = `/api/products/personal/${barcode}`;
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
 
