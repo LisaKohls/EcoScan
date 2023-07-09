@@ -5,7 +5,7 @@ import { axiosPrivate } from '../../../api/axiosAPI';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const ADD_PRODUCT_URL = '/api/products/add';
+const ADD_PRODUCT_URL = '/api/products/personal/add';
 
 interface AddProductProps {
   onClose: () => void;
