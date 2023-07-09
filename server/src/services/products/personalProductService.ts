@@ -1,8 +1,8 @@
-import userModel from '../models/userModel'
-import { getAverageSustainability, isFavorite } from './productService'
-import { PersonalUserProduct } from '../models/personalUserProductModel'
-import PermissionForbiddenError from '../errors/PermissionForbiddenError'
-import UserNotFoundError from '../errors/UserNotFoundError'
+import userModel from '../../models/userModel'
+import { PersonalUserProduct } from '../../models/personalUserProductModel'
+import PermissionForbiddenError from '../../errors/PermissionForbiddenError'
+import UserNotFoundError from '../../errors/UserNotFoundError'
+import { getAverageSustainability, isFavorite } from './productHelperService'
 
 export const getFilteredPersonalProductsService = async (
   filter: string,

@@ -3,8 +3,8 @@ import {
   addFavorite,
   getAllFavorites,
   removeFavorite
-} from '../controllers/favoritesController'
-import { AuthRequest } from '../types/authTypes'
+} from '../../controllers/favorites/favoritesController'
+import { AuthRequest } from '../../types/authTypes'
 
 export const favoriteRoutes = Router()
 
