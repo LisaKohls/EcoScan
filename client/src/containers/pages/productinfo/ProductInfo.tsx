@@ -1,3 +1,4 @@
+import React from 'react';
 import { ArcElement, Chart as ChartJs, Legend, Tooltip } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import SustainabilityBar from '../../../components/sustainabilitybar/SustainabilityBar';
@@ -6,11 +7,11 @@ import HeartFavorites from '../../../components/buttons/ButtonHeart';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import HeaderContext from '../../../contexts/HeaderProvider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
 import { AxiosError } from 'axios';
 import ProductNotFound from '../productnotfound/ProductNotFound';
+import HeaderContext from '../../../contexts/HeaderProvider';
 
 ChartJs.register(ArcElement, Tooltip, Legend);
 

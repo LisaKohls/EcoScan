@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { createContext, ReactNode, useState } from 'react';
 
 type HeaderContextProps = {
   title: string;
@@ -11,7 +11,7 @@ type HeaderContextProps = {
   }) => void;
 };
 
-const HeaderContext = React.createContext<HeaderContextProps>({
+const HeaderContext = createContext<HeaderContextProps>({
   title: '',
   backButton: false,
   rightIcon: null,
