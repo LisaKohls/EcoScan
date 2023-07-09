@@ -10,6 +10,8 @@ import {
 } from '../../services/products/personalProductService'
 import PermissionForbiddenError from '../../errors/PermissionForbiddenError'
 import UserNotFoundError from '../../errors/UserNotFoundError'
+import { Product } from '../../models/productModel'
+import { PersonalUserProduct } from '../../models/personalUserProductModel'
 
 export const getProductByBarcode = async (
   req: AuthedBarcodeRequest,
@@ -78,6 +80,40 @@ export const getProductsFilteredByName = async (
 
     const items = products.concat(personalProducts)
     res.send(items)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const deleteProductByBarcode = async (
+  req: AuthedBarcodeRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const barcode = req.params.barcode
+
+    if (isNaN(Number(barcode))) {
+      res.status(400).json({ error: 'Barcode should be a number.' })
+      return
+    }
+
+    // Delete GreenDB Product
+    const product = await Product.findOneAndRemove({ barcode })
+    if (!product) {
+      const personalProduct = await PersonalUserProduct.findOneAndRemove({
+        barcode
+      })
+
+      if (!personalProduct) {
+        res
+          .status(400)
+          .send(`There is no Product saved with barcode ${barcode}`)
+        return
+      }
+    }
+
+    res.send('Product was successfully deleted')
   } catch (error) {
     next(error)
   }
