@@ -118,7 +118,6 @@ const Profile: FC = (): ReactElement => {
     navigate('/login');
   };
 
-
   const editName = () => {
     if (firstName != null) {
       const newUser: User = {
