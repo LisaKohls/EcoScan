@@ -1,7 +1,5 @@
 import { IProduct, Product } from '../../models/productModel'
 import userModel from '../../models/userModel'
-import { PersonalUserProduct } from '../../models/personalUserProductModel'
-import { getPersonalProductByBarcodeService } from './personalProductService'
 import { getAverageSustainability, isFavorite } from './productHelperService'
 
 export const getProductByBarcodeService = async (
@@ -94,24 +92,7 @@ export const updateProductByBarcodeService = async (
   updatedFields: any
 ) => {
   return Product.findOneAndUpdate(
-    { barcode },
-    { $set: updatedFields },
-    { new: true }
-  )
-}
-
-export const updatePersonalProductByBarcodeService = async (
-  barcode: string,
-  username: string,
-  updatedFields: any
-) => {
-  const personalProduct = await getPersonalProductByBarcodeService(
-    Number(barcode),
-    username
-  )
-
-  return PersonalUserProduct.findOneAndUpdate(
-    { _id: personalProduct.barcode },
+    { _id: barcode },
     { $set: updatedFields },
     { new: true }
   )

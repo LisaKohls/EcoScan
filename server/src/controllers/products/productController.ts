@@ -2,7 +2,6 @@ import { Product } from '../../models/productModel'
 import { Sustainability } from '../../models/sustainabilityModel'
 import { NextFunction, Response } from 'express'
 import { updateProductByBarcodeService } from '../../services/products/productService'
-import { PersonalUserProduct } from '../../models/personalUserProductModel'
 import { AuthedBarcodeRequest, AuthRequest } from '../../types/authTypes'
 
 export const postProduct = async (
@@ -28,10 +27,9 @@ export const postProduct = async (
       colors,
       sustainabilityName,
       sustainabilityEco,
-      sustainabilitySocial
+      sustainabilitySocial,
+      consumerLifestage
     } = req.body
-
-    const consumerLifestage = req.body.consumer_lifestage
 
     const sustainability = new Sustainability({
       name: sustainabilityName,
@@ -63,17 +61,19 @@ export const postProduct = async (
       price,
       currency,
       image_urls: imageUrls,
-      consumer_lifestage: consumerLifestage,
       colors,
       gender,
       name,
-      sustainability
+      sustainability,
+      consumer_lifestage: consumerLifestage
     })
 
     await product
       .save()
       .then(product => {
-        res.send({ message: 'Product was successfully created', product })
+        res
+          .status(201)
+          .send({ message: 'Product was successfully created', product })
       })
       .catch(error => {
         res.status(400).send(error.toString())
@@ -110,18 +110,10 @@ export const deleteProductByBarcode = async (
     }
 
     // Delete GreenDB Product
-    const product = await Product.findOneAndRemove({ barcode })
+    const product = await Product.findOneAndRemove({ _id: barcode })
     if (!product) {
-      const personalProduct = await PersonalUserProduct.findOneAndRemove({
-        barcode
-      })
-
-      if (!personalProduct) {
-        res
-          .status(400)
-          .send(`There is no Product saved with barcode ${barcode}`)
-        return
-      }
+      res.status(400).send(`There is no Product saved with barcode ${barcode}`)
+      return
     }
 
     res.send('Product was successfully deleted')
