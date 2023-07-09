@@ -48,53 +48,73 @@ const ProductDetails = ({ product }: { product: any }) => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 whitespace-normal pb-28 mt-[-2rem]">
-      <div className="max-w-md w-full space-y-8">
-        <div className="flex flex-col items-center">
+      <div className="max-w-4xl w-full space-y-8 md:flex md:flex-row md:space-y-0 md:space-x-6">
+        <div className="relative flex flex-col items-center w-full md:w-1/2">
           <img
-            className="mx-auto h-32 w-32 object-cover"
+            className="w-full h-64 object-cover rounded-b-lg mb-4"
             src={product.image ?? product_placeholder}
             alt={product.name}
           />
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 whitespace-normal">
+          <h2 className="text-center text-2xl md:text-3xl font-extrabold text-gray-900 whitespace-normal mb-2">
             {product.name}
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600 whitespace-normal">
+          <p className="mt-2 text-center text-sm md:text-base text-gray-600 whitespace-normal mb-2">
             {product.description}
           </p>
-          <HeartFavorites
-            barcode={product.barcode}
-            isInitiallyFavorite={product.favorite}
-          />
-        </div>
-        <div className="mt-10">
-          <h3 className="text-center text-lg font-bold text-gray-900">
-            Sustainability Metrics
-          </h3>
-          <div className="mt-4 flex flex-col items-center space-y-6">
-            <SustainabilityBar
-              index={product.sustainabilityEcoLifetime}
-              title="Lifetime"
-            />
-            <SustainabilityBar
-              index={product.sustainabilityEcoWater}
-              title="Water usage"
+
+          <p className="mt-2 text-center text-sm md:text-base text-gray-600 whitespace-normal mb-2">
+            Price: {product.currency} {product.price}
+          </p>
+
+          <a
+            className="px-6 py-3 bg-blue-500 text-white rounded-full text-sm md:text-base"
+            href={product.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Buy Here
+          </a>
+
+          <div className="absolute top-0 right-0 mt-2 mr-2 md:mt-4 md:mr-4">
+            <HeartFavorites
+              barcode={product.barcode}
+              isInitiallyFavorite={product.favorite}
             />
           </div>
         </div>
-        <div className="mt-10">
-          <h3 className="text-center text-lg font-bold text-gray-900">
-            Sustainability Indices
-          </h3>
-          <div className="mt-4 flex flex-row items-center justify-center space-x-6">
-            <div className="flex flex-col items-center w-1/3">
-              <Pie data={dataSocialIndex} options={options} />
-              <p className="text-center text-sm text-gray-600">Social Index</p>
+        <div className="w-full md:w-1/2">
+          <div className="mt-10">
+            <h3 className="text-center text-lg font-bold text-gray-900">
+              Sustainability Metrics
+            </h3>
+            <div className="mt-4 flex flex-col items-center space-y-6">
+              <SustainabilityBar
+                index={product.sustainabilityEcoLifetime}
+                title="Lifetime"
+              />
+              <SustainabilityBar
+                index={product.sustainabilityEcoWater}
+                title="Water usage"
+              />
             </div>
-            <div className="flex flex-col items-center w-1/3">
-              <Pie data={dataEcologicalIndex} options={options} />
-              <p className="text-center text-sm text-gray-600">
-                Ecological Index
-              </p>
+          </div>
+          <div className="mt-10">
+            <h3 className="text-center text-lg font-bold text-gray-900">
+              Sustainability Indices
+            </h3>
+            <div className="mt-4 flex flex-row items-center justify-center space-x-6">
+              <div className="flex flex-col items-center w-1/3">
+                <Pie data={dataSocialIndex} options={options} />
+                <p className="text-center text-sm text-gray-600">
+                  Social Index
+                </p>
+              </div>
+              <div className="flex flex-col items-center w-1/3">
+                <Pie data={dataEcologicalIndex} options={options} />
+                <p className="text-center text-sm text-gray-600">
+                  Ecological Index
+                </p>
+              </div>
             </div>
           </div>
         </div>
