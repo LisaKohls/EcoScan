@@ -87,7 +87,7 @@ const ProductInfo: React.FC = () => {
   }
 
   return product && product.isPersonalProduct ? (
-    <PersonalProductDetails product={product} />
+    <PersonalProductDetails product={product} barcode={Number(barcode) ?? ''} />
   ) : (
     <ProductDetails product={product} />
   );

@@ -2,9 +2,15 @@ import React from 'react';
 import SustainabilityBar from '../../../components/sustainabilitybar/SustainabilityBar';
 import HeartFavorites from '../../../components/buttons/ButtonHeart';
 import product_placeholder from '../../../assets/noimage_placeholder.png';
-import {AiOutlineDelete} from "react-icons/ai";
+import ButtonDeleteOwnProduct from '../../../components/buttons/ButtonDeleteOwnProduct';
 
-const PersonalProductDetails = ({ product }: { product: any }) => (
+const PersonalProductDetails = ({
+  product,
+  barcode,
+}: {
+  product: any;
+  barcode: number;
+}) => (
   <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 whitespace-normal pb-28 mt-[-5rem]">
     <div className="relative flex flex-col items-center w-full md:w-1/2">
       <img
@@ -16,14 +22,7 @@ const PersonalProductDetails = ({ product }: { product: any }) => (
       <h2 className="text-center text-3xl font-extrabold text-gray-900 whitespace-normal">
         {product.name}
       </h2>
-      <button
-          onClick={() => {
-            // deleteProduct();
-          }}
-          className="absolute right-0 lg:right-40 bottom-40 p-4"
-      >
-        <AiOutlineDelete className="w-7 h-7 mt-0" />
-      </button>
+      <ButtonDeleteOwnProduct barcode={barcode} />
       <p className="mt-2 text-center text-sm text-gray-600 whitespace-normal">
         {product.description}
       </p>
