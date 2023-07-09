@@ -45,7 +45,14 @@ describe('InputField component', () => {
     const onBlur = jest.fn();
 
     render(
-      <InputField label="Test" value="" onChange={() => {}} onBlur={onBlur} />
+      <InputField
+        label="Test"
+        value=""
+        onChange={() => {
+          /* Intentional empty */
+        }}
+        onBlur={onBlur}
+      />
     );
 
     const inputElement = screen.getByRole('textbox');
@@ -60,7 +67,14 @@ describe('InputField component', () => {
     const error = 'Invalid input';
 
     render(
-      <InputField label="Test" value="" onChange={() => {}} error={error} />
+      <InputField
+        label="Test"
+        value=""
+        onChange={() => {
+          /* Intentional empty */
+        }}
+        error={error}
+      />
     );
 
     const errorMessage = screen.getByText(error);
