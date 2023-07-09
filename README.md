@@ -5,14 +5,13 @@ EcoScan is a web application that allows users to scan or search for products an
 ## Members
 
 | Full Name      | Student Short | Matriculation Number |
-|----------------|---------------|----------------------|
+| -------------- | ------------- | -------------------- |
 | Jana Eichholz  | je067         | 42961                |
 | Julius Beutel  | jb266         | 42768                |
 | Lea Bretz      | lb153         | 39217                |
 | Lisa Kohls     | lk210         | 43583                |
 | Sandra Barsoum | sb283         | 40168                |
 | Steffen Singer | ss546         | 42686                |
-
 
 ## Getting started guide
 
@@ -39,8 +38,11 @@ After a successful registration you can log in with your created account.
 ### Frontend
 
 Component tests are in the same folder as the Component
+
 - [PrimaryButton Component Test](./client/src/components/buttons/ButtonPrimary.test.tsx)
 - [SustainabilityBar Component Test](./client/src/components/sustainabilitybar/SustainabilityBar.test.tsx)
+- [InputField Component Test](./client/src/components/addProduct/InputField.test.tsx)
+- [ProductCard Component Test](./client/src/components/productCard/ProductCard.test.tsx)
 
 ### Backend
 
@@ -49,5 +51,3 @@ All tests are in the [/server/tests/](./server/tests) folder.
 - CRUD End-to-End Test: [productCRUD.test.ts](./server/tests/productCRUD.test.ts)
 
 - CRUD Unit Test: [TODO](TODO)
-
-
