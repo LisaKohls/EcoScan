@@ -43,7 +43,7 @@ No need to populate the database manually, it gets populated on the server start
 
 Component tests are in the same folder as the Component
 
-- [ProductInfo Component Test](./client/src/containers/pages/productinfo/Productinfo.test.tsx)
+- [ProductInfo Test](./client/src/containers/pages/productinfo/Productinfo.test.tsx)
 - [PrimaryButton Component Test](./client/src/components/buttons/ButtonPrimary.test.tsx)
 - [SustainabilityBar Component Test](./client/src/components/sustainabilitybar/SustainabilityBar.test.tsx)
 - [InputField Component Test](./client/src/components/addProduct/InputField.test.tsx)
