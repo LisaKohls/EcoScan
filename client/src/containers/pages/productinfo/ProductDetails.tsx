@@ -1,4 +1,3 @@
-import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import SustainabilityBar from '../../../components/sustainabilitybar/SustainabilityBar';
 import HeartFavorites from '../../../components/buttons/ButtonHeart';

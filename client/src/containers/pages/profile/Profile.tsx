@@ -118,10 +118,6 @@ const Profile: FC = (): ReactElement => {
     navigate('/login');
   };
 
-  const addProduct = () => {
-    // Implementation of adding a new product
-    console.log('Add product');
-  };
 
   const editName = () => {
     if (firstName != null) {

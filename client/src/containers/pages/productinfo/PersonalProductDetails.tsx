@@ -1,4 +1,3 @@
-import React from 'react';
 import SustainabilityBar from '../../../components/sustainabilitybar/SustainabilityBar';
 import HeartFavorites from '../../../components/buttons/ButtonHeart';
 import product_placeholder from '../../../assets/noimage_placeholder.png';

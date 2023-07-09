@@ -1,6 +1,5 @@
 import { AiOutlineDelete } from 'react-icons/ai';
 import React, { useCallback } from 'react';
-import { axiosPrivate } from '../../api/axiosAPI';
 import axios from 'axios';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { useNavigate, useParams } from 'react-router-dom';
