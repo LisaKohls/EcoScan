@@ -44,7 +44,9 @@ describe('InputField component', () => {
   it('calls onBlur callback when input loses focus', () => {
     const onBlur = jest.fn();
 
-    render(<InputField label="Test" value="" onChange={() => {}} onBlur={onBlur} />);
+    render(
+      <InputField label="Test" value="" onChange={() => {}} onBlur={onBlur} />
+    );
 
     const inputElement = screen.getByRole('textbox');
 
@@ -57,7 +59,9 @@ describe('InputField component', () => {
   it('displays error message when error prop is provided', () => {
     const error = 'Invalid input';
 
-    render(<InputField label="Test" value="" onChange={() => {}} error={error} />);
+    render(
+      <InputField label="Test" value="" onChange={() => {}} error={error} />
+    );
 
     const errorMessage = screen.getByText(error);
 
@@ -65,4 +69,3 @@ describe('InputField component', () => {
     expect(errorMessage).toBeInTheDocument();
   });
 });
-

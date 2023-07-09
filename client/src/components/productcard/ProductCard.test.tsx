@@ -42,7 +42,9 @@ describe('ProductCard component', () => {
 
     const defaultImage = screen.getByAltText(productWithoutImage.name);
 
-    expect(defaultImage).toHaveAttribute('src', '../../assets/noimage_placeholder.png');
+    expect(defaultImage).toHaveAttribute(
+      'src',
+      '../../assets/noimage_placeholder.png'
+    );
   });
 });
-
