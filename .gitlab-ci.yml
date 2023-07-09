@@ -69,11 +69,7 @@ test_client:
 
 test_backend:
   stage: testing
-  image: node:18
-  services:
-    - name: mongo:4.4
-      alias: mongodb
-
+  image: ubuntu:20.04
   before_script:
     - cd $BACKEND_DIR
   script:
