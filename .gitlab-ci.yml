@@ -69,7 +69,7 @@ test_client:
 
 test_backend:
   stage: testing
-  image: node:18
+  image: node:20
   before_script:
     - cd $BACKEND_DIR
   script:
