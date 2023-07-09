@@ -73,5 +73,6 @@ There is still much to improve on the web app - no software is ever finished.
 - The API should later not always return all products, but only a few and through endless scroll or a button should then be able to fetch more products.
 - We have implemented input validation, but this can also be improved by regex or minimum number of characters.
 - If the user adds his own products currently he is just able to add barcode/name/description/sustainableIndex, there could be also more input fields and a picture. (But we just implemented this feature because of requirements, later on, we just want t have data from the greenDB)
+- The Camera access needs to be allowed currently in order to use the web app correctly, there could be also a fallback if the user denies the camera access.
 
 When we plan to improve the Web-App this would be the next steps we would do.
