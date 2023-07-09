@@ -60,29 +60,115 @@ describe('Product Service', () => {
 
     expect(res.statusCode).toEqual(201)
     expect(res.body.product).toHaveProperty('barcode', localBarcode)
-    // ...test other product properties...
+    expect(res.body.product).toHaveProperty('name', 'Test Product')
+    expect(res.body.product).toHaveProperty('price', 100.0)
+    expect(res.body.product).toHaveProperty('currency', 'USD')
+    expect(res.body).toHaveProperty(
+      'message',
+      'Product was successfully created'
+    )
+  })
+
+  // Product with same barcode
+  it('product with same barcode => error', async () => {
+    const token = generateToken('testUser')
+
+    const localBarcode = 999999999
+
+    const res = await request(app)
+      .post('/api/products/greendb/add')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ ...productData, barcode: localBarcode })
+
+    expect(res.statusCode).toEqual(201)
+    expect(res.body.product).toHaveProperty('barcode', localBarcode)
+    expect(res.body.product).toHaveProperty('name', 'Test Product')
+    expect(res.body.product).toHaveProperty('price', 100.0)
+    expect(res.body.product).toHaveProperty('currency', 'USD')
+    expect(res.body).toHaveProperty(
+      'message',
+      'Product was successfully created'
+    )
+
+    const res2 = await request(app)
+      .post('/api/products/greendb/add')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ ...productData, barcode: localBarcode })
+
+    expect(res2.statusCode).toEqual(409)
+  })
+
+  // Creating a new product with invalid token => error
+  it('should throw an error, when invalid JWT token', async () => {
+    const token = 'i_am_an_invalid_token'
+
+    const localBarcode = 1234
+
+    const res = await request(app)
+      .post('/api/products/greendb/add')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ ...productData, barcode: localBarcode })
+
+    expect(res.statusCode).toEqual(403)
+  })
+
+  // add product but without barcode attribute
+  it('should throw an error, when no barcode is given', async () => {
+    const token = generateToken('testUser')
+
+    const localBarcode = undefined
+
+    const res = await request(app)
+      .post('/api/products/greendb/add')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ ...productData, barcode: localBarcode })
+
+    expect(res.statusCode).toEqual(400)
   })
 
   // Test reading all products
   it('should create and get all products', async () => {
     const token = generateToken('testUser')
 
-    const localBarcode = 12345
+    const numberOfProducts = 20
 
-    const resCreate = await request(app)
-      .post('/api/products/greendb/add')
-      .set('Authorization', `Bearer ${token}`)
-      .send({ ...productData, barcode: localBarcode })
+    // Create 20 products
+    for (let i = 0; i < numberOfProducts; i++) {
+      const localBarcode = 111 + i
 
-    expect(resCreate.statusCode).toEqual(201)
-    expect(resCreate.body.product).toHaveProperty('barcode', localBarcode)
+      const resCreate = await request(app)
+        .post('/api/products/greendb/add')
+        .set('Authorization', `Bearer ${token}`)
+        .send({ ...productData, barcode: localBarcode })
+
+      expect(resCreate.statusCode).toEqual(201)
+      expect(resCreate.body.product).toHaveProperty('barcode', localBarcode)
+      expect(resCreate.body.product).toHaveProperty('name', 'Test Product')
+      expect(resCreate.body.product).toHaveProperty('price', 100.0)
+      expect(resCreate.body.product).toHaveProperty('currency', 'USD')
+      expect(resCreate.body).toHaveProperty(
+        'message',
+        'Product was successfully created'
+      )
+    }
 
     const res = await request(app)
       .get('/api/products/greendb')
       .set('Authorization', `Bearer ${token}`)
 
     expect(res.statusCode).toEqual(200)
-    expect(res.body).toHaveLength(1)
+    expect(res.body).toHaveLength(numberOfProducts)
+  })
+
+  // invalid string barcode when deleting
+  it('invalid string barcode when deleting', async () => {
+    const token = generateToken('testUser')
+
+    // Test deleting a product
+    const deleteRes = await request(app)
+      .delete('/api/products/greendb/I_AM_A_STRING')
+      .set('Authorization', `Bearer ${token}`)
+    expect(deleteRes.statusCode).toEqual(400)
   })
 
   it('should create and delete a product', async () => {
@@ -95,6 +181,13 @@ describe('Product Service', () => {
 
     expect(res.statusCode).toEqual(201)
     expect(res.body.product).toHaveProperty('barcode', productData.barcode)
+    expect(res.body.product).toHaveProperty('name', 'Test Product')
+    expect(res.body.product).toHaveProperty('price', 100.0)
+    expect(res.body.product).toHaveProperty('currency', 'USD')
+    expect(res.body).toHaveProperty(
+      'message',
+      'Product was successfully created'
+    )
 
     // Test deleting a product
     const deleteRes = await request(app)
@@ -114,6 +207,13 @@ describe('Product Service', () => {
 
     expect(res.statusCode).toEqual(201)
     expect(res.body.product).toHaveProperty('barcode', productData.barcode)
+    expect(res.body.product).toHaveProperty('name', 'Test Product')
+    expect(res.body.product).toHaveProperty('price', 100.0)
+    expect(res.body.product).toHaveProperty('currency', 'USD')
+    expect(res.body).toHaveProperty(
+      'message',
+      'Product was successfully created'
+    )
 
     // Test updating a product
     const updateData = {
@@ -126,6 +226,10 @@ describe('Product Service', () => {
       .send(updateData)
     expect(updateRes.statusCode).toEqual(200)
     expect(updateRes.body.product).toHaveProperty('name', updateData.name)
+    expect(updateRes.body.product).toHaveProperty(
+      'categories',
+      updateData.categories
+    )
   })
 
   it('should create, update, and delete a product', async () => {
@@ -138,6 +242,13 @@ describe('Product Service', () => {
 
     expect(res.statusCode).toEqual(201)
     expect(res.body.product).toHaveProperty('barcode', productData.barcode)
+    expect(res.body.product).toHaveProperty('name', 'Test Product')
+    expect(res.body.product).toHaveProperty('price', 100.0)
+    expect(res.body.product).toHaveProperty('currency', 'USD')
+    expect(res.body).toHaveProperty(
+      'message',
+      'Product was successfully created'
+    )
 
     // Test updating a product
     const updateData = {

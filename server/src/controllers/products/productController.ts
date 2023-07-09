@@ -76,7 +76,13 @@ export const postProduct = async (
           .send({ message: 'Product was successfully created', product })
       })
       .catch(error => {
-        res.status(400).send(error.toString())
+        if (error.code === 11000) {
+          res.status(409).json({
+            error: `There already exists a product with barcode ${barcode}`
+          })
+        } else {
+          res.status(400).send(error.toString())
+        }
       })
   } catch (error) {
     next(error)
