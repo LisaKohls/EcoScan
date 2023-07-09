@@ -1,7 +1,7 @@
 # Used this to work with bcrypt dependency, have a look here:
 # https://stackoverflow.com/questions/32105251/bcrypt-invalid-elf-header-with-docker-and-sails-js
 
-FROM node:20
+FROM node:17
 
 # Create a directory for the application
 RUN mkdir -p /usr/src/app
