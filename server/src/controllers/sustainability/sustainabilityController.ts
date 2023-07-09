@@ -1,9 +1,9 @@
 import {
   ISustainabilityLabels,
   ISustainabilityInitialFormat
-} from '../models/sustainabilityModel'
-import sustainabilityJson from '../resources/sustainabilityLabels.json'
-import { Converter } from '../utils/converter'
+} from '../../models/sustainabilityModel'
+import sustainabilityJson from '../../resources/sustainabilityLabels.json'
+import { Converter } from '../../utils/converter'
 
 export function getInitialSustainabilities (): ISustainabilityLabels[] {
   try {

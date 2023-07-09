@@ -3,10 +3,10 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import mongoose from 'mongoose'
-import authRoutes from './routes/authRoutes'
-import { logger } from './middlewares/logEvents'
-import { productRoutes } from './routes/productRoutes'
-import { favoriteRoutes } from './routes/favoriteRoutes'
+import authRoutes from './routes/auth/authRoutes'
+import { logger } from './middlewares/logMiddleware'
+import { productRoutes } from './routes/products/productRoutes'
+import { favoriteRoutes } from './routes/favorites/favoriteRoutes'
 import authMiddleware from './middlewares/authMiddleware'
 import credentialsMiddleware from './middlewares/credentialsMiddleware'
 import corsOptions from './config/corsOptions'
@@ -14,8 +14,10 @@ import {
   internalErrorMiddleware,
   lastRouteMiddleware
 } from './middlewares/errorMiddleware'
-import { prePopulateDataToDB } from './services/productService'
-import { userRoutes } from './routes/userRoutes'
+import { userRoutes } from './routes/users/userRoutes'
+import { prePopulateDataToDB } from './services/database/databasePrepopService'
+import { personalProductRoutes } from './routes/products/personalProductRoutes'
+import { bothProducts } from './routes/products/bothProductRoutes'
 
 if (process.env.NODE_ENV === 'production') {
   dotenv.config({ path: './.env.production' })
@@ -51,7 +53,9 @@ app.use('/api/auth', authRoutes)
 app.use(authMiddleware)
 
 // Authed Routes
-app.use('/api/products', productRoutes)
+app.use('/api/products/greendb', productRoutes)
+app.use('/api/products/personal', personalProductRoutes)
+app.use('/api/products', bothProducts)
 app.use('/api/favorites', favoriteRoutes)
 app.use('/api/users', userRoutes)
 

@@ -1,63 +1,8 @@
-import { IProduct, Product } from '../models/productModel'
-import productJson from '../resources/product.json'
-import userModel from '../models/userModel'
-import { PersonalUserProduct } from '../models/personalUserProductModel'
+import { IProduct, Product } from '../../models/productModel'
+import userModel from '../../models/userModel'
+import { PersonalUserProduct } from '../../models/personalUserProductModel'
 import { getPersonalProductByBarcodeService } from './personalProductService'
-
-const SUSTAINABILITY_METRICS = [
-  'eco_chemicals',
-  'eco_lifetime',
-  'eco_water',
-  'eco_inputs',
-  'eco_quality',
-  'eco_energy',
-  'eco_waste_air',
-  'eco_environmental_management',
-  'social_labour_rights',
-  'social_business_practice',
-  'social_social_rights',
-  'social_company_responsibility',
-  'social_conflict_minerals'
-]
-
-export const getAverageSustainability = (type: 'eco' | 'social') => {
-  const metrics = SUSTAINABILITY_METRICS.filter(metric =>
-    metric.startsWith(type)
-  )
-  return {
-    $avg: metrics.map(metric => ({
-      $ifNull: [`$sustainability.${metric}`, 0]
-    }))
-  }
-}
-
-export const isFavorite = async (
-  username: string,
-  barcode: number
-): Promise<boolean> => {
-  const user = await userModel.findOne({ username })
-  if (user) {
-    return user.favorites.includes(barcode)
-  }
-  return false
-}
-
-export const prePopulateDataToDB = async () => {
-  const count = await Product.countDocuments()
-  if (count === 0) {
-    for (const productData of productJson) {
-      if (productData.barcode) {
-        const product = new Product(productData)
-        await product.save()
-      } else {
-        console.error('Error: missing barcode for product', productData)
-      }
-    }
-    console.log('Initial Products successfully created')
-  } else {
-    console.log('DB was already initialized')
-  }
-}
+import { getAverageSustainability, isFavorite } from './productHelperService'
 
 export const getProductByBarcodeService = async (
   barcode: number,

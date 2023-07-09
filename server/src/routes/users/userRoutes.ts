@@ -1,10 +1,10 @@
 import { Router } from 'express'
-import { AuthedFileRequest, AuthRequest } from '../types/authTypes'
+import { AuthedFileRequest, AuthRequest } from '../../types/authTypes'
 import {
   getOwnUser,
   getProfilePicture,
   saveProfilePicture
-} from '../controllers/usersController'
+} from '../../controllers/users/usersController'
 import multer from 'multer'
 
 export const userRoutes = Router()

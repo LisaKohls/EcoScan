@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import { IProductInitialFormat, Product } from '../src/models/productModel'
-import { checkProductExists } from '../src/services/productService'
+import { checkProductExists } from '../src/services/products/productService'
 
 let mongoServer: MongoMemoryServer
 

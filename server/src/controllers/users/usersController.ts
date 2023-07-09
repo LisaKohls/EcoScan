@@ -1,6 +1,6 @@
 import { NextFunction, Response } from 'express'
-import userModel from '../models/userModel'
-import { AuthedFileRequest, AuthRequest } from '../types/authTypes'
+import userModel from '../../models/userModel'
+import { AuthedFileRequest, AuthRequest } from '../../types/authTypes'
 import path from 'path'
 import fs from 'fs'
 

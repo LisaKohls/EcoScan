@@ -1,13 +1,11 @@
 import { NextFunction, Response } from 'express'
-import userModel from '../models/userModel'
-import { AuthRequest } from '../types/authTypes'
-import {
-  checkProductExists,
-  getAverageSustainability
-} from '../services/productService'
-import { Product } from '../models/productModel'
-import { checkPersonalProductExists } from '../services/personalProductService'
-import { PersonalUserProduct } from '../models/personalUserProductModel'
+import userModel from '../../models/userModel'
+import { AuthRequest } from '../../types/authTypes'
+import { checkProductExists } from '../../services/products/productService'
+import { Product } from '../../models/productModel'
+import { checkPersonalProductExists } from '../../services/products/personalProductService'
+import { PersonalUserProduct } from '../../models/personalUserProductModel'
+import { getAverageSustainability } from '../../services/products/productHelperService'
 
 export const addFavorite = async (
   req: AuthRequest,
