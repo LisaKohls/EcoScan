@@ -118,6 +118,23 @@ export const getPersonalProductByBarcodeService = async (
   return null
 }
 
+export const updatePersonalProductByBarcodeService = async (
+  barcode: string,
+  username: string,
+  updatedFields: any
+) => {
+  const personalProduct = await getPersonalProductByBarcodeService(
+    Number(barcode),
+    username
+  )
+
+  return PersonalUserProduct.findOneAndUpdate(
+    { _id: personalProduct.barcode },
+    { $set: updatedFields },
+    { new: true }
+  )
+}
+
 export const getPersonalProductsService = async (username: string) => {
   const user = await userModel.findOne({ username }).lean()
   const userPersonalProducts = user ? user.personalProducts : []
