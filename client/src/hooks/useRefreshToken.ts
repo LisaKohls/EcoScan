@@ -13,7 +13,6 @@ const useRefreshToken = (): (() => Promise<string>) => {
       ...prev,
       accessToken: response.data.accessToken,
     }));
-    console.log(response.data.accessToken);
     return response.data.accessToken;
   };
   return refresh;

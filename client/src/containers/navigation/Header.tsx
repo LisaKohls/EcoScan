@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import HeaderContext from '../../contexts/HeaderProvider';
-import useScrollPosition from '../../hooks/useScrollPosition';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();

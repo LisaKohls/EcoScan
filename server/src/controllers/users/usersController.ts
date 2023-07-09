@@ -44,8 +44,7 @@ export const getProfilePicture = async (
   const filePath = path.resolve('uploads', req.user.username + '.jpeg')
   fs.readFile(filePath, (err, data) => {
     if (err) {
-      console.log(err)
-      res.status(500).json({ error: 'Failed to load image.' })
+      res.status(404).json({ message: 'No profile picture found' })
     } else {
       res.writeHead(200, { 'Content-Type': 'image/jpeg' })
       res.end(data)

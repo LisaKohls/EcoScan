@@ -1,8 +1,8 @@
 import { AiOutlineDelete } from 'react-icons/ai';
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import axios from 'axios';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const ButtonDeleteOwnProduct = ({ barcode }: { barcode: number }) => {
   const DELETE_PRODUCT_URL = `/api/products/personal/${barcode}`;
@@ -10,7 +10,6 @@ const ButtonDeleteOwnProduct = ({ barcode }: { barcode: number }) => {
   const navigate = useNavigate();
 
   const deleteProduct = useCallback(async () => {
-    console.log(DELETE_PRODUCT_URL);
     try {
       const response = await axiosPrivate.delete(DELETE_PRODUCT_URL);
 

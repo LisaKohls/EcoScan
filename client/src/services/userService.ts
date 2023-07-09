@@ -63,7 +63,7 @@ export const getProfilePicture = async (
     );
     return `data:image/jpeg;base64,${base64}`;
   } catch (error) {
-    console.error(error);
-    return null;
+    //console.error(error);
+    return '';
   }
 };

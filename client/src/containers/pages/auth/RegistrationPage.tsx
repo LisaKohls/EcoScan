@@ -19,7 +19,6 @@ const RegistrationPage = () => {
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const [isFormValid, setIsFormValid] = useState(true);
 
   const navigate = useNavigate();
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -33,12 +32,16 @@ const RegistrationPage = () => {
     setSubmitted(true);
 
     if (!email || !username || !password) {
-      setIsFormValid(false);
       setErrMsg('Please fill in all fields');
       return;
     } else if (!emailRegex.test(email)) {
-      setIsFormValid(false);
       setErrMsg('Please enter a valid email address');
+      return;
+    } else if (username.trim().length < 3 || username.trim().length > 20) {
+      setErrMsg('Username must be between 3 and 20 characters');
+      return;
+    } else if (password.trim().length < 3 || password.trim().length > 20) {
+      setErrMsg('Username must be between 3 and 20 characters');
       return;
     }
 
@@ -65,15 +68,13 @@ const RegistrationPage = () => {
         setErrMsg('Missing required fields');
       } else if (error.response?.status === 401) {
         setErrMsg('Unauthorized');
+      } else if (error.response?.status === 409) {
+        setErrMsg('Username or email already in use');
       } else {
         setErrMsg('Registration Failed');
       }
     }
   };
-
-  useEffect(() => {
-    console.log(errMsg);
-  }, [errMsg]);
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-white to-secondary-light flex items-center justify-center">
@@ -103,7 +104,6 @@ const RegistrationPage = () => {
               onChange={e => {
                 setEmail(e.target.value);
                 setSubmitted(false);
-                setIsFormValid(true);
               }}
             />
           </div>
@@ -125,7 +125,6 @@ const RegistrationPage = () => {
               onChange={e => {
                 setUsername(e.target.value);
                 setSubmitted(false);
-                setIsFormValid(true);
               }}
             />
           </div>
@@ -147,7 +146,6 @@ const RegistrationPage = () => {
               onChange={e => {
                 setPassword(e.target.value);
                 setSubmitted(false);
-                setIsFormValid(true);
               }}
             />
             {submitted && (

@@ -33,7 +33,7 @@ const HeartFavorites = ({ barcode, isInitiallyFavorite }: HeartButtonProps) => {
           withCredentials: true,
         }
       );
-      console.log(response.data);
+
       if (response.status == 200) {
         setIsFavorite(prevState => !prevState);
       } else {

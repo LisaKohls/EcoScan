@@ -10,7 +10,6 @@ import LoadingAnimation from '../../../components/loadinganimation/LoadingAnimat
 const FAVORITES_URL = '/api/favorites';
 
 const Favorites: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState<string>('');
   const [products, setProducts] = useState<Product[]>([]);
   const axiosPrivate = useAxiosPrivate();
   const { setHeaderOptions } = useContext(HeaderContext);
@@ -34,7 +33,6 @@ const Favorites: React.FC = () => {
 
       setProducts(response.data);
       setLoading(false);
-      console.log(response.data);
     } catch (err) {
       setLoading(false);
       if (axios.isAxiosError(err)) {
@@ -43,7 +41,7 @@ const Favorites: React.FC = () => {
         console.error('An unknown error occurred: ', err);
       }
     }
-  }, [axiosPrivate, searchQuery]);
+  }, [axiosPrivate]);
 
   useEffect(() => {
     /**
