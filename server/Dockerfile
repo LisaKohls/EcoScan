@@ -3,9 +3,6 @@
 
 FROM node:18
 
-# Install the libssl1.1 package
-RUN apt update && apt install -y libssl1.1
-
 # Create a directory for the application
 RUN mkdir -p /usr/src/app
 
