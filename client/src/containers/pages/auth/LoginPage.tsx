@@ -18,7 +18,6 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const [isFormValid, setIsFormValid] = useState(true);
 
   useEffect(() => {
     setErrMsg('');
@@ -30,15 +29,12 @@ const LoginPage: React.FC = () => {
     setSubmitted(true);
 
     if (!username && !password) {
-      setIsFormValid(false);
       setErrMsg('Please enter a username and password');
       return;
     } else if (!username) {
-      setIsFormValid(false);
       setErrMsg('Please enter a username');
       return;
     } else if (!password) {
-      setIsFormValid(false);
       setErrMsg('Please enter a password');
       return;
     }
@@ -72,15 +68,7 @@ const LoginPage: React.FC = () => {
 
   const handleInputChange = () => {
     setSubmitted(false);
-    setIsFormValid(true);
   };
-
-  /* 
-  useEffect(() => {
-    console.log(errMsg);
-    // TODO: Display the error Msg visible for the user
-  }, [errMsg]);
-  */
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-secondary-light flex items-center justify-center">

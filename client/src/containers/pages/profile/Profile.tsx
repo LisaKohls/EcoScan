@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import useLogout from '../../../hooks/useLogout';
-import useAuth from '../../../hooks/useAuth';
 import { MdAddPhotoAlternate } from 'react-icons/md';
 import { AiOutlineEdit } from 'react-icons/ai';
 
@@ -35,7 +34,6 @@ interface User {
 }
 
 const Profile: FC = (): ReactElement => {
-  const auth = useAuth();
   const navigate = useNavigate();
   const logout = useLogout();
   const [products, setProducts] = useState<Product[]>([]);
@@ -96,7 +94,7 @@ const Profile: FC = (): ReactElement => {
           'Content-Type': 'multipart/form-data',
         },
       })
-      .then(response => {
+      .then(_response => {
         fetchProfilePicture();
       })
       .catch(err => console.error(err));

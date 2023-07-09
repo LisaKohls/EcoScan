@@ -1,5 +1,4 @@
 import useAuth from './useAuth';
-import axios from 'axios';
 import useAxiosPrivate from './useAxiosPrivate';
 
 const URL_LOGOUT = '/api/auth/logout';

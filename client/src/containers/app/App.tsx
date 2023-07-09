@@ -12,7 +12,6 @@ import MoreInfo from '../pages/moreinfo/MoreInfo';
 import Status403 from '../pages/status403/Status403';
 import Status404 from '../pages/status404/Status404';
 import MainPage from '../pages/main/MainPage';
-import ProductNotFound from '../pages/productnotfound/ProductNotFound';
 
 const App: React.FC = () => {
   return (

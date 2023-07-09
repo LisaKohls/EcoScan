@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { BsPersonFill } from 'react-icons/bs';
 import { AiFillHeart } from 'react-icons/ai';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { IoScan, IoSearch } from 'react-icons/io5';
+import { IoScan } from 'react-icons/io5';
 import useScrollPosition from '../../hooks/useScrollPosition';
 
 function BottomNavBar() {
