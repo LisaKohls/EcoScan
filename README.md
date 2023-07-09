@@ -4,64 +4,76 @@ EcoScan is a web application that allows users to scan or search for products an
 
 ## Members
 
-- Lea Bretz lb153 39217,
+| Full Name      | Student Short | Matriculation Number |
+|----------------|---------------|----------------------|
+| Jana Eichholz  | je067         | 42961                |
+| Julius Beutel  | jb266         | 42768                |
+| Lea Bretz      | lb153         | 39217                |
+| Lisa Kohls     | lk210         | 43583                |
+| Sandra Barsoum | sb283         | 40168                |
+| Steffen Singer | ss546         | 42686                |
 
-- Sandra Barsoum sb283 40168, 
+## Getting started guide
 
-- Julius Beutel js266 42768, 
+### How to start
 
-- Steffen Singer ss536 42686, 
+```
+git clone https://gitlab.mi.hdm-stuttgart.de/mwa/ss23/ecoscan.git
+cd ecoscan/
+docker compose up
+```
 
-- Lisa Kohls lk210 43583, 
+### Where to open
 
-- Jana Eichholz je067 42961
+Web-Browser: `http://localhost:3000`
 
-## Run with docker
+### How to login
 
-`docker compose up`
-or with building: `docker compose up --build`
+You can register your own user by clicking on `Create new account` or open `http://localhost:3000/registration`.
 
-## Run Development Environment
+After a successful registration you can log in with your created account.
 
-- `docker run -d -p 27017:27017 --name ecoscan-db mongo:4.4`
-- In client folder
-  - `npm i && npm run dev`
-- In server folder
-  - `npm i && npm run dev`
+### Additional requirements
 
-## Getting Started
-
-To get started with EcoScan, follow these steps:
-
-1. Clone the repository to your local machine
-2. Install the required dependencies by running `npm install`
-3. Start the client by running `npm start` in the client directory
-4. Start the server by running `npm start` in the server directory
-5. Open your web browser and navigate to `http://localhost:3000`
-
-## Usage
-
-Once you have the EcoScan application running, you can use it to scan or search for products. Simply click on the scan or search button and enter the name of the product you are looking for. The application will retrieve information about the product's sustainability rating and display it to you.
-
-## Technologies Used
-
-EcoScan is built using the following technologies:
-
-- TypeScript
-- React
-- Vite
-- Node.js
-- Express
+No need to populate the database manually, it gets populated on the server startup.
 
 ## Testing
 
 ### Frontend
-- PrimaryButton component Test
-- SustainabilityBar component Test
+
+Component tests are in the same folder as the Component
+
+- [ProductInfo Test](./client/src/containers/pages/productinfo/Productinfo.test.tsx)
+- [PrimaryButton Component Test](./client/src/components/buttons/ButtonPrimary.test.tsx)
+- [SustainabilityBar Component Test](./client/src/components/sustainabilitybar/SustainabilityBar.test.tsx)
+- [InputField Component Test](./client/src/components/addProduct/InputField.test.tsx)
+- [ProductCard Component Test](./client/src/components/productcard/ProductCard.test.tsx)
 
 ### Backend
 
+All tests are in the [/server/tests/](./server/tests) folder.
 
-## License
+- **CRUD End-to-End Test:**
+  - [productCRUD.test.ts](./server/tests/productCRUD.test.ts)
 
-No license for now 
+
+- **Unit Test:**
+  - [product read/update/delete](./server/tests/productService.test.ts)
+  - [product create](./server/tests/productCreateService.test.ts)
+
+# Known Issues
+
+There is still much to improve on the web app - no software is ever finished.
+
+## Overall
+- More Feedback to the user (e.g.: Notifications)
+- Code could be better split into services
+- Profile: User change name is implemented in frontend but has is without functionality
+- Request & Response: Types should be shared between server & client (overall more typesafe code)
+- Users are not able to add personal product with the same barcode another user already has (easy to fix, but we did not set prioritization to it)
+- The API should later not always return all products, but only a few and through endless scroll or a button should then be able to fetch more products.
+- We have implemented input validation, but this can also be improved by regex or minimum number of characters.
+- If the user adds his own products currently he is just able to add barcode/name/description/sustainableIndex, there could be also more input fields and a picture. (But we just implemented this feature because of requirements, later on, we just want t have data from the greenDB)
+- The Camera access needs to be allowed currently in order to use the web app correctly, there could be also a fallback if the user denies the camera access.
+
+When we plan to improve the Web-App this would be the next steps we would do.
