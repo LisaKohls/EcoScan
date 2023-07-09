@@ -7,7 +7,7 @@ EcoScan is a web application that allows users to scan or search for products an
 | Full Name      | Student Short | Matriculation Number |
 |----------------|---------------|----------------------|
 | Jana Eichholz  | je067         | 42961                |
-| Julius Beutel  | js266         | 42768                |
+| Julius Beutel  | jb266         | 42768                |
 | Lea Bretz      | lb153         | 39217                |
 | Lisa Kohls     | lk210         | 43583                |
 | Sandra Barsoum | sb283         | 40168                |
