@@ -17,12 +17,12 @@ It was developed in a collaborative agile environment with a focus on scalable a
 - Product search and management
 - Sustainability scoring system
 - Barcode-based product lookup
-- User authentication with JWT
+- User authentication with **JWT**
 - Favorites management
-- RESTful API architecture
+- **RESTful API** architecture
 - Responsive frontend application
-- Docker-based local development setup
-- Automated testing for frontend and backend components
+- **Docker-based** local development setup
+- **Automated testing** for frontend and backend components
 
 ---
 
